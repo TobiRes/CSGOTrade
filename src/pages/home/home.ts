@@ -12,6 +12,9 @@ export class HomePage {
 
   tradePosts: Trade[] = [];
 
+  private lastThreadName: string;
+  private threadCount: number = 0;
+
   constructor(public navCtrl: NavController, private redditService: RedditService, private threadinfoService: ThreadinfoService) {
     this.getAllThreads();
   }
@@ -35,10 +38,29 @@ export class HomePage {
       };
       this.tradePosts.push(tradeThread);
     });
+    this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
+    this.threadCount = this.threadCount + 25;
+    console.log(this.tradePosts);
   }
 
   openTrade() {
 
+  }
+
+  loadAdditionalThreads(): Promise<any>{
+    return new Promise((resolve, reject) => {
+      setTimeout(()=> {
+        this.redditService.getNextRedditThreads(this.threadCount, this.lastThreadName)
+          .then(redditPostData => {
+            this.getTradeInfo(redditPostData);
+            resolve();
+          })
+          .catch(error => {
+            console.error(error);
+            reject();
+          });
+      }, 1000);
+    });
   }
 
   isTrade(postType: PostType): boolean {
