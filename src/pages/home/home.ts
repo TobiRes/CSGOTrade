@@ -36,20 +36,22 @@ export class HomePage {
         type: this.threadinfoService.getPostType(redditPost.data.title),
         tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext)
       };
+      if (tradeThread.type == PostType.trade) {
+        this.threadinfoService.getAdditionalTradeInformation(redditPost);
+      }
       this.tradePosts.push(tradeThread);
     });
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
-    console.log(this.tradePosts);
   }
 
   openTrade() {
 
   }
 
-  loadAdditionalThreads(): Promise<any>{
+  loadAdditionalThreads(): Promise<any> {
     return new Promise((resolve, reject) => {
-      setTimeout(()=> {
+      setTimeout(() => {
         this.redditService.getNextRedditThreads(this.threadCount, this.lastThreadName)
           .then(redditPostData => {
             this.getTradeInfo(redditPostData);
@@ -63,8 +65,8 @@ export class HomePage {
     });
   }
 
-  isTrade(postType: PostType): boolean {
-    if (postType != PostType.trade)
+  isTrade(post: Trade): boolean {
+    if (post.type != PostType.trade)
       return false;
     return true;
   }

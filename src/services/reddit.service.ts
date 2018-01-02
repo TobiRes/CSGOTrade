@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 export class RedditService {
 
   private globalOffensiveTradeBaseUrl: string = "https://www.reddit.com/r/globaloffensivetrade/";
+
   constructor(private http: HttpClient) {
   }
 

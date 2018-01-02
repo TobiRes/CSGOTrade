@@ -7,17 +7,23 @@
 </ion-header>
 
 <ion-content>
+
   <ion-list>
-    <ion-item-sliding *ngFor="let thread of tradePosts">
-      <ion-item>
-        <p class="postitle">{{thread.title}}</p>
-      </ion-item>
-      <ion-item-options *ngIf="isTrade(thread.type)">
-        <button ion-button (click)="openTrade()">Recent Trades</button>
-        <button ion-button (click)="openTrade()">Screen</button>
-        <button ion-button (click)="openTrade()">Offer</button>
-      </ion-item-options>
-    </ion-item-sliding>
+    <div *ngFor="let post of tradePosts">
+      <ion-item-sliding *ngIf="!isTrade(post)">
+        <ion-item>
+          <div class="markTypeOfPost"></div>
+          <p class="postitle">{{post.title}}</p>
+        </ion-item>
+        <ion-item-options>
+          <button ion-button (click)="openTrade()">Recent Trades</button>
+          <button ion-button (click)="openTrade()">Screen</button>
+          <button ion-button (click)="openTrade()">Offer</button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <trade-list-item *ngIf="isTrade(post)" [tradePost]="post"></trade-list-item>
+    </div>
+    <!--<p class="postitle">{{thread.title}}</p>-->
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

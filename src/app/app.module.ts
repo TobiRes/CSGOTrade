@@ -9,6 +9,7 @@ import {HomePage} from '../pages/home/home';
 import {HttpClientModule} from "@angular/common/http";
 import {RedditService} from "../services/reddit.service";
 import {ThreadinfoService} from "../services/threadinfo.service";
+import {ComponentsModule} from "../components/components.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {ThreadinfoService} from "../services/threadinfo.service";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpClientModule
+    HttpClientModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -57,4 +57,9 @@ export class ThreadinfoService {
     let tradeToken: string = threadContent.match(/(token=[-0-9a-zA-Z_]*)/g)[0];
     return tradeOfferBaseURL + tradePartner + "&amp;" + tradeToken;
   }
+
+  getAdditionalTradeInformation(redditPost: any) {
+    let postContent = redditPost.data.selftext;
+
+  }
 }
