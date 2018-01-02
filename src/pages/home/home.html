@@ -10,8 +10,13 @@
   <ion-list>
     <ion-item-sliding *ngFor="let thread of tradePosts">
       <ion-item>
-        <h2>{{thread.title}}</h2>
+        <p class="postitle">{{thread.title}}</p>
       </ion-item>
+      <ion-item-options *ngIf="isTrade(thread.type)">
+        <button ion-button (click)="openTrade()">Recent Trades</button>
+        <button ion-button (click)="openTrade()">Screen</button>
+        <button ion-button (click)="openTrade()">Offer</button>
+      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 </ion-content>

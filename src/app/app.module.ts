@@ -8,6 +8,7 @@ import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {HttpClientModule} from "@angular/common/http";
 import {RedditService} from "../services/reddit.service";
+import {ThreadinfoService} from "../services/threadinfo.service";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {RedditService} from "../services/reddit.service";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RedditService
+    RedditService,
+    ThreadinfoService
   ]
 })
 export class AppModule {

@@ -4,16 +4,17 @@ import {HttpClient} from "@angular/common/http";
 @Injectable()
 export class RedditService {
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient) {
   }
 
-  getRedditThreads(){
+  getRedditThreads() {
     return new Promise((resolve, reject) => {
       try {
         this.http.get("https://www.reddit.com/r/globaloffensivetrade/hot.json").subscribe(
           (redditPostData: any) => {
             resolve(redditPostData.data.children);
-      })} catch (error) {
+          })
+      } catch (error) {
         reject(error);
       }
     })
