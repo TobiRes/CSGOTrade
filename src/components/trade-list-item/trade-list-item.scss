@@ -1,9 +1,15 @@
 trade-list-item {
 
   ion-item-sliding {
-    border-left: 5px solid darkblue;
+    border-left: 5px solid #1E3847;
   }
   ion-label {
-    margin: 0 !important;
+    margin: 0 0 0 5px !important;
+    .has{
+      color: #1E3847;
+    }
+    .wants{
+      color: darkorange;
+    }
   }
 }

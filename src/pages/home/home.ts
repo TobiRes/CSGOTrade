@@ -37,10 +37,13 @@ export class HomePage {
         tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext)
       };
       if (tradeThread.type == PostType.trade) {
-        this.threadinfoService.getAdditionalTradeInformation(redditPost);
+        let buysAndSells = this.threadinfoService.getAdditionalTradeInformation(redditPost);
+        tradeThread.wants = buysAndSells.wants;
+        tradeThread.has = buysAndSells.has;
       }
       this.tradePosts.push(tradeThread);
     });
+    console.log(this.tradePosts)
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
   }

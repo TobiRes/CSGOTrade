@@ -6,6 +6,8 @@ export interface Trade {
   buyout?: string;
   tradelink?: string;
   screenshotUrl?: string[];
+  has?: string;
+  wants?: string;
   type: PostType;
 }
 

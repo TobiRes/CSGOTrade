@@ -59,7 +59,11 @@ export class ThreadinfoService {
   }
 
   getAdditionalTradeInformation(redditPost: any) {
-    let postContent = redditPost.data.selftext;
-
+    let postTitle: string = redditPost.data.title;
+    let wantsIndex: number = postTitle.toUpperCase().indexOf("[W]");
+    return {
+      has: postTitle.substring(3, wantsIndex).trim(),
+      wants: postTitle.substr(wantsIndex + 3 , postTitle.length).trim()
+    }
   }
 }
