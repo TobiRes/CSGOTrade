@@ -15,11 +15,40 @@ page-home {
     margin: 10px !important;
   }
 
+  .item-inner{
+    border: 0 !important;
+  }
+
   ion-item {
     padding: 0 !important;
   }
-  .postitle {
-    padding: 0 8px 0 8px;
-    white-space: normal;
+
+  .filter{
+    width: 100%;
+    z-index: 2;
+
+    .filtercontent {
+
+      ion-item{
+        background-color: transparent;
+        color: goldenrod;
+        width: auto;
+        float: right;
+
+        .select{
+          padding: 0 5px 0 0;
+          .select-icon-inner{
+            color: goldenrod;
+          }
+
+        }
+        ion-label{
+          margin: 0 !important;
+        }
+      }
+    }
   }
+
+
+
 }
