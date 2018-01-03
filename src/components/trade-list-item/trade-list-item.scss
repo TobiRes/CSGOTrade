@@ -1,25 +1,28 @@
 trade-list-item {
 
   ion-item-sliding {
-    border: 1px solid gray;
+    box-shadow: 0 2px 3px #999;
     border-left: 5px solid darkorange;
   }
 
   ion-item .item-inner {
     border-bottom: 0 !important;
     position: relative;
-    .additionalTradeInfo {
+
+    .timeSinceCreation {
       position: absolute;
-      top: 35%;
-      right: 20px;
-      color: grey;
+      right: 5px;
+      bottom: 5px;
+      p {
+        font-size: 0.6em;
+      }
     }
   }
 
   ion-label {
     margin: 0 0 0 10px !important;
     white-space: normal;
-    max-width: 290px;
+    max-width: 80%;
 
     .has {
       font-size: 1em;

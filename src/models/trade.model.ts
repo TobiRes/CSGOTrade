@@ -1,14 +1,15 @@
 export interface Trade {
   url: string;
   author: string;
+  type: PostType;
   title: string;
   content: string;
+  timeSinceCreation: string;
   buyout?: string;
   tradelink?: string;
   screenshotUrl?: string[];
   has?: string;
   wants?: string;
-  type: PostType;
 }
 
 export enum PostType {

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Global Offensive Trade
+      <img src="../../assets/imgs/banner.png">
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -10,20 +10,9 @@
 
   <ion-list>
     <div *ngFor="let post of tradePosts" class="items">
-      <ion-item-sliding *ngIf="!isTrade(post)">
-        <ion-item>
-          <div class="markTypeOfPost"></div>
-          <p class="postitle">{{post.title}}</p>
-        </ion-item>
-        <ion-item-options>
-          <button ion-button (click)="openTrade()">Recent Trades</button>
-          <button ion-button (click)="openTrade()">Screen</button>
-          <button ion-button (click)="openTrade()">Offer</button>
-        </ion-item-options>
-      </ion-item-sliding>
-      <trade-list-item *ngIf="isTrade(post)" [tradePost]="post"></trade-list-item>
+      <post-list-item *ngIf="!isTrade(post.type)" [tradePost]="post"></post-list-item>
+      <trade-list-item *ngIf="isTrade(post.type)" [tradePost]="post"></trade-list-item>
     </div>
-    <!--<p class="postitle">{{thread.title}}</p>-->
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

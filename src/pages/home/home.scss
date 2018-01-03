@@ -1,4 +1,11 @@
 page-home {
+  ion-header {
+    box-shadow: 0 3px 3px #999;
+  }
+
+  .title {
+    padding: 0;
+  }
 
   .scroll-content {
     background-image: url("../../assets/imgs/background.jpg");

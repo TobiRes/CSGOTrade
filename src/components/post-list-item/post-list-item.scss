@@ -1,0 +1,60 @@
+post-list-item {
+
+  .store {
+    border-left: 5px solid black;
+  }
+  .pricecheck {
+    border-left: 5px solid darkred;
+  }
+  .discussion {
+    border-left: 5px solid darkblue;
+  }
+  .question {
+    border-left: 5px solid saddlebrown;
+  }
+  .lph {
+    border-left: 5px solid darkgreen;
+  }
+  .psa {
+    border-left: 5px solid purple;
+  }
+  .free {
+    border-left: 5px solid green;
+  }
+  .important {
+    border-left: 5px solid red;
+  }
+  .unkown {
+    border-left: 5px solid yellow;
+  }
+
+  ion-item-sliding {
+    box-shadow: 0 2px 3px #999;
+  }
+
+  ion-item .item-inner {
+    border-bottom: 0 !important;
+    position: relative;
+
+    .timeSinceCreation {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      p {
+        font-size: 0.6em;
+      }
+    }
+  }
+
+  ion-label {
+    margin: 0 0 0 10px !important;
+    padding: 5px 0 5px 0;
+    white-space: normal;
+    max-width: 80%;
+
+    .titleContent {
+      font-size: 1em;
+      color: #1E3847 !important;
+    }
+  }
+}

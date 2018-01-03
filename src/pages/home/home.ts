@@ -32,6 +32,7 @@ export class HomePage {
         title: redditPost.data.title,
         author: redditPost.data.author,
         url: redditPost.data.url,
+        timeSinceCreation: this.threadinfoService.timeSince(redditPost.data.created_utc),
         content: redditPost.data.selftext,
         type: this.threadinfoService.getPostType(redditPost.data.title),
         tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext)
@@ -43,7 +44,7 @@ export class HomePage {
       }
       this.tradePosts.push(tradeThread);
     });
-    console.log(this.tradePosts)
+    console.log(this.tradePosts);
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
   }
@@ -68,10 +69,10 @@ export class HomePage {
     });
   }
 
-  isTrade(post: Trade): boolean {
-    if (post.type != PostType.trade)
-      return false;
-    return true;
-  }
 
+  isTrade(postType: PostType): boolean {
+    if (postType == PostType.trade)
+      return true;
+    return false;
+  }
 }
