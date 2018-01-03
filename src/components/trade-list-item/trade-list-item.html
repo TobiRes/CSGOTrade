@@ -1,14 +1,14 @@
 <ion-item-sliding>
   <ion-item>
-    <div class="markTypeOfPost"></div>
     <p class="has">
-      <ion-icon name="arrow-round-forward"></ion-icon>
       {{tradePost.has}}
     </p>
     <p class="wants">
-      <ion-icon name="arrow-round-back"></ion-icon>
-      {{tradePost.wants}}
+      B/O: {{tradePost.wants}}
     </p>
+    <div class="additionalTradeInfo">
+      <ion-icon name="swap"></ion-icon>
+    </div>
   </ion-item>
   <ion-item-options>
     <button ion-button (click)="openTrade()">Recent Trades</button>

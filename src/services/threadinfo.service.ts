@@ -62,8 +62,12 @@ export class ThreadinfoService {
     let postTitle: string = redditPost.data.title;
     let wantsIndex: number = postTitle.toUpperCase().indexOf("[W]");
     return {
-      has: postTitle.substring(3, wantsIndex).trim(),
-      wants: postTitle.substr(wantsIndex + 3 , postTitle.length).trim()
+      has: this.capitalizeFirstLetterAndRemoveWhiteSpace(postTitle.substring(3, wantsIndex)),
+      wants: this.capitalizeFirstLetterAndRemoveWhiteSpace(postTitle.substr(wantsIndex + 3, postTitle.length))
     }
+  }
+
+  private capitalizeFirstLetterAndRemoveWhiteSpace(text: string): string {
+    return text.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   }
 }
