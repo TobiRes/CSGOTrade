@@ -11,7 +11,7 @@ import {ThreadinfoService} from "../../services/threadinfo.service";
 export class HomePage {
 
   tradePosts: Trade[] = [];
-  selectedPosts: any;
+  postTypesToFilter: string[] = [];
 
   private backupPosts: Trade[] = [];
   private lastThreadName: string;
@@ -48,6 +48,9 @@ export class HomePage {
     });
 
     this.setMetaData(redditPostData);
+    if(this.postTypesToFilter.length){
+      this.filterPosts();
+    }
   }
 
   openTrade() {
@@ -72,9 +75,9 @@ export class HomePage {
 
   filterPosts(){
     this.tradePosts = this.backupPosts;
-    if(this.selectedPosts.length){
+    if(this.postTypesToFilter.length){
       this.tradePosts = this.tradePosts.filter( post => {
-        if(this.postTypeIsFiltered(post.type)){
+        if(this.checkIfPostIsFiltered(post.type)){
           return true;
         }
         return false;
@@ -94,9 +97,9 @@ export class HomePage {
     this.threadCount = this.threadCount + 25;
   }
 
-  private postTypeIsFiltered(postType: PostType): boolean {
+  private checkIfPostIsFiltered(postType: PostType): boolean {
     let filtered: boolean = false;
-    this.selectedPosts.forEach( type => {
+    this.postTypesToFilter.forEach(type => {
         switch(type){
           case "Trade":
             if(postType == PostType.trade)

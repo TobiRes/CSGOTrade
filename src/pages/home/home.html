@@ -7,7 +7,7 @@
       <div class="filtercontent">
         <ion-item>
           <ion-label>Filter</ion-label>
-          <ion-select [(ngModel)]="selectedPosts" (ionChange)="filterPosts(event)" multiple="true">
+          <ion-select [(ngModel)]="postTypesToFilter" (ionChange)="filterPosts(event)" multiple="true">
             <ion-option name="trade">Trade</ion-option>
             <ion-option name="store">Store</ion-option>
             <ion-option>Pricecheck</ion-option>
