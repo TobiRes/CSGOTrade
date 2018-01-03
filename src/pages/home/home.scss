@@ -17,6 +17,10 @@ page-home {
 
   .item-inner{
     border: 0 !important;
+    .select-text{
+      width: 0;
+      visibility: hidden;
+    }
   }
 
   ion-item {

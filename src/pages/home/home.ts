@@ -11,7 +11,9 @@ import {ThreadinfoService} from "../../services/threadinfo.service";
 export class HomePage {
 
   tradePosts: Trade[] = [];
+  selectedPosts: any;
 
+  private backupPosts: Trade[] = [];
   private lastThreadName: string;
   private threadCount: number = 0;
 
@@ -44,9 +46,8 @@ export class HomePage {
       }
       this.tradePosts.push(tradeThread);
     });
-    console.log(this.tradePosts);
-    this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
-    this.threadCount = this.threadCount + 25;
+
+    this.setMetaData(redditPostData);
   }
 
   openTrade() {
@@ -69,10 +70,71 @@ export class HomePage {
     });
   }
 
+  filterPosts(){
+    this.tradePosts = this.backupPosts;
+    if(this.selectedPosts.length){
+      this.tradePosts = this.tradePosts.filter( post => {
+        if(this.postTypeIsFiltered(post.type)){
+          return true;
+        }
+        return false;
+      });
+    }
+  }
 
   isTrade(postType: PostType): boolean {
     if (postType == PostType.trade)
       return true;
     return false;
+  }
+
+  private setMetaData(redditPostData: any) {
+    this.backupPosts = this.tradePosts;
+    this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
+    this.threadCount = this.threadCount + 25;
+  }
+
+  private postTypeIsFiltered(postType: PostType): boolean {
+    let filtered: boolean = false;
+    this.selectedPosts.forEach( type => {
+        switch(type){
+          case "Trade":
+            if(postType == PostType.trade)
+              filtered =true;
+            break;
+          case "Store":
+            if(postType == PostType.store)
+              filtered =true;
+            break;
+          case "Pricecheck":
+            if(postType == PostType.pricecheck)
+              filtered =true;
+            break;
+          case "Question":
+            if(postType == PostType.question)
+              filtered =true;
+            break;
+          case "< 15 Keys":
+            if(postType == PostType.lph)
+              filtered =true;
+            break;
+          case "PSA":
+            if(postType == PostType.psa)
+              filtered =true;
+            break;
+          case "Free":
+            if(postType == PostType.free)
+              filtered =true;
+            break;
+          case "Sticky":
+            if(postType == PostType.important)
+              filtered =true;
+            break;
+          default:
+            filtered = false;
+            console.error("Error filtering posts");
+        }
+    });
+    return filtered;
   }
 }

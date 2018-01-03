@@ -7,13 +7,15 @@
       <div class="filtercontent">
         <ion-item>
           <ion-label>Filter</ion-label>
-          <ion-select [(ngModel)]="toppings" multiple="true">
-            <ion-option>Bacon</ion-option>
-            <ion-option>Black Olives</ion-option>
-            <ion-option>Extra Cheese</ion-option>
-            <ion-option>Mushrooms</ion-option>
-            <ion-option>Pepperoni</ion-option>
-            <ion-option>Sausage</ion-option>
+          <ion-select [(ngModel)]="selectedPosts" (ionChange)="filterPosts(event)" multiple="true">
+            <ion-option name="trade">Trade</ion-option>
+            <ion-option name="store">Store</ion-option>
+            <ion-option>Pricecheck</ion-option>
+            <ion-option>Question</ion-option>
+            <ion-option>< 15 Keys</ion-option>
+            <ion-option>PSA</ion-option>
+            <ion-option>Free</ion-option>
+            <ion-option>Sticky</ion-option>
           </ion-select>
         </ion-item>
       </div>
