@@ -8,8 +8,8 @@
         <ion-item>
           <ion-label>Filter</ion-label>
           <ion-select [(ngModel)]="postTypesToFilter" (ionChange)="filterPosts(event)" multiple="true">
-            <ion-option name="trade">Trade</ion-option>
-            <ion-option name="store">Store</ion-option>
+            <ion-option>Trade</ion-option>
+            <ion-option>Store</ion-option>
             <ion-option>Pricecheck</ion-option>
             <ion-option>Question</ion-option>
             <ion-option>< 15 Keys</ion-option>
@@ -30,7 +30,7 @@
       <trade-list-item *ngIf="isTrade(post.type)" [tradePost]="post"></trade-list-item>
     </div>
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
+  <ion-infinite-scroll [threshold]="scrollLoadThreshold" (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

@@ -12,6 +12,7 @@ export class HomePage {
 
   tradePosts: Trade[] = [];
   postTypesToFilter: string[] = [];
+  scrollLoadThreshold: string = "10%";
 
   private backupPosts: Trade[] = [];
   private lastThreadName: string;
@@ -48,7 +49,7 @@ export class HomePage {
     });
 
     this.setMetaData(redditPostData);
-    if(this.postTypesToFilter.length){
+    if (this.postTypesToFilter.length) {
       this.filterPosts();
     }
   }
@@ -73,15 +74,16 @@ export class HomePage {
     });
   }
 
-  filterPosts(){
+  filterPosts() {
     this.tradePosts = this.backupPosts;
-    if(this.postTypesToFilter.length){
-      this.tradePosts = this.tradePosts.filter( post => {
-        if(this.checkIfPostIsFiltered(post.type)){
+    if (this.postTypesToFilter.length) {
+      this.tradePosts = this.tradePosts.filter(post => {
+        if (this.checkIfPostIsFiltered(post.type)) {
           return true;
         }
         return false;
       });
+      this.defineThreshold();
     }
   }
 
@@ -91,8 +93,38 @@ export class HomePage {
     return false;
   }
 
+  private defineThreshold() {
+    if (!this.tradePosts.length)
+      this.scrollLoadThreshold = "100%";
+    else {
+      switch (this.tradePosts.length) {
+        case 7:
+        case 6:
+          this.scrollLoadThreshold = "60%";
+          break;
+        case 5:
+          this.scrollLoadThreshold = "70%";
+          break;
+        case 4:
+          this.scrollLoadThreshold = "80%";
+          break;
+        case 3:
+          this.scrollLoadThreshold = "90%";
+          break;
+        case 2:
+        case 1:
+          this.scrollLoadThreshold = "95%";
+          break;
+        default:
+          this.scrollLoadThreshold = "10%";
+          break;
+      }
+    }
+  }
+
   private setMetaData(redditPostData: any) {
     this.tradePosts = this.backupPosts;
+    this.defineThreshold();
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
   }
@@ -100,43 +132,43 @@ export class HomePage {
   private checkIfPostIsFiltered(postType: PostType): boolean {
     let filtered: boolean = false;
     this.postTypesToFilter.forEach(type => {
-        switch(type){
-          case "Trade":
-            if(postType == PostType.trade)
-              filtered =true;
-            break;
-          case "Store":
-            if(postType == PostType.store)
-              filtered =true;
-            break;
-          case "Pricecheck":
-            if(postType == PostType.pricecheck)
-              filtered =true;
-            break;
-          case "Question":
-            if(postType == PostType.question)
-              filtered =true;
-            break;
-          case "< 15 Keys":
-            if(postType == PostType.lph)
-              filtered =true;
-            break;
-          case "PSA":
-            if(postType == PostType.psa)
-              filtered =true;
-            break;
-          case "Free":
-            if(postType == PostType.free)
-              filtered =true;
-            break;
-          case "Sticky":
-            if(postType == PostType.important)
-              filtered =true;
-            break;
-          default:
-            filtered = false;
-            console.error("Error filtering posts");
-        }
+      switch (type) {
+        case "Trade":
+          if (postType == PostType.trade)
+            filtered = true;
+          break;
+        case "Store":
+          if (postType == PostType.store)
+            filtered = true;
+          break;
+        case "Pricecheck":
+          if (postType == PostType.pricecheck)
+            filtered = true;
+          break;
+        case "Question":
+          if (postType == PostType.question)
+            filtered = true;
+          break;
+        case "< 15 Keys":
+          if (postType == PostType.lph)
+            filtered = true;
+          break;
+        case "PSA":
+          if (postType == PostType.psa)
+            filtered = true;
+          break;
+        case "Free":
+          if (postType == PostType.free)
+            filtered = true;
+          break;
+        case "Sticky":
+          if (postType == PostType.important)
+            filtered = true;
+          break;
+        default:
+          filtered = false;
+          console.error("Error filtering posts");
+      }
     });
     return filtered;
   }

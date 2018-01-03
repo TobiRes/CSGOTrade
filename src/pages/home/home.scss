@@ -15,9 +15,9 @@ page-home {
     margin: 10px !important;
   }
 
-  .item-inner{
+  .item-inner {
     border: 0 !important;
-    .select-text{
+    .select-text {
       width: 0;
       visibility: hidden;
     }
@@ -27,32 +27,30 @@ page-home {
     padding: 0 !important;
   }
 
-  .filter{
+  .filter {
     width: 100%;
     z-index: 2;
 
     .filtercontent {
 
-      ion-item{
+      ion-item {
         background-color: transparent;
         color: goldenrod;
         width: auto;
         float: right;
 
-        .select{
+        .select {
           padding: 0 5px 0 0;
-          .select-icon-inner{
+          .select-icon-inner {
             color: goldenrod;
           }
 
         }
-        ion-label{
+        ion-label {
           margin: 0 !important;
         }
       }
     }
   }
-
-
 
 }
