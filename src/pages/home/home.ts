@@ -44,7 +44,7 @@ export class HomePage {
         tradeThread.wants = buysAndSells.wants;
         tradeThread.has = buysAndSells.has;
       }
-      this.tradePosts.push(tradeThread);
+      this.backupPosts.push(tradeThread);
     });
 
     this.setMetaData(redditPostData);
@@ -92,7 +92,7 @@ export class HomePage {
   }
 
   private setMetaData(redditPostData: any) {
-    this.backupPosts = this.tradePosts;
+    this.tradePosts = this.backupPosts;
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
   }
