@@ -9,10 +9,10 @@ export class RedditService {
   constructor(private http: HttpClient) {
   }
 
-  getRedditThreads() {
+  getRedditThreads(currentPage: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.http.get(this.globalOffensiveTradeBaseUrl + "hot.json").subscribe(
+        this.http.get(this.globalOffensiveTradeBaseUrl + currentPage.toLowerCase() + ".json").subscribe(
           (redditPostData: any) => {
             resolve(redditPostData.data.children);
           })
@@ -22,10 +22,10 @@ export class RedditService {
     })
   }
 
-  getNextRedditThreads(threadCount: number, lastThreadName: string) {
+  getNextRedditThreads(threadCount: number, lastThreadName: string, currentPage: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.http.get(this.globalOffensiveTradeBaseUrl + ".json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
+        this.http.get(this.globalOffensiveTradeBaseUrl + currentPage.toLowerCase() + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
           (redditPostData: any) => {
             resolve(redditPostData.data.children);
           })

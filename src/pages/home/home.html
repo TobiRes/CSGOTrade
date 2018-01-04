@@ -9,7 +9,7 @@
       <div class="filtercontent">
         <ion-item>
           <ion-label>{{currentPage}}</ion-label>
-          <ion-select [(ngModel)]="currentPage" (ionChange)="selectPage(event)">
+          <ion-select [(ngModel)]="currentPage" (ionChange)="getAllThreads()">
             <ion-option>Hot</ion-option>
             <ion-option>New</ion-option>
             <ion-option>Controversial</ion-option>

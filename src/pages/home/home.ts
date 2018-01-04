@@ -13,7 +13,7 @@ export class HomePage {
   tradePosts: Trade[] = [];
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
-  currentPage: string[] = ["Hot"];
+  currentPage: string = "Hot";
 
   private backupPosts: Trade[] = [];
   private lastThreadName: string;
@@ -23,11 +23,16 @@ export class HomePage {
     this.getAllThreads();
   }
 
-
+  getAllThreads() {
+    this.backupPosts = [];
+    this.redditService.getRedditThreads(this.currentPage)
+      .then(redditPostData => this.getTradeInfo(redditPostData))
+      .catch(error => console.error(error));
+  }
 
   refreshPosts(refresher: any){
       setTimeout(() => {
-        this.redditService.getRedditThreads()
+        this.redditService.getRedditThreads(this.currentPage)
           .then(redditPostData => {
             this.backupPosts = [];
             this.getTradeInfo(redditPostData);
@@ -39,14 +44,10 @@ export class HomePage {
       }, 2000);
   }
 
-  openTrade() {
-
-  }
-
   loadAdditionalThreads(): Promise<any> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        this.redditService.getNextRedditThreads(this.threadCount, this.lastThreadName)
+        this.redditService.getNextRedditThreads(this.threadCount, this.lastThreadName, this.currentPage)
           .then(redditPostData => {
             this.getTradeInfo(redditPostData);
             resolve();
@@ -59,9 +60,6 @@ export class HomePage {
     });
   }
 
-  selectPage(){
-    console.log(this.currentPage);
-  }
   filterPosts() {
     this.tradePosts = this.backupPosts;
     if (this.postTypesToFilter.length) {
@@ -79,13 +77,6 @@ export class HomePage {
     if (postType == PostType.trade)
       return true;
     return false;
-  }
-
-
-  private getAllThreads() {
-    this.redditService.getRedditThreads()
-      .then(redditPostData => this.getTradeInfo(redditPostData))
-      .catch(error => console.error(error));
   }
 
   private getTradeInfo(redditPostData: any) {
