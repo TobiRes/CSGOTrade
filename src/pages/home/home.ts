@@ -13,6 +13,7 @@ export class HomePage {
   tradePosts: Trade[] = [];
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
+  currentPage: string[] = ["Hot"];
 
   private backupPosts: Trade[] = [];
   private lastThreadName: string;
@@ -58,6 +59,9 @@ export class HomePage {
     });
   }
 
+  selectPage(){
+    console.log(this.currentPage);
+  }
   filterPosts() {
     this.tradePosts = this.backupPosts;
     if (this.postTypesToFilter.length) {

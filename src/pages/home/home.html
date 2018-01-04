@@ -8,6 +8,19 @@
     <div class="filter">
       <div class="filtercontent">
         <ion-item>
+          <ion-label>{{currentPage}}</ion-label>
+          <ion-select [(ngModel)]="currentPage" (ionChange)="selectPage(event)">
+            <ion-option>Hot</ion-option>
+            <ion-option>New</ion-option>
+            <ion-option>Controversial</ion-option>
+            <ion-option>Top</ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
+    <div class="filter">
+      <div class="filtercontent">
+        <ion-item>
           <ion-label>Filter</ion-label>
           <ion-select [(ngModel)]="postTypesToFilter" (ionChange)="filterPosts(event)" multiple="true">
             <ion-option>Trade</ion-option>
