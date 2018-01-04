@@ -1,6 +1,42 @@
 page-home {
   ion-header {
     box-shadow: 0 3px 3px #999;
+
+    .pageToolbar, .toolbar-background{
+      height: auto;
+      min-height: auto;
+      background-color: #fffbfb69;
+
+      .filter {
+        width: 100%;
+        z-index: 2;
+
+        .filtercontent {
+
+          ion-item {
+            background-color: transparent;
+            color: #1E3847;
+            height: auto;
+            width: auto;
+            float: right;
+            min-height: auto;
+
+            .select {
+              padding: 0 5px 0 0;
+              .select-icon-inner {
+                color: #1E3847;
+              }
+            .item-inner, .button-inner, .input-wrapper, button{
+              height: auto;
+            }
+            }
+            ion-label {
+              margin: 0 !important;
+            }
+          }
+        }
+      }
+    }
   }
 
   .title {
@@ -32,32 +68,6 @@ page-home {
 
   ion-item {
     padding: 0 !important;
-  }
-
-  .filter {
-    width: 100%;
-    z-index: 2;
-
-    .filtercontent {
-
-      ion-item {
-        background-color: transparent;
-        color: goldenrod;
-        width: auto;
-        float: right;
-
-        .select {
-          padding: 0 5px 0 0;
-          .select-icon-inner {
-            color: goldenrod;
-          }
-
-        }
-        ion-label {
-          margin: 0 !important;
-        }
-      }
-    }
   }
 
 }
