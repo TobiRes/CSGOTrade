@@ -22,36 +22,19 @@ export class HomePage {
     this.getAllThreads();
   }
 
-  private getAllThreads() {
-    this.redditService.getRedditThreads()
-      .then(redditPostData => this.getTradeInfo(redditPostData))
-      .catch(error => console.error(error));
-  }
 
 
-  private getTradeInfo(redditPostData: any) {
-    redditPostData.forEach(redditPost => {
-      let tradeThread: Trade = {
-        title: redditPost.data.title,
-        author: redditPost.data.author,
-        url: redditPost.data.url,
-        timeSinceCreation: this.threadinfoService.timeSince(redditPost.data.created_utc),
-        content: redditPost.data.selftext,
-        type: this.threadinfoService.getPostType(redditPost.data.title),
-        tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext)
-      };
-      if (tradeThread.type == PostType.trade) {
-        let buysAndSells = this.threadinfoService.getAdditionalTradeInformation(redditPost);
-        tradeThread.wants = buysAndSells.wants;
-        tradeThread.has = buysAndSells.has;
-      }
-      this.backupPosts.push(tradeThread);
-    });
-
-    this.setMetaData(redditPostData);
-    if (this.postTypesToFilter.length) {
-      this.filterPosts();
-    }
+  refreshPosts(refresher: any){
+      setTimeout(() => {
+        this.redditService.getRedditThreads()
+          .then(redditPostData => {
+            this.getTradeInfo(redditPostData);
+            refresher.complete();
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }, 2000);
   }
 
   openTrade() {
@@ -83,7 +66,7 @@ export class HomePage {
         }
         return false;
       });
-      this.defineThreshold();
+      this.defineThresholdForLoadingMorePosts();
     }
   }
 
@@ -93,7 +76,39 @@ export class HomePage {
     return false;
   }
 
-  private defineThreshold() {
+
+  private getAllThreads() {
+    this.redditService.getRedditThreads()
+      .then(redditPostData => this.getTradeInfo(redditPostData))
+      .catch(error => console.error(error));
+  }
+
+  private getTradeInfo(redditPostData: any) {
+    redditPostData.forEach(redditPost => {
+      let tradeThread: Trade = {
+        title: redditPost.data.title,
+        author: redditPost.data.author,
+        url: redditPost.data.url,
+        timeSinceCreation: this.threadinfoService.timeSince(redditPost.data.created_utc),
+        content: redditPost.data.selftext,
+        type: this.threadinfoService.getPostType(redditPost.data.title),
+        tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext)
+      };
+      if (tradeThread.type == PostType.trade) {
+        let buysAndSells = this.threadinfoService.getAdditionalTradeInformation(redditPost);
+        tradeThread.wants = buysAndSells.wants;
+        tradeThread.has = buysAndSells.has;
+      }
+      this.backupPosts.push(tradeThread);
+    });
+
+    this.setMetaData(redditPostData);
+    if (this.postTypesToFilter.length) {
+      this.filterPosts();
+    }
+  }
+
+  private defineThresholdForLoadingMorePosts() {
     if (!this.tradePosts.length)
       this.scrollLoadThreshold = "100%";
     else {
@@ -124,7 +139,7 @@ export class HomePage {
 
   private setMetaData(redditPostData: any) {
     this.tradePosts = this.backupPosts;
-    this.defineThreshold();
+    this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
   }

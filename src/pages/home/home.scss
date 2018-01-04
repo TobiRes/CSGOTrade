@@ -7,7 +7,10 @@ page-home {
     padding: 0;
   }
 
-  .scroll-content {
+  .content {
+    background-color: transparent;
+  }
+  ion-content {
     background-image: url("../../assets/imgs/background.jpg");
   }
 
@@ -21,6 +24,10 @@ page-home {
       width: 0;
       visibility: hidden;
     }
+  }
+
+  ion-refresher-content{
+    background-color: transparent;
   }
 
   ion-item {
