@@ -28,6 +28,7 @@ export class HomePage {
       setTimeout(() => {
         this.redditService.getRedditThreads()
           .then(redditPostData => {
+            this.backupPosts = [];
             this.getTradeInfo(redditPostData);
             refresher.complete();
           })
