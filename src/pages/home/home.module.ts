@@ -9,7 +9,7 @@ import {HomePage} from "./home";
   ],
   imports: [
     IonicPageModule.forChild(HomePage),
-    ComponentsModule,
+    ComponentsModule
   ],
   exports: [
     HomePage

@@ -10,7 +10,7 @@
       {{currentPost.title}}
     </ion-card-header>
     <ion-card-content class="postContent">
-      <div [innerHtml]="content"></div>
+      <post-content [postContent]="currentPost.content"></post-content>
     </ion-card-content>
   </ion-card>
 
