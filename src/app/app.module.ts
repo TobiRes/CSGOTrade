@@ -11,6 +11,8 @@ import {RedditService} from "../services/reddit.service";
 import {ThreadinfoService} from "../services/threadinfo.service";
 import {ComponentsModule} from "../components/components.module";
 import {HomePageModule} from "../pages/home/home.module";
+import {InventoryPage} from "../pages/inventory/inventory";
+import {InventoryPageModule} from "../pages/inventory/inventory.module";
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import {HomePageModule} from "../pages/home/home.module";
     IonicModule.forRoot(MyApp),
     HttpClientModule,
     ComponentsModule,
-    HomePageModule
+    HomePageModule,
+    InventoryPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

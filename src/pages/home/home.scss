@@ -2,6 +2,10 @@ page-home {
   ion-header {
     box-shadow: 0 3px 3px #999;
 
+    ion-icon{
+      color: white;
+    }
+
     .pageToolbar, .toolbar-background {
       height: auto;
       min-height: auto;
@@ -51,9 +55,6 @@ page-home {
 
   .content {
     background-color: transparent;
-  }
-  ion-content {
-    background-image: url("../../assets/imgs/background.jpg");
   }
 
   .items {
