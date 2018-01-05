@@ -3,7 +3,16 @@ page-post-view {
     background-image: url("../../assets/imgs/background.jpg");
 
     .postContent{
-
+    }
+    .additionalInfo{
+      border-top: 1px solid black !important;
+      p{
+        padding: 5px;
+        white-space: normal;
+      }
+      ion-label{
+        margin: 0;
+      }
     }
     .postHeader{
       white-space: normal;

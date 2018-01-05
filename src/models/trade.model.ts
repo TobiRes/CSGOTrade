@@ -5,7 +5,6 @@ export interface Trade {
   title: string;
   content: string;
   timeSinceCreation: string;
-  buyout?: string;
   tradelink?: string;
   screenshotUrl?: string[];
   has?: string;

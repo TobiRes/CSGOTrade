@@ -12,6 +12,9 @@
     <ion-card-content class="postContent">
       <post-content [postContent]="currentPost.content"></post-content>
     </ion-card-content>
+    <ion-item *ngIf="currentPost.type == postTypeTrade" class="additionalInfo">
+      <p>B/O: {{currentPost.wants ? currentPost.wants : "N/A"}}</p>
+    </ion-item>
   </ion-card>
 
 </ion-content>

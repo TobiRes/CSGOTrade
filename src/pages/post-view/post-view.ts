@@ -16,6 +16,7 @@ import {PostType, Trade} from "../../models/trade.model";
 export class PostViewPage {
 
   currentPost: Trade;
+  postTypeTrade: PostType = PostType.trade;
   title: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
