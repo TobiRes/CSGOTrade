@@ -31,6 +31,7 @@ export class ThreadinfoService {
         ;
         break;
       case "[question]":
+      case "[q]":
         postType = PostType.question;
         break;
       case "[psa]":
