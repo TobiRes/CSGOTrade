@@ -1,7 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
-import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {PostType, Trade} from "../../models/trade.model";
-
 
 
 @IonicPage({

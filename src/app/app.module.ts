@@ -11,8 +11,8 @@ import {RedditService} from "../services/reddit.service";
 import {ThreadinfoService} from "../services/threadinfo.service";
 import {ComponentsModule} from "../components/components.module";
 import {HomePageModule} from "../pages/home/home.module";
-import {InventoryPage} from "../pages/inventory/inventory";
 import {InventoryPageModule} from "../pages/inventory/inventory.module";
+import {SteamService} from "../services/steam-service";
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import {InventoryPageModule} from "../pages/inventory/inventory.module";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     RedditService,
-    ThreadinfoService
+    ThreadinfoService,
+    SteamService
   ]
 })
 export class AppModule {

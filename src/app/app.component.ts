@@ -13,12 +13,12 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'Inventory', component: InventoryPage }
+      {title: 'Home', component: HomePage},
+      {title: 'Inventory', component: InventoryPage}
     ];
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -28,7 +28,7 @@ export class MyApp {
     });
   }
 
-  openPage(page){
+  openPage(page) {
     this.nav.setRoot(page.component);
   }
 }

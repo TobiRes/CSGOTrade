@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';
-import { NoSanitizePipe } from './no-sanitize/no-sanitize';
+import {NgModule} from '@angular/core';
+import {NoSanitizePipe} from './no-sanitize/no-sanitize';
+
 @NgModule({
-	declarations: [NoSanitizePipe],
-	imports: [],
-	exports: [NoSanitizePipe]
+  declarations: [NoSanitizePipe],
+  imports: [],
+  exports: [NoSanitizePipe]
 })
-export class PipesModule {}
+export class PipesModule {
+}

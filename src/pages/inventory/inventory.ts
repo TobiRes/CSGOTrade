@@ -1,12 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the InventoryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {SteamService} from "../../services/steam-service";
 
 @IonicPage()
 @Component({
@@ -15,11 +9,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class InventoryPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  inventoryItemNames: any[];
+  private csgoInventoryData: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private steamService: SteamService) {
+    this.inventoryItemNames = [];
+    this.getCSGOInventory()
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad InventoryPage');
+  private getCSGOInventory() {
+    this.steamService.getCSGOInventory()
+      .then(csgoInventory => {
+        this.csgoInventoryData = csgoInventory;
+        Object.keys(this.csgoInventoryData).forEach(key => {
+          this.inventoryItemNames.push(this.csgoInventoryData[key].market_hash_name);
+        });
+        console.log(this.inventoryItemNames);
+      });
   }
 
 }
