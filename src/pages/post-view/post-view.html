@@ -1,12 +1,17 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>post-view-page</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
+<ion-content>
+  <ion-card>
+    <ion-card-header class="postHeader">
+      {{currentPost.title}}
+    </ion-card-header>
+    <ion-card-content class="postContent">
+      <div [innerHtml]="content"></div>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
