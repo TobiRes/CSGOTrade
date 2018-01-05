@@ -2,7 +2,7 @@ page-home {
   ion-header {
     box-shadow: 0 3px 3px #999;
 
-    .pageToolbar, .toolbar-background{
+    .pageToolbar, .toolbar-background {
       height: auto;
       min-height: auto;
       background-color: #fffbfb69;
@@ -32,9 +32,9 @@ page-home {
               .select-icon-inner {
                 color: #1E3847;
               }
-            .item-inner, .button-inner, .input-wrapper, button{
-              height: auto;
-            }
+              .item-inner, .button-inner, .input-wrapper, button {
+                height: auto;
+              }
             }
             ion-label {
               margin: 0 !important;
@@ -68,7 +68,7 @@ page-home {
     }
   }
 
-  ion-refresher-content{
+  ion-refresher-content {
     background-color: transparent;
   }
 

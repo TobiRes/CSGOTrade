@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PostType, Trade} from "../../models/trade.model";
 
 @Component({
@@ -10,7 +10,14 @@ export class PostListItem {
   @Input()
   tradePost: Trade;
 
+  @Output()
+  selected = new EventEmitter();
+
   constructor() {
+  }
+
+  openPost() {
+    this.selected.emit(this.tradePost);
   }
 
   styleByPostType() {

@@ -10,17 +10,18 @@ import {HttpClientModule} from "@angular/common/http";
 import {RedditService} from "../services/reddit.service";
 import {ThreadinfoService} from "../services/threadinfo.service";
 import {ComponentsModule} from "../components/components.module";
+import {HomePageModule} from "../pages/home/home.module";
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    ComponentsModule
+    ComponentsModule,
+    HomePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

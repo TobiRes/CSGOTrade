@@ -9,6 +9,15 @@ trade-list-item {
     border-bottom: 0 !important;
     position: relative;
 
+    .openPageButton {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: transparent;
+    }
+
     .timeSinceCreation {
       position: absolute;
       right: 5px;

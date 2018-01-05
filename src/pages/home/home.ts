@@ -1,9 +1,13 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {IonicPage, NavController} from 'ionic-angular';
 import {RedditService} from "../../services/reddit.service";
 import {PostType, Trade} from "../../models/trade.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 
+@IonicPage({
+  name: "home",
+  segment: ""
+})
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -30,18 +34,18 @@ export class HomePage {
       .catch(error => console.error(error));
   }
 
-  refreshPosts(refresher: any){
-      setTimeout(() => {
-        this.redditService.getRedditThreads(this.currentPage)
-          .then(redditPostData => {
-            this.backupPosts = [];
-            this.getTradeInfo(redditPostData);
-            refresher.complete();
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }, 2000);
+  refreshPosts(refresher: any) {
+    setTimeout(() => {
+      this.redditService.getRedditThreads(this.currentPage)
+        .then(redditPostData => {
+          this.backupPosts = [];
+          this.getTradeInfo(redditPostData);
+          refresher.complete();
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }, 2000);
   }
 
   loadAdditionalThreads(): Promise<any> {
@@ -77,6 +81,10 @@ export class HomePage {
     if (postType == PostType.trade)
       return true;
     return false;
+  }
+
+  openPost(postData: Trade) {
+    this.navCtrl.push("post-view", {postData});
   }
 
   private getTradeInfo(redditPostData: any) {
