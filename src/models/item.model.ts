@@ -1,11 +1,14 @@
-export interface Item {
-  type: Weapon,
+export interface CSGOItem {
+  type: ItemType,
+  name: string,
   skinCategory?: SkinCategory,
-  quality?: Grade,
+  grade?: Grade,
   exterior?: Exterior,
+  iconUrl?: string,
+  inspectLink?: string
 }
 
-export enum Weapon {
+export enum ItemType {
   pistol = <any> "Pistol",
   smg = <any> "SMG",
   sniperRifle = <any> "Sniper Rifle",

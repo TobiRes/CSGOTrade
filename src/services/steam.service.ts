@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 export class SteamService {
 
   private steamInventoryBaseUrl: string = "http://steamcommunity.com/profiles/76561198128420241/inventory/json/730/2";
+  private itemImageBaseUrl: string = "http://cdn.steamcommunity.com/economy/image/";
 
   constructor(private http: HttpClient) {
   }
@@ -26,6 +27,7 @@ export class SteamService {
   }
 
   private getInventoryFromJSONData(csgoInventoryData: any) {
+    console.log(csgoInventoryData);
     if (!csgoInventoryData.success)
       return "unknown";
     else {

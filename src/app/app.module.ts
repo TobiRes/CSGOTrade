@@ -12,7 +12,8 @@ import {ThreadinfoService} from "../services/threadinfo.service";
 import {ComponentsModule} from "../components/components.module";
 import {HomePageModule} from "../pages/home/home.module";
 import {InventoryPageModule} from "../pages/inventory/inventory.module";
-import {SteamService} from "../services/steam-service";
+import {SteamService} from "../services/steam.service";
+import {ItemService} from "../services/item.service";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {SteamService} from "../services/steam-service";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     RedditService,
     ThreadinfoService,
-    SteamService
+    SteamService,
+    ItemService
   ]
 })
 export class AppModule {
