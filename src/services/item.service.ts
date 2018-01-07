@@ -26,7 +26,12 @@ export class ItemService {
 
   private getItemType(): ItemType {
     //"StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
-    let itemPrefix = this.itemFullName. substring(0, this.itemFullName.indexOf("|")).trim().toLowerCase()
+    let itemPrefix: string = this.itemFullName.toLowerCase();
+    if(itemPrefix.indexOf("|") > 0)
+      itemPrefix = itemPrefix.substring(0, this.itemFullName.indexOf("|")).trim();
+    if(itemPrefix.indexOf("stattrak") >= 0){
+      itemPrefix = itemPrefix.substring(9, itemPrefix.length).trim();
+    }
     let itemType: ItemType;
     switch(itemPrefix) {
       case "ak-47":
@@ -35,7 +40,7 @@ export class ItemService {
       case "galil ar":
       case "famas":
       case "aug":
-      case "SG 553":
+      case "sg 553":
         itemType = ItemType.rifle;
         break;
       case "g3sg1":
@@ -83,30 +88,49 @@ export class ItemService {
         itemType = ItemType.knife;
         break;
       default:
-        if (itemPrefix.indexOf("case"))
+        if (itemPrefix.indexOf("case") > -1){
           itemType = ItemType.container;
-        if (itemPrefix.indexOf("glove"))
-          itemType = ItemType.gloves;
-        if (itemPrefix.indexOf("swap"))
-          itemType = ItemType.tool;
-        if (itemPrefix.indexOf("sticker"))
-          itemType = ItemType.sticker;
-        if (itemPrefix.indexOf("graffiti"))
-          itemType = ItemType.graffiti;
-        if (itemPrefix.indexOf("music"))
-          itemType = ItemType.musicKit;
-        if (itemPrefix.indexOf("key"))
-          itemType = ItemType.key;
-        if (itemPrefix.indexOf("pass"))
-          itemType = ItemType.pass;
-        if (itemPrefix.indexOf("gift"))
-          itemType = ItemType.gift;
-        if (itemPrefix.indexOf("tag")){
-          console.log(itemPrefix);
-          itemType = ItemType.tag;
+          break;
         }
-        else
+        if (itemPrefix.indexOf("glove") > -1){
+          itemType = ItemType.gloves;
+          break;
+        }
+        if (itemPrefix.indexOf("swap") > -1){
+          itemType = ItemType.tool;
+          break;
+        }
+        if (itemPrefix.indexOf("sticker") > -1){
+          itemType = ItemType.sticker;
+          break;
+        }
+        if (itemPrefix.indexOf("graffiti") > -1){
+          itemType = ItemType.graffiti;
+          break;
+        }
+        if (itemPrefix.indexOf("music") > -1){
+          itemType = ItemType.gift;
+          break;
+        }
+        if (itemPrefix.indexOf("key") > -1){
+          itemType = ItemType.key;
+          break;
+        }
+        if (itemPrefix.indexOf("pass") > -1){
+          itemType = ItemType.pass;
+          break;
+        }
+        if (itemPrefix.indexOf("gift") > -1){
+          itemType = ItemType.gift;
+          break;
+        }
+        if (itemPrefix.indexOf("tag") > -1){
+          itemType = ItemType.tag;
+          break;
+        }
+        else{
           itemType = ItemType.collectible;
+        }
         break;
     }
     return itemType;

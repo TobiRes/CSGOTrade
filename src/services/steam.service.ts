@@ -27,7 +27,6 @@ export class SteamService {
   }
 
   private getInventoryFromJSONData(csgoInventoryData: any) {
-    console.log(csgoInventoryData);
     if (!csgoInventoryData.success)
       return "unknown";
     else {
