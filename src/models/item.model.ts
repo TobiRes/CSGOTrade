@@ -31,7 +31,7 @@ export enum ItemType {
 
 export enum SkinCategory {
   normal = <any> "Normal",
-  statTrack = <any> "Stat Track",
+  statTrak = <any> "Stat Trak",
   souvenir = <any> "Souvenir"
 }
 

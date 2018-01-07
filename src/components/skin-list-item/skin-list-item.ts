@@ -7,7 +7,7 @@ import {Component, Input} from '@angular/core';
 export class SkinListItemComponent {
 
   @Input()
-  itemData: any;
+  csgoItem: any;
 
   constructor() {
 
