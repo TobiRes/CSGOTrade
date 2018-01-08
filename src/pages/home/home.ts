@@ -3,6 +3,7 @@ import {IonicPage, NavController} from 'ionic-angular';
 import {RedditService} from "../../services/reddit.service";
 import {PostType, Trade} from "../../models/trade.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
+import {Storage} from "@ionic/storage";
 
 @IonicPage({
   name: "home",
@@ -14,7 +15,7 @@ import {ThreadinfoService} from "../../services/threadinfo.service";
 })
 export class HomePage {
 
-  tradePosts: Trade[] = [];
+  redditPosts: Trade[] = [];
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
   currentPage: string = "Hot";
@@ -23,15 +24,30 @@ export class HomePage {
   private lastThreadName: string;
   private threadCount: number = 0;
 
-  constructor(public navCtrl: NavController, private redditService: RedditService, private threadinfoService: ThreadinfoService) {
+  constructor(public navCtrl: NavController,
+              private redditService: RedditService,
+              private threadinfoService: ThreadinfoService,
+              private storage: Storage) {
     this.getAllThreads();
   }
 
   getAllThreads() {
     this.backupPosts = [];
-    this.redditService.getRedditThreads(this.currentPage)
-      .then(redditPostData => this.getTradeInfo(redditPostData))
-      .catch(error => console.error(error));
+    this.storage.get("redditPosts")
+      .then(redditPosts => {
+        console.log(redditPosts);
+        if (redditPosts) {
+          this.redditPosts = redditPosts;
+        } else {
+          this.currentPage = "Hot";
+          this.scrollLoadThreshold = "10%";
+          this.redditService.getRedditThreads(this.currentPage)
+            .then(redditPostData => this.getTradeInfo(redditPostData))
+            .catch(error => console.error(error));
+        }
+      })
+      .catch(error => console.log(error))
+
   }
 
   refreshPosts(refresher: any) {
@@ -65,9 +81,9 @@ export class HomePage {
   }
 
   filterPosts() {
-    this.tradePosts = this.backupPosts;
+    this.redditPosts = this.backupPosts;
     if (this.postTypesToFilter.length) {
-      this.tradePosts = this.tradePosts.filter(post => {
+      this.redditPosts = this.redditPosts.filter(post => {
         if (this.checkIfPostIsFiltered(post.type)) {
           return true;
         }
@@ -113,10 +129,10 @@ export class HomePage {
   }
 
   private defineThresholdForLoadingMorePosts() {
-    if (!this.tradePosts.length)
+    if (!this.redditPosts.length)
       this.scrollLoadThreshold = "100%";
     else {
-      switch (this.tradePosts.length) {
+      switch (this.redditPosts.length) {
         case 7:
         case 6:
           this.scrollLoadThreshold = "60%";
@@ -142,10 +158,11 @@ export class HomePage {
   }
 
   private setMetaData(redditPostData: any) {
-    this.tradePosts = this.backupPosts;
+    this.redditPosts = this.backupPosts;
     this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
+    this.storage.set("redditPosts", this.backupPosts);
   }
 
   private checkIfPostIsFiltered(postType: PostType): boolean {

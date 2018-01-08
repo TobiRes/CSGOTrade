@@ -29,7 +29,7 @@ page-inventory {
             float: right;
             min-height: auto;
 
-            .item-inner{
+            .item-inner {
               border-bottom: 0;
             }
 
@@ -59,13 +59,13 @@ page-inventory {
     }
   }
 
-  .steamLinkInput{
+  .steamLinkInput {
     margin-bottom: 20px;
     position: relative;
-    .item-inner{
+    .item-inner {
       border: 0 !important;
     }
-    .text-input{
+    .text-input {
       overflow: hidden;
       text-overflow: ellipsis;
       width: 90%;
@@ -73,7 +73,7 @@ page-inventory {
     }
   }
 
-  .refreshButton{
+  .refreshButton {
     position: absolute;
     right: 5px;
     top: 5px;

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage} from 'ionic-angular';
+import {IonicPage, LoadingController} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {ItemService} from "../../services/item.service";
 import {CSGOItem} from "../../models/item.model";
@@ -26,13 +26,14 @@ export class InventoryPage {
 
   constructor(private steamService: SteamService,
               private itemService: ItemService,
-              private storage: Storage) {
+              private storage: Storage,
+              private loadingCtrl: LoadingController) {
 
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
         this.csgoItems = storageData[0];
         this.steamProfileURL = storageData[1];
-        if(!this.csgoItems){
+        if (!this.csgoItems) {
           this.getCSGOInventory();
         }
       })
@@ -41,22 +42,25 @@ export class InventoryPage {
 
   applyFilter() {
     this.csgoItems = this.backupCsgoItems;
-    if(this.selectedSkinTypes.length){
+    if (this.selectedSkinTypes.length) {
       this.filterItems("type", this.selectedSkinTypes);
     }
-    if(this.selectedCategories.length){
+    if (this.selectedCategories.length) {
       this.filterItems("skinCategory", this.selectedCategories);
     }
-    if(this.selectedGrades.length){
+    if (this.selectedGrades.length) {
       this.filterItems("grade", this.selectedGrades);
     }
-    if(this.selectedExteriors.length){
+    if (this.selectedExteriors.length) {
       this.filterItems("exterior", this.selectedExteriors);
     }
   }
 
   getCSGOInventory() {
-    if(this.steamProfileURL) {
+    let loading = this.loadingCtrl.create();
+
+    if (this.steamProfileURL) {
+      loading.present();
       this.csgoItems = [];
       this.storage.set("steamProfileURL", this.steamProfileURL);
       this.steamService.getCSGOInventory(this.steamProfileURL)
@@ -67,18 +71,19 @@ export class InventoryPage {
           });
           this.storage.set("csgoItems", this.csgoItems);
           this.backupCsgoItems = this.csgoItems;
+          loading.dismissAll();
         })
     }
   }
 
-  private filterItems(propertyToCompare: any, selectedFilter: any[]){
+  private filterItems(propertyToCompare: any, selectedFilter: any[]) {
     let completeFilteredItemList: CSGOItem[] = [];
-    selectedFilter.forEach( (selectedFilter: any) => {
+    selectedFilter.forEach((selectedFilter: any) => {
       completeFilteredItemList = completeFilteredItemList.concat(
-        this.csgoItems.filter( singleItem => {
+        this.csgoItems.filter(singleItem => {
           console.log("selectedFilter", selectedFilter);
           console.log("propertyToCompare", singleItem[propertyToCompare]);
-          if(singleItem[propertyToCompare] == selectedFilter)
+          if (singleItem[propertyToCompare] == selectedFilter)
             return true;
           return false;
         })
