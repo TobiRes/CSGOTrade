@@ -29,16 +29,16 @@ export class InventoryPage {
   applyFilter() {
     this.csgoItems = this.backupCsgoItems;
     if(this.selectedSkinTypes.length){
-      this.filterByType();
+      this.filterItems("type", this.selectedSkinTypes);
     }
     if(this.selectedCategories.length){
-      this.filterByCategory();
+      this.filterItems("skinCategory", this.selectedCategories);
     }
     if(this.selectedGrades.length){
-      this.filterByGrade();
+      this.filterItems("grade", this.selectedGrades);
     }
     if(this.selectedExteriors.length){
-      this.filterByExterior();
+      this.filterItems("exterior", this.selectedExteriors);
     }
   }
 
@@ -54,31 +54,20 @@ export class InventoryPage {
     this.backupCsgoItems = this.csgoItems
     console.log(this.csgoItems);
   }
-
-
-  private filterByType() {
+  
+  private filterItems(propertyToCompare: any, selectedFilter: any[]){
     let completeFilteredItemList: CSGOItem[] = [];
-    this.selectedSkinTypes.forEach( (selectedType: string) => {
+    selectedFilter.forEach( (selectedFilter: any) => {
       completeFilteredItemList = completeFilteredItemList.concat(
         this.csgoItems.filter( singleItem => {
-          if(ItemType[singleItem.type] == ItemType[selectedType])
+          console.log("selectedFilter", selectedFilter);
+          console.log("propertyToCompare", singleItem[propertyToCompare]);
+          if(singleItem[propertyToCompare] == selectedFilter)
             return true;
           return false;
         })
       );
     });
     this.csgoItems = completeFilteredItemList;
-  }
-
-  private filterByCategory() {
-
-  }
-
-  private filterByGrade() {
-
-  }
-
-  private filterByExterior() {
-
   }
 }

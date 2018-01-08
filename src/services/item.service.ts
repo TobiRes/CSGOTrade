@@ -186,15 +186,15 @@ export class ItemService {
   }
 
   private getSkinExterior(itemFullName: string): Exterior {
-    if(itemFullName.indexOf("Factory New"))
+    if(itemFullName.indexOf("Factory New") >= 0)
       return Exterior.fn
-    if(itemFullName.indexOf("Minimal Wear"))
+    if(itemFullName.indexOf("Minimal Wear") >= 0)
       return Exterior.mw;
-    if(itemFullName.indexOf("Field-Tested"))
+    if(itemFullName.indexOf("Field-Tested") >= 0)
       return Exterior.ft
-    if(itemFullName.indexOf("Well-Worn"))
+    if(itemFullName.indexOf("Well-Worn") >= 0)
       return Exterior.ww
-    if(itemFullName.indexOf("Battle-Scarred"))
+    if(itemFullName.indexOf("Battle-Scarred") >= 0)
       return Exterior.bs
     else
       return Exterior.notPainted

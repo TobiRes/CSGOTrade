@@ -40,6 +40,8 @@ page-inventory {
               }
               .select-text {
                 min-width: auto;
+                width: 0;
+                visibility: hidden;
               }
               .select-icon-inner {
                 color: #1E3847;
@@ -56,6 +58,7 @@ page-inventory {
       }
     }
   }
+
 
   ion-item{
     padding: 0 !important;
