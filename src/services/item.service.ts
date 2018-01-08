@@ -173,8 +173,8 @@ export class ItemService {
   }
 
   private getSkinCategory(): SkinCategory {
-    if(this.itemFullName.indexOf("StatTrak") <= 0){
-      if(this.itemFullName.indexOf("Souvenir") <= 0){
+     if(this.itemFullName.indexOf("StatTrak") < 0){
+      if(this.itemFullName.indexOf("Souvenir") < 0){
         return SkinCategory.normal;
       }
       else{
