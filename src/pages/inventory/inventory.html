@@ -11,7 +11,44 @@
     <div class="filter">
       <div class="filtercontent">
         <ion-item>
-          <ion-label>{{selectedSkinTypes}}</ion-label>
+          <ion-label>Category</ion-label>
+          <ion-select [(ngModel)]="selectedCategories" (ionChange)="applyFilter()" multiple="true">
+            <ion-option>Normal</ion-option>
+            <ion-option>StatTrak</ion-option>
+            <ion-option>Souvenir</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Exterior</ion-label>
+          <ion-select [(ngModel)]="selectedExteriors" (ionChange)="applyFilter()" multiple="true">
+            <ion-option>Factory New</ion-option>
+            <ion-option>Minimal Wear</ion-option>
+            <ion-option>Field-Tested</ion-option>
+            <ion-option>Well-Worn</ion-option>
+            <ion-option>Battle-Scarred</ion-option>
+            <ion-option>Vanilla</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Grade</ion-label>
+          <ion-select [(ngModel)]="selectedGrades" (ionChange)="applyFilter()" multiple="true">
+            <ion-option>Mil-Spec Grade</ion-option>
+            <ion-option>Restricted Grade</ion-option>
+            <ion-option>Classified</ion-option>
+            <ion-option>Covert</ion-option>
+            <ion-option>Contraband</ion-option>
+            <ion-option>Consumer Grade</ion-option>
+            <ion-option>Industrial Grade</ion-option>
+            <ion-option>Base Grade</ion-option>
+            <ion-option>High Grade</ion-option>
+            <ion-option>Extraordinary</ion-option>
+            <ion-option>Exotic</ion-option>
+            <ion-option>Remarkable</ion-option>
+            <ion-option>Other</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Type</ion-label>
           <ion-select [(ngModel)]="selectedSkinTypes" (ionChange)="applyFilter()" multiple="true">
             <ion-option>Key</ion-option>
             <ion-option>Knife</ion-option>
@@ -31,43 +68,6 @@
             <ion-option>Gift</ion-option>
             <ion-option>Tool</ion-option>
             <ion-option>Tag</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label>{{selectedCategories}}</ion-label>
-          <ion-select [(ngModel)]="selectedCategories" (ionChange)="applyFilter()" multiple="true">
-            <ion-option>Normal</ion-option>
-            <ion-option>StatTrak</ion-option>
-            <ion-option>Souvenir</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label>{{selectedGrades}}</ion-label>
-          <ion-select [(ngModel)]="selectedGrades" (ionChange)="applyFilter()" multiple="true">
-            <ion-option>Mil-Spec Grade</ion-option>
-            <ion-option>Restricted Grade</ion-option>
-            <ion-option>Classified</ion-option>
-            <ion-option>Covert</ion-option>
-            <ion-option>Contraband</ion-option>
-            <ion-option>Consumer Grade</ion-option>
-            <ion-option>Industrial Grade</ion-option>
-            <ion-option>Base Grade</ion-option>
-            <ion-option>High Grade</ion-option>
-            <ion-option>Extraordinary</ion-option>
-            <ion-option>Exotic</ion-option>
-            <ion-option>Remarkable</ion-option>
-            <ion-option>Other</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label>{{selectedExteriors}}</ion-label>
-          <ion-select [(ngModel)]="selectedExteriors" (ionChange)="applyFilter()" multiple="true">
-            <ion-option>Factory New</ion-option>
-            <ion-option>Minimal Wear</ion-option>
-            <ion-option>Field-Tested</ion-option>
-            <ion-option>Well-Worn</ion-option>
-            <ion-option>Battle-Scarred</ion-option>
-            <ion-option>Vanilla</ion-option>
           </ion-select>
         </ion-item>
       </div>

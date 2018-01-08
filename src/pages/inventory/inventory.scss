@@ -9,7 +9,54 @@ page-inventory {
     ion-title {
       padding: 0 !important;
     }
+
+    .pageToolbar, .toolbar-background {
+      height: auto;
+      min-height: auto;
+      background-color: #fffbfb69;
+
+      .filter {
+        width: 100%;
+        z-index: 2;
+
+        .filtercontent {
+
+          ion-item {
+            background-color: transparent;
+            color: #1E3847;
+            height: auto;
+            width: auto;
+            float: right;
+            min-height: auto;
+
+            .item-inner{
+              border-bottom: 0;
+            }
+
+            .select {
+              padding: 0 5px 0 0;
+              .select-placeholder {
+                min-width: auto;
+              }
+              .select-text {
+                min-width: auto;
+              }
+              .select-icon-inner {
+                color: #1E3847;
+              }
+              .item-inner, .button-inner, .input-wrapper, button {
+                height: auto;
+              }
+            }
+            ion-label {
+              margin: 0 !important;
+            }
+          }
+        }
+      }
+    }
   }
+
   ion-item{
     padding: 0 !important;
     p{
