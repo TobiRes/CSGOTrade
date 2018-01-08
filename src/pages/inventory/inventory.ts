@@ -11,7 +11,9 @@ import {CSGOItem, ItemType} from "../../models/item.model";
 })
 export class InventoryPage {
 
+  //"http://steamcommunity.com/profiles/76561198128420241/inventory/json/730/2"
   csgoItems: CSGOItem[];
+  steamInventoryURL: string;
   selectedSkinTypes: string[] = [];
   selectedCategories: string[] = [];
   selectedGrades: string[] = [];
@@ -20,11 +22,13 @@ export class InventoryPage {
   private csgoInventoryData: any;
   private backupCsgoItems: CSGOItem[];
 
+
   constructor(private steamService: SteamService, private itemService: ItemService) {
     this.csgoItems = [];
-    this.getCSGOInventory()
+    if(this.steamInventoryURL){
+      this.getCSGOInventory()
+    }
   }
-
 
   applyFilter() {
     this.csgoItems = this.backupCsgoItems;
@@ -42,11 +46,10 @@ export class InventoryPage {
     }
   }
 
-  private getCSGOInventory() {
-    this.steamService.getCSGOInventory()
+  getCSGOInventory() {
+    this.steamService.getCSGOInventory(this.steamInventoryURL)
       .then(csgoInventory => {
         this.csgoInventoryData = csgoInventory;
-        console.log(this.csgoInventoryData);
         Object.keys(this.csgoInventoryData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(this.csgoInventoryData[key]));
         });
@@ -54,7 +57,7 @@ export class InventoryPage {
     this.backupCsgoItems = this.csgoItems
     console.log(this.csgoItems);
   }
-  
+
   private filterItems(propertyToCompare: any, selectedFilter: any[]){
     let completeFilteredItemList: CSGOItem[] = [];
     selectedFilter.forEach( (selectedFilter: any) => {
