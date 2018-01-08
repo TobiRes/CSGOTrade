@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {IonicPage, Item, NavController, NavParams} from 'ionic-angular';
+import {IonicPage} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {ItemService} from "../../services/item.service";
-import {CSGOItem, ItemType} from "../../models/item.model";
+import {CSGOItem} from "../../models/item.model";
+import {Storage} from "@ionic/storage";
 
 @IonicPage()
 @Component({
@@ -13,7 +14,7 @@ export class InventoryPage {
 
   //"http://steamcommunity.com/profiles/76561198128420241/inventory/json/730/2"
   csgoItems: CSGOItem[];
-  steamInventoryURL: string;
+  steamProfileURL: string;
   selectedSkinTypes: string[] = [];
   selectedCategories: string[] = [];
   selectedGrades: string[] = [];
@@ -23,11 +24,19 @@ export class InventoryPage {
   private backupCsgoItems: CSGOItem[];
 
 
-  constructor(private steamService: SteamService, private itemService: ItemService) {
-    this.csgoItems = [];
-    if(this.steamInventoryURL){
-      this.getCSGOInventory()
-    }
+  constructor(private steamService: SteamService,
+              private itemService: ItemService,
+              private storage: Storage) {
+
+    Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
+      .then(storageData => {
+        this.csgoItems = storageData[0];
+        this.steamProfileURL = storageData[1];
+        if(!this.csgoItems){
+          this.getCSGOInventory();
+        }
+      })
+      .catch(error => console.error(error));
   }
 
   applyFilter() {
@@ -47,15 +56,19 @@ export class InventoryPage {
   }
 
   getCSGOInventory() {
-    this.steamService.getCSGOInventory(this.steamInventoryURL)
-      .then(csgoInventory => {
-        this.csgoInventoryData = csgoInventory;
-        Object.keys(this.csgoInventoryData).forEach(key => {
-          this.csgoItems.push(this.itemService.fillItemMetaData(this.csgoInventoryData[key]));
-        });
-      });
-    this.backupCsgoItems = this.csgoItems
-    console.log(this.csgoItems);
+    if(this.steamProfileURL) {
+      this.csgoItems = [];
+      this.storage.set("steamProfileURL", this.steamProfileURL);
+      this.steamService.getCSGOInventory(this.steamProfileURL)
+        .then(csgoInventory => {
+          this.csgoInventoryData = csgoInventory;
+          Object.keys(this.csgoInventoryData).forEach(key => {
+            this.csgoItems.push(this.itemService.fillItemMetaData(this.csgoInventoryData[key]));
+          });
+          this.storage.set("csgoItems", this.csgoItems);
+          this.backupCsgoItems = this.csgoItems;
+        })
+    }
   }
 
   private filterItems(propertyToCompare: any, selectedFilter: any[]){

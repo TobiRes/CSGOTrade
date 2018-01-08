@@ -14,6 +14,8 @@ import {HomePageModule} from "../pages/home/home.module";
 import {InventoryPageModule} from "../pages/inventory/inventory.module";
 import {SteamService} from "../services/steam.service";
 import {ItemService} from "../services/item.service";
+import {IonicStorageModule} from "@ionic/storage";
+import {NativeStorage} from "@ionic-native/native-storage";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import {ItemService} from "../services/item.service";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     HttpClientModule,
     ComponentsModule,
     HomePageModule,
