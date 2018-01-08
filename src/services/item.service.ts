@@ -10,7 +10,9 @@ export class ItemService {
 
 
   fillItemMetaData(csgoInventoryItem: any): CSGOItem {
+    //e.g. "StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
     let itemFullName = csgoInventoryItem.market_hash_name;
+
     return {
       name:  itemFullName,
       skinCategory: this.getSkinCategory(itemFullName),
@@ -23,7 +25,6 @@ export class ItemService {
   }
 
   private getItemType(itemFullName: string): ItemType {
-    //"StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
     let itemPrefix: string = itemFullName.toLowerCase();
     if(itemPrefix.indexOf("|") > 0)
       itemPrefix = itemPrefix.substring(0, itemFullName.indexOf("|")).trim();
@@ -73,16 +74,16 @@ export class ItemService {
       case "xm1014":
         itemType = ItemType.shotgun;
         break;
-      case "bayonet":
-      case "bowie knife":
-      case "butterfly knife":
-      case "falchion knife":
-      case "flip knife":
-      case "gut knife":
-      case "huntsman knife":
-      case "karambit":
-      case "m9 bayonet":
-      case "shadow daggers":
+      case "★ bayonet":
+      case "★ bowie knife":
+      case "★ butterfly knife":
+      case "★ falchion knife":
+      case "★ flip knife":
+      case "★ gut knife":
+      case "★ huntsman knife":
+      case "★ karambit":
+      case "★ m9 bayonet":
+      case "★ shadow daggers":
         itemType = ItemType.knife;
         break;
       default:
