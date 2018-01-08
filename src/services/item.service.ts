@@ -5,30 +5,28 @@ import {CSGOItem, Exterior, Grade, ItemType, SkinCategory} from "../models/item.
 @Injectable()
 export class ItemService {
 
-  itemFullName: string;
-
   constructor() {
   }
 
 
   fillItemMetaData(csgoInventoryItem: any): CSGOItem {
-    this.itemFullName = csgoInventoryItem.market_hash_name;
+    let itemFullName = csgoInventoryItem.market_hash_name;
     return {
-      name:  this.itemFullName,
-      skinCategory: this.getSkinCategory(),
-      type: this.getItemType(),
-      exterior: this.getSkinExterior(),
+      name:  itemFullName,
+      skinCategory: this.getSkinCategory(itemFullName),
+      type: this.getItemType(itemFullName),
+      exterior: this.getSkinExterior(itemFullName),
       grade: this.getSkinGrade(csgoInventoryItem),
       iconUrl: csgoInventoryItem.icon_url,
       inspectLink: csgoInventoryItem.market_actions ?  csgoInventoryItem.market_actions[0].link : "unknown"
      }
   }
 
-  private getItemType(): ItemType {
+  private getItemType(itemFullName: string): ItemType {
     //"StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
-    let itemPrefix: string = this.itemFullName.toLowerCase();
+    let itemPrefix: string = itemFullName.toLowerCase();
     if(itemPrefix.indexOf("|") > 0)
-      itemPrefix = itemPrefix.substring(0, this.itemFullName.indexOf("|")).trim();
+      itemPrefix = itemPrefix.substring(0, itemFullName.indexOf("|")).trim();
     if(itemPrefix.indexOf("stattrak") >= 0){
       itemPrefix = itemPrefix.substring(9, itemPrefix.length).trim();
     }
@@ -172,32 +170,30 @@ export class ItemService {
     }
   }
 
-  private getSkinCategory(): SkinCategory {
-     if(this.itemFullName.indexOf("StatTrak") < 0){
-      if(this.itemFullName.indexOf("Souvenir") < 0){
+  private getSkinCategory(itemFullName: string): SkinCategory {
+     if(itemFullName.indexOf("StatTrak") < 0){
+      if(itemFullName.indexOf("Souvenir") < 0){
         return SkinCategory.normal;
       }
       else{
-        this.itemFullName.replace("Souvenir", "");
         return SkinCategory.souvenir;
       }
     }
     else{
-      this.itemFullName.replace("StatTrak™", "")
       return SkinCategory.statTrak;
     }
   }
 
-  private getSkinExterior(): Exterior {
-    if(this.itemFullName.indexOf("Factory New"))
+  private getSkinExterior(itemFullName: string): Exterior {
+    if(itemFullName.indexOf("Factory New"))
       return Exterior.fn
-    if(this.itemFullName.indexOf("Minimal Wear"))
+    if(itemFullName.indexOf("Minimal Wear"))
       return Exterior.mw;
-    if(this.itemFullName.indexOf("Field-Tested"))
+    if(itemFullName.indexOf("Field-Tested"))
       return Exterior.ft
-    if(this.itemFullName.indexOf("Well-Worn"))
+    if(itemFullName.indexOf("Well-Worn"))
       return Exterior.ww
-    if(this.itemFullName.indexOf("Battle-Scarred"))
+    if(itemFullName.indexOf("Battle-Scarred"))
       return Exterior.bs
     else
       return Exterior.notPainted
