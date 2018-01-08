@@ -26,7 +26,7 @@ export enum ItemType {
   pass = <any> "Pass",
   gift = <any> "Gift",
   tool = <any> "Tool",
-  tag = <any> "Tag",
+  tag = <any> "Tag"
 }
 
 export enum SkinCategory {
@@ -37,10 +37,10 @@ export enum SkinCategory {
 
 export enum Grade {
   consumer = <any> "Consumer Grade",
-  milcspec = <any> "Milc-Spec Grade",
+  milspec = <any> "Mil-Spec Grade",
   industrial = <any> "Industrial Grade",
   restricted = <any> "Restricted Grade",
-  classified = <any> "Classified Grade",
+  classified = <any> "Classified",
   covert = <any> "Covert",
   base = <any> "Base Grade",
   high = <any> "High Grade",
@@ -48,6 +48,7 @@ export enum Grade {
   exotic = <any> "Exotic",
   remarkable = <any> "Remarkable",
   contraband = <any> "Contraband",
+  unknown = <any> "Unknown"
 }
 
 export enum Exterior {

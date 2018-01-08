@@ -23,6 +23,7 @@ export class InventoryPage {
     this.steamService.getCSGOInventory()
       .then(csgoInventory => {
         this.csgoInventoryData = csgoInventory;
+        console.log(this.csgoInventoryData);
         Object.keys(this.csgoInventoryData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(this.csgoInventoryData[key]));
         });
