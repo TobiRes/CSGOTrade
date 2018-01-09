@@ -4,6 +4,7 @@ import {RedditService} from "../../services/reddit.service";
 import {PostType, Trade} from "../../models/trade.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
+import {SteamLoginService} from "../../services/steam-login.service";
 
 @IonicPage({
   name: "home",
@@ -27,7 +28,8 @@ export class HomePage {
   constructor(public navCtrl: NavController,
               private redditService: RedditService,
               private threadinfoService: ThreadinfoService,
-              private storage: Storage) {
+              private storage: Storage,
+              private steamLoginService: SteamLoginService) {
     this.getAllThreads();
   }
 
@@ -47,6 +49,12 @@ export class HomePage {
         }
       })
       .catch(error => console.log(error))
+
+    this.steamLoginService.getSteamRSAPublicKey()
+      .then( steamRSAData => {
+        console.log(steamRSAData);
+      })
+      .catch(error=>  console.error(error));
 
   }
 
