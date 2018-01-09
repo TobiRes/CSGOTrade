@@ -9,15 +9,15 @@ export class SteamLoginService {
   constructor(private http: HttpClient) {
   }
 
-  getSteamRSAPublicKey(){
+  getSteamRSAPublicKey(username, password){
     return new Promise((resolve, reject) => {
       try {
         let body = new FormData();
-        body.append("username","liquidwater34")
+        body.append("username", username)
 
         this.http.post("https://steamcommunity.com/login/getrsakey/", body).subscribe(
           (steamRSAData: any) => {
-            this.encryptPWRSA(steamRSAData);
+            this.encryptPWRSA(steamRSAData, password);
             resolve(steamRSAData);
           })
       } catch (error) {
@@ -26,13 +26,11 @@ export class SteamLoginService {
     });
   }
 
-  private encryptPWRSA(steamRSAData){
+  private encryptPWRSA(steamRSAData, password){
     let timestamp = steamRSAData.timestamp;
     let publicKey = RSA.getPublicKey(steamRSAData.publickey_mod, steamRSAData.publickey_exp);
-    let encryptedData = RSA.encrypt("Sy8kXy9aO9tb", publicKey);
-
+    let encryptedData = RSA.encrypt(password, publicKey);
     this.logIntoSteam(encryptedData, timestamp)
-    console.log(publicKey);
   }
 
 

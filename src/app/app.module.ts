@@ -16,6 +16,7 @@ import {SteamService} from "../services/steam.service";
 import {ItemService} from "../services/item.service";
 import {IonicStorageModule} from "@ionic/storage";
 import {SteamLoginService} from "../services/steam-login.service";
+import {SteamLoginPageModule} from "../pages/steam-login/steam-login.module";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {SteamLoginService} from "../services/steam-login.service";
     HttpClientModule,
     ComponentsModule,
     HomePageModule,
-    InventoryPageModule
+    InventoryPageModule,
+    SteamLoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

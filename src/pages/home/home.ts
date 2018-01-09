@@ -51,12 +51,6 @@ export class HomePage {
       })
       .catch(error => console.log(error))
 
-    this.steamLoginService.getSteamRSAPublicKey()
-      .then( steamRSAData => {
-        console.log(steamRSAData);
-      })
-      .catch(error=>  console.error(error));
-
   }
 
   refreshPosts(refresher: any) {
