@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+declare var RSA: any;
 
 @Injectable()
 export class SteamLoginService {
@@ -15,12 +16,19 @@ export class SteamLoginService {
 
         this.http.post("https://steamcommunity.com/login/getrsakey/", body).subscribe(
           (steamRSAData: any) => {
+            this.encryptPWRSA(steamRSAData);
             resolve(steamRSAData);
           })
       } catch (error) {
         reject(error);
       }
     });
+  }
+
+  private encryptPWRSA(steamRSAData){
+
+    let encrypt = RSA.getPublicKey(steamRSAData.publickey_mod, steamRSAData.publickey_exp);
+    console.log(encrypt);
   }
 
 }

@@ -14,6 +14,7 @@ import {SteamLoginService} from "../../services/steam-login.service";
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
 
   redditPosts: Trade[] = [];
