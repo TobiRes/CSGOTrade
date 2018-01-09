@@ -27,8 +27,9 @@ export class SteamLoginService {
 
   private encryptPWRSA(steamRSAData){
 
-    let encrypt = RSA.getPublicKey(steamRSAData.publickey_mod, steamRSAData.publickey_exp);
-    console.log(encrypt);
+    let publicKey = RSA.getPublicKey(steamRSAData.publickey_mod, steamRSAData.publickey_exp);
+    let encryptedData = RSA.encrypt("test", publicKey);
+    console.log(encryptedData);
   }
 
 }
