@@ -12,7 +12,13 @@
 
 
 <ion-content padding>
-  <input type="text" [(ngModel)]="username">
-  <input type="password" [(ngModel)]="password">
- <button ion-button outline (click)="logIntoSteam()">Log in</button>
+  <div class="loginField">
+    <ion-item>
+      <input type="text"  placeholder="Enter Username" [(ngModel)]="username">
+    </ion-item>
+    <ion-item>
+      <input type="password" placeholder="Enter Password" [(ngModel)]="password">
+    </ion-item>
+    <button full ion-button outline (click)="logIntoSteam()">Log in</button>
+  </div>
 </ion-content>

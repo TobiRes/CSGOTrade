@@ -1,23 +1,39 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
+import {AlertController, LoadingController} from "ionic-angular";
 
 declare var RSA: any;
 
 @Injectable()
 export class SteamLoginService {
 
-  constructor(private http: HttpClient) {
+  private steamGuardCode: string;
+  private username: string = "";
+  private password: string = "";
+  private loggedIn: boolean = false;
+
+  constructor(private http: HttpClient, private alertCtrl: AlertController, private loadCtrl: LoadingController) {
   }
 
-  getSteamRSAPublicKey(username, password){
+  startLoginProcess(username, password){
+    this.username = username;
+    this.password = password;
+
+    this.getSteamRSAPublicKey()
+      .then( (steamRSAData: any) => {
+        this.encryptPWRSA(steamRSAData, this.password);
+      })
+      .catch( error => console.error(error));
+  }
+
+  private getSteamRSAPublicKey(){
     return new Promise((resolve, reject) => {
       try {
         let body = new FormData();
-        body.append("username", username)
+        body.append("username", this.username)
 
         this.http.post("https://steamcommunity.com/login/getrsakey/", body).subscribe(
           (steamRSAData: any) => {
-            this.encryptPWRSA(steamRSAData, password);
             resolve(steamRSAData);
           })
       } catch (error) {
@@ -29,28 +45,69 @@ export class SteamLoginService {
   private encryptPWRSA(steamRSAData, password){
     let timestamp = steamRSAData.timestamp;
     let publicKey = RSA.getPublicKey(steamRSAData.publickey_mod, steamRSAData.publickey_exp);
-    let encryptedData = RSA.encrypt(password, publicKey);
-    this.logIntoSteam(encryptedData, timestamp)
+    let encryptedPW = RSA.encrypt(password, publicKey);
+    this.logIntoSteam(this.getSteamLoginPostBody(encryptedPW, timestamp))
   }
 
 
-  private logIntoSteam(encryptedPW, timestamp){
-
-    let body = new FormData();
-    body.append("password", encryptedPW);
-    body.append("username", "liquidwater34");
-    body.append("donotcache", new Date().getTime().toString());
-    body.append("twofactorcode", "");
-    body.append("loginfriendlyname", "");
-    body.append("captchagid", "-1");
-    body.append("captcha_text", "");
-    body.append("emailsteamid", "");
-    body.append("rsatimestamp", timestamp);
-    body.append("remember_login", "false");
-    console.log(body);
-
-    this.http.post("https://steamcommunity.com/login/dologin/", body).subscribe(
-      steamResponse => console.log(steamResponse));
+  private logIntoSteam(postBody){
+    this.http.post("https://steamcommunity.com/login/dologin/", postBody).subscribe(
+      (steamResponse: any) => {
+        console.log(steamResponse)
+        this.loggedIn = (steamResponse.success && steamResponse.login_complete);
+        if(!this.loggedIn){
+          let alert = this.createAlert();
+          alert.present();
+        }
+      });
   }
 
+  private createAlert(){
+    return this.alertCtrl.create({
+      title: 'Enter Steam-Guard Code',
+      inputs: [
+        {
+          name: "steamGuardCode",
+          placeholder: 'Enter Code...'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Login',
+          handler: data => {
+            if (data.steamGuardCode) {
+              this.steamGuardCode =data.steamGuardCode;
+              this.startLoginProcess(this.username, this.password);
+            } else {
+              console.log("Something went wrong.");
+              return false;
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  private getSteamLoginPostBody(encryptedPW, timestamp) {
+    let postBody = new FormData();
+    postBody.append("password", encryptedPW);
+    postBody.append("username", this.username);
+    postBody.append("donotcache", new Date().getTime().toString());
+    postBody.append("twofactorcode", this.steamGuardCode);
+    postBody.append("loginfriendlyname", "");
+    postBody.append("captchagid", "-1");
+    postBody.append("captcha_text", "");
+    postBody.append("emailsteamid", "");
+    postBody.append("rsatimestamp", timestamp);
+    postBody.append("remember_login", "false");
+
+    return postBody;
+  }
 }

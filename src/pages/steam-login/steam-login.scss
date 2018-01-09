@@ -10,4 +10,12 @@ page-steam-login {
       padding: 0 !important;
     }
   }
+
+  .loginField{
+    ion-item{
+      .item-inner{
+        border: 0 !important;
+      }
+    }
+  }
 }

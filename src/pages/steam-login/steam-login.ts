@@ -17,11 +17,7 @@ export class SteamLoginPage {
 
 
   logIntoSteam(){
-    this.steamLoginService.getSteamRSAPublicKey(this.username,this.password)
-      .then( steamRSAData => {
-        console.log(steamRSAData);
-      })
-      .catch(error=>  console.error(error));
+    this.steamLoginService.startLoginProcess(this.username,this.password);
   }
 
 }
