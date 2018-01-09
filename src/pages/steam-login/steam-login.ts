@@ -15,7 +15,6 @@ export class SteamLoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private steamLoginService: SteamLoginService) {
   }
 
-
   logIntoSteam(){
     this.steamLoginService.startLoginProcess(this.username,this.password);
   }

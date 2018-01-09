@@ -11,19 +11,42 @@ export class SteamLoginService {
   private username: string = "";
   private password: string = "";
   private loggedIn: boolean = false;
+  private loading: any;
+  private testOffer = {
+    "newversion":true,
+    "version":3,
+    "me":{"assets":[{
+      "appid":730,
+        "contextid":2,
+        "amount":1,
+        "assetid":"13285612688"}],
+      "currency":[],
+      "ready":false},
+    "them":{"assets":[{"appid":730,"contextid":2,"amount":1,"assetid":"12885033159"}],"currency":[], "ready":false}}
 
-  constructor(private http: HttpClient, private alertCtrl: AlertController, private loadCtrl: LoadingController) {
+    //https://stackoverflow.com/questions/18513818/angularjs-cookie-read-response-value
+
+  constructor(private http: HttpClient,
+              private alertCtrl: AlertController,
+              private loadCtrl: LoadingController) {
   }
 
   startLoginProcess(username, password){
     this.username = username;
     this.password = password;
 
+    this.loading = this.loadCtrl.create();
+    this.loading.present();
+
     this.getSteamRSAPublicKey()
       .then( (steamRSAData: any) => {
         this.encryptPWRSA(steamRSAData, this.password);
       })
       .catch( error => console.error(error));
+  }
+
+  sendTradeOffer(){
+
   }
 
   private getSteamRSAPublicKey(){
@@ -49,20 +72,43 @@ export class SteamLoginService {
     this.logIntoSteam(this.getSteamLoginPostBody(encryptedPW, timestamp))
   }
 
-
   private logIntoSteam(postBody){
     this.http.post("https://steamcommunity.com/login/dologin/", postBody).subscribe(
       (steamResponse: any) => {
-        console.log(steamResponse)
+        console.log(steamResponse);
+        this.loading.dismiss();
         this.loggedIn = (steamResponse.success && steamResponse.login_complete);
         if(!this.loggedIn){
-          let alert = this.createAlert();
-          alert.present();
+          if(steamResponse.requires_twofactor){
+            let steamGuardAlert = this.createSteamGuardAlert();
+            steamGuardAlert.present();
+          } else {
+            let tooManyLoginsAlert = this.createTooManyLoginsAlert(steamResponse.message);
+            tooManyLoginsAlert.present();
+          }
+        } else {
+          let successfullyLoggedInAlert = this.createSuccesfulLoginAlert();
+          successfullyLoggedInAlert.present();
         }
       });
   }
 
-  private createAlert(){
+  private createTooManyLoginsAlert(message: string) {
+    return this.alertCtrl.create({
+      title: message,
+      buttons: ['Dismiss']
+    });
+  }
+
+  private createSuccesfulLoginAlert() {
+    return this.alertCtrl.create({
+      title: "Login successful!",
+      subTitle: "You can send Tradeoffers now.",
+      buttons: ['Ok']
+    });
+  }
+
+  private createSteamGuardAlert(){
     return this.alertCtrl.create({
       title: 'Enter Steam-Guard Code',
       inputs: [
