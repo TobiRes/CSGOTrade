@@ -21,8 +21,5 @@ export class SteamLoginPage {
     this.steamLoginService.startLoginProcess(this.username, this.password);
   }
 
-  sendTradeOffer() {
-    this.tradeOfferService.sendTradeOffer();
-  }
 
 }
