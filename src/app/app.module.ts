@@ -17,6 +17,7 @@ import {ItemService} from "../services/item.service";
 import {IonicStorageModule} from "@ionic/storage";
 import {SteamLoginService} from "../services/steam-login.service";
 import {SteamLoginPageModule} from "../pages/steam-login/steam-login.module";
+import {TradeofferService} from "../services/tradeoffer-service";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {SteamLoginPageModule} from "../pages/steam-login/steam-login.module";
     ThreadinfoService,
     SteamService,
     ItemService,
-    SteamLoginService
+    SteamLoginService,
+    TradeofferService
   ]
 })
 export class AppModule {

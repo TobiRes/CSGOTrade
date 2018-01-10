@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 import {RedditService} from "../../services/reddit.service";
-import {PostType, Trade} from "../../models/trade.model";
+import {PostType, Trade} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
-import {SteamLoginService} from "../../services/steam-login.service";
 
 @IonicPage({
   name: "home",
@@ -29,8 +28,7 @@ export class HomePage {
   constructor(public navCtrl: NavController,
               private redditService: RedditService,
               private threadinfoService: ThreadinfoService,
-              private storage: Storage,
-              private steamLoginService: SteamLoginService) {
+              private storage: Storage) {
     this.getAllThreads();
   }
 

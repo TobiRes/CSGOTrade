@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {PostType, Trade} from "../../models/trade.model";
+import {PostType, Trade} from "../../models/redditpost.model";
 
 
 @IonicPage({

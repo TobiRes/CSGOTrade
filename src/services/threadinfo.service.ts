@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {PostType} from "../models/trade.model";
+import {PostType} from "../models/redditpost.model";
 
 @Injectable()
 export class ThreadinfoService {

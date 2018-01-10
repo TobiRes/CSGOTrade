@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PostType, Trade} from "../../models/trade.model";
+import {PostType, Trade} from "../../models/redditpost.model";
 
 @Component({
   selector: 'post-list-item',

@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AlertController, LoadingController} from "ionic-angular";
+import {Storage} from "@ionic/storage";
 
 declare var RSA: any;
 
@@ -28,7 +29,8 @@ export class SteamLoginService {
 
   constructor(private http: HttpClient,
               private alertCtrl: AlertController,
-              private loadCtrl: LoadingController) {
+              private loadCtrl: LoadingController,
+              private storage: Storage) {
   }
 
   startLoginProcess(username, password){
@@ -87,6 +89,7 @@ export class SteamLoginService {
             tooManyLoginsAlert.present();
           }
         } else {
+          this.storage.set("steamLoginData", steamResponse);
           let successfullyLoggedInAlert = this.createSuccesfulLoginAlert();
           successfullyLoggedInAlert.present();
         }
