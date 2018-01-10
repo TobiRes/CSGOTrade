@@ -2,6 +2,6 @@ export interface Tradeoffer {
   sessionId: string;
   partnerId: string;
   content: {};
-  accessToken: {};
+  accessToken?: {};
   tradeURL: string;
 }

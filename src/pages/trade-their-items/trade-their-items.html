@@ -1,18 +1,26 @@
-<!--
-  Generated template for the TradeTheirItemsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>trade-theirItems-page</ion-title>
+    <ion-title>Trade with {{redditPost.author}} - Their Items</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content>
+  <ion-item class="tradeSummary">
+    <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b>
+    <p>
+  </ion-item>
+  <div padding>
+    <h2>Select Their Items</h2>
+    <ion-list>
+      <div *ngFor="let item of csgoItems">
+        <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)"></skin-list-item>
+      </div>
+    </ion-list>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button full (click)="continueToTradeReview()">Select my items</button>
+  </ion-toolbar>
+</ion-footer>

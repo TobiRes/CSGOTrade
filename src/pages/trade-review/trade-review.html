@@ -1,18 +1,34 @@
-<!--
-  Generated template for the TradeReviewPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>trade-review-page</ion-title>
+    <ion-title>Trade with {{redditPost.author}} - Summary</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content>
+  <ion-item class="tradeSummary">
+    <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b>
+    <p>
+  </ion-item>
+  <div padding>
+    <h2>Summary My Items</h2>
+    <ion-list>
+      <div *ngFor="let item of myItemsToTrade">
+        <skin-list-item [csgoItem]="item"></skin-list-item>
+      </div>
+    </ion-list>
+  </div>
+  <div padding>
+    <h2>Summary Their Items</h2>
+    <ion-list>
+      <div *ngFor="let item of theirItemsToTrade">
+        <skin-list-item [csgoItem]="item"></skin-list-item>
+      </div>
+    </ion-list>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button full (click)="sendTradeOffer()">Send Trade Offer</button>
+  </ion-toolbar>
+</ion-footer>

@@ -20,6 +20,7 @@ export class TradeMyItemsPage {
 
   redditPost: RedditPost;
   csgoItems: CSGOItem[] = [];
+  myItemsToTrade: CSGOItem[] = [];
 
   private mySteamProfile: string;
 
@@ -40,6 +41,15 @@ export class TradeMyItemsPage {
         }
       })
       .catch(error => console.error(error));
+  }
+
+  addItemToTrade(csgoItem){
+    this.myItemsToTrade.push(csgoItem);
+  }
+
+  continueSelectingTheirItems(){
+    console.log(this.myItemsToTrade);
+    this.navCtrl.push("trade-their-items", {myItemsToTrade: this.myItemsToTrade, redditPost: this.redditPost})
   }
 
   private loadMyCsgoInventory() {

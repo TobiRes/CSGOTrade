@@ -1,4 +1,5 @@
-import {Component, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {CSGOItem} from "../../models/item.model";
 
 @Component({
   selector: 'skin-list-item',
@@ -7,13 +8,17 @@ import {Component, Input, Output} from '@angular/core';
 export class SkinListItemComponent {
 
   @Input()
-  csgoItem: any;
+  csgoItem: CSGOItem;
 
   @Output()
-  selected: any
+  selected = new EventEmitter();
 
   constructor() {
 
+  }
+
+  selectItem(){
+    this.selected.emit(this.csgoItem);
   }
 
 }

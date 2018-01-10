@@ -1,25 +1,33 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {CSGOItem} from "../../models/item.model";
+import {RedditPost} from "../../models/redditpost.model";
+import {TradeofferService} from "../../services/tradeoffer-service";
 
-/**
- * Generated class for the TradeReviewPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
+@IonicPage({
+  name: "trade-review",
+  segment: "trade-review",
+  defaultHistory: ["trade-their-items"]
+})
 @Component({
   selector: 'page-trade-review',
   templateUrl: 'trade-review.html',
 })
 export class TradeReviewPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  redditPost: RedditPost;
+  csgoItems: CSGOItem[] = [];
+
+  private myItemsToTrade: CSGOItem[] = []
+  private theirItemsToTrade: CSGOItem[] = [];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private tradeOfferService: TradeofferService) {
+    this.redditPost = this.navParams.get("redditPost");
+    this.myItemsToTrade = this.navParams.get("myItemsToTrade");
+    this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TradeReviewPage');
+  sendTradeOffer(){
+    this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost.tradelink);
   }
-
 }

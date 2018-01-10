@@ -1,7 +1,6 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Trade with {{redditPost.author}}</ion-title>
+    <ion-title>Trade with {{redditPost.author}} - My Items</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -15,8 +14,14 @@
     <h2>Select Your Items</h2>
     <ion-list>
       <div *ngFor="let item of csgoItems">
-        <skin-list-item [csgoItem]="item"></skin-list-item>
+        <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)"></skin-list-item>
       </div>
     </ion-list>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button full (click)="continueSelectingTheirItems()">Select my items</button>
+  </ion-toolbar>
+</ion-footer>

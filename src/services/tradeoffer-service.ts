@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Storage} from "@ionic/storage";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Tradeoffer} from "../models/tradeoffer.model";
+import {CSGOItem} from "../models/item.model";
 
 @Injectable()
 export class TradeofferService {
@@ -9,12 +10,15 @@ export class TradeofferService {
 
   }
 
-  sendTradeOffer() {
-    let tradeOffer: Tradeoffer = this.getTradeOffer();
+  sendTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], tradeURL: any) {
+    let tradeOffer: Tradeoffer = this.getTradeOffer(myItemsToTrade,theirItemsToTrade,tradeURL);
     let tradeofferBody = this.getTradeOfferBody(tradeOffer);
     this.getTradeOfferHeader(tradeOffer)
       .then(httpHeader => {
-        console.log("offer, body, header", tradeOffer, tradeofferBody, httpHeader);
+        console.log("offer", tradeOffer);
+        console.log("json", JSON.stringify(tradeOffer.content));
+        console.log("body", tradeofferBody);
+        console.log("header", httpHeader);
         this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeader)
           .subscribe(response => {
             console.log(response);
@@ -28,9 +32,8 @@ export class TradeofferService {
     postBody.append("sessionid", tradeofferData.sessionId);
     postBody.append("serverid", "1");
     postBody.append("partner", tradeofferData.partnerId);
-    postBody.append("json_tradeoffer", tradeofferData.content.toString());
-    postBody.append("trade_offer_create_params", tradeofferData.accessToken.toString());
-
+    postBody.append("json_tradeoffer", JSON.stringify(tradeofferData.content));
+    //postBody.append("trade_offer_create_params", tradeofferData.accessToken.toString());
     return postBody;
   }
 
@@ -67,26 +70,30 @@ export class TradeofferService {
   }
 
 
-  private getTradeOffer() {
+  private getTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], tradeURL: any) {
     return {
       sessionId: this.generateSessionID(),
       partnerId: "76561198092556240",
-      content: {
-        "newversion": true,
-        "version": 3,
-        "me": {
-          "assets": [{"appid": 730, "contextid": "2", "amount": 1, "assetid": "13285612688"}],
-          "currency": [],
-          "ready": false
-        },
-        "them": {
-          "assets": [{"appid": 730, "contextid": "2", "amount": 1, "assetid": "12885033159"}],
-          "currency": [],
-          "ready": false
-        }
+      content: this.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade),
+      //accessToken: {"trade_offer_access_token": "925lf5U-"},
+      tradeURL: tradeURL
+    }
+  }
+
+  private buildTradeOfferContent(myItems: CSGOItem[], theirItems: CSGOItem[]){
+    return {
+      "newversion": true,
+      "version": 3,
+      "me": {
+        "assets": this.buildAssets(myItems),
+        "currency": [],
+        "ready": false
       },
-      accessToken: {"trade_offer_access_token": "925lf5U-"},
-      tradeURL: "https://steamcommunity.com/tradeoffer/new/?partner=132290512&token=925lf5U-"
+      "them": {
+        "assets": this.buildAssets(theirItems),
+        "currency": [],
+        "ready": false
+      }
     }
   }
 
@@ -98,5 +105,19 @@ export class TradeofferService {
       sessionid += charSet.substring(randomPoz, randomPoz + 1);
     }
     return sessionid;
+  }
+
+  private buildAssets(csgoItems: CSGOItem[]) {
+    let assets: any[] = [];
+    csgoItems.forEach( (csgoItem: CSGOItem) => {
+      let singleAsset = {
+        "appid": 730,
+        "contextid": "2",
+        "amount": 1,
+        "assetid": csgoItem.assetId
+      }
+      assets.push(singleAsset);
+    });
+    return assets;
   }
 }
