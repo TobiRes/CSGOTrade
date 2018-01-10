@@ -15,10 +15,6 @@ export class TradeofferService {
     this.getTradeOfferHeader(tradeOffer)
       .then(httpHeader =>{
         console.log("offer, body, header", tradeOffer, tradeofferBody, httpHeader);
-        let options = {
-          headers: httpHeader,
-          withCredentials: true
-        };
         this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeader)
           .subscribe( response => {
             console.log(response);
@@ -60,9 +56,9 @@ export class TradeofferService {
         .then( (steamLoginData: any) => {
           console.log("steamLoginData", steamLoginData);
           if(steamLoginData){
-            let steamLoginSecureCookie = steamLoginData.transfer_parameters.steamid + "||"
-              + steamLoginData.transfer_parameters.token_secure + ";"
-              + tradeofferData.sessionId;
+            let steamLoginSecureCookie = "steamLoginSecure=" + steamLoginData.transfer_parameters.steamid + "%7C%7C"
+              + steamLoginData.transfer_parameters.token_secure + ";sessionid="
+              + tradeofferData.sessionId + ";";
             resolve(steamLoginSecureCookie);
           }
         })
@@ -73,11 +69,21 @@ export class TradeofferService {
 
   private getTradeOffer() {
     return {
-      sessionId: "abc123",
+      sessionId: this.generateSessionID(),
       partnerId: "76561198092556240",
       content: {"newversion":true,"version":3,"me":{"assets":[{"appid":730,"contextid":"2","amount":1,"assetid":"13285612688"}],"currency":[],"ready":false},"them":{"assets":[{"appid":730,"contextid":"2","amount":1,"assetid":"12885033159"}],"currency":[],"ready":false}},
       accessToken: {"trade_offer_access_token":"925lf5U-"},
       tradeURL: "https://steamcommunity.com/tradeoffer/new/?partner=132290512&token=925lf5U-"
     }
+  }
+
+  private generateSessionID(){
+    let charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let sessionid = '';
+    for (let i = 0; i < 10; i++) {
+      var randomPoz = Math.floor(Math.random() * charSet.length);
+      sessionid += charSet.substring(randomPoz,randomPoz+1);
+    }
+    return sessionid;
   }
 }
