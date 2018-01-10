@@ -72,7 +72,7 @@ export class InventoryPage {
           this.storage.set("csgoItems", this.csgoItems);
           this.backupCsgoItems = this.csgoItems;
           loading.dismissAll();
-        })
+        });
     }
   }
 

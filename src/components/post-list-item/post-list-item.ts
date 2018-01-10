@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PostType, Trade} from "../../models/redditpost.model";
+import {PostType, RedditPost} from "../../models/redditpost.model";
 
 @Component({
   selector: 'post-list-item',
@@ -8,7 +8,7 @@ import {PostType, Trade} from "../../models/redditpost.model";
 export class PostListItem {
 
   @Input()
-  tradePost: Trade;
+  tradePost: RedditPost;
 
   @Output()
   selected = new EventEmitter();

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {PostType, Trade} from "../../models/redditpost.model";
+import {PostType, RedditPost} from "../../models/redditpost.model";
 
 
 @IonicPage({
@@ -14,7 +14,7 @@ import {PostType, Trade} from "../../models/redditpost.model";
 })
 export class PostViewPage {
 
-  currentPost: Trade;
+  currentPost: RedditPost;
   postTypeTrade: PostType = PostType.trade;
   title: string;
 
@@ -27,7 +27,7 @@ export class PostViewPage {
   private getTitle() {
     switch (this.currentPost.type) {
       case PostType.trade:
-        this.title = "Trade";
+        this.title = "RedditPost";
         break;
       case PostType.discussion:
         this.title = "Discussion";

@@ -1,0 +1,18 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Trade with {{redditPost.author}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-item class="tradeSummary">
+      <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b><p>
+  </ion-item>
+  <ion-list padding>
+    <div *ngFor="let item of csgoItems">
+      <skin-list-item [csgoItem]="item"></skin-list-item>
+    </div>
+  </ion-list>
+</ion-content>

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 import {RedditService} from "../../services/reddit.service";
-import {PostType, Trade} from "../../models/redditpost.model";
+import {PostType, RedditPost} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
 
@@ -16,12 +16,12 @@ import {Storage} from "@ionic/storage";
 
 export class HomePage {
 
-  redditPosts: Trade[] = [];
+  redditPosts: RedditPost[] = [];
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
   currentPage: string = "Hot";
 
-  private backupPosts: Trade[] = [];
+  private backupPosts: RedditPost[] = [];
   private lastThreadName: string;
   private threadCount: number = 0;
 
@@ -100,13 +100,17 @@ export class HomePage {
     return false;
   }
 
-  openPost(postData: Trade) {
+  openPost(postData: RedditPost) {
     this.navCtrl.push("post-view", {postData});
+  }
+
+  sendTradeOffer(postData: RedditPost){
+    this.navCtrl.push("trade-my-items", {postData});
   }
 
   private getTradeInfo(redditPostData: any) {
     redditPostData.forEach(redditPost => {
-      let tradeThread: Trade = {
+      let tradeThread: RedditPost = {
         title: redditPost.data.title,
         author: redditPost.data.author,
         redditURL: redditPost.data.url,
@@ -171,7 +175,7 @@ export class HomePage {
     let filtered: boolean = false;
     this.postTypesToFilter.forEach(type => {
       switch (type) {
-        case "Trade":
+        case "RedditPost":
           if (postType == PostType.trade)
             filtered = true;
           break;

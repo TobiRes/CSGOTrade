@@ -18,6 +18,12 @@ import {IonicStorageModule} from "@ionic/storage";
 import {SteamLoginService} from "../services/steam-login.service";
 import {SteamLoginPageModule} from "../pages/steam-login/steam-login.module";
 import {TradeofferService} from "../services/tradeoffer-service";
+import {TradeMyItemsPage} from "../pages/trade-my-items/trade-my-items";
+import {TradeTheirItemsPage} from "../pages/trade-their-items/trade-their-items";
+import {TradeReviewPage} from "../pages/trade-review/trade-review";
+import {TradeMyItemsPageModule} from "../pages/trade-my-items/trade-my-items.module";
+import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-items.module";
+import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
 
 @NgModule({
   declarations: [
@@ -31,7 +37,10 @@ import {TradeofferService} from "../services/tradeoffer-service";
     ComponentsModule,
     HomePageModule,
     InventoryPageModule,
-    SteamLoginPageModule
+    SteamLoginPageModule,
+    TradeMyItemsPageModule,
+    TradeTheirItemsPageModule,
+    TradeReviewPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

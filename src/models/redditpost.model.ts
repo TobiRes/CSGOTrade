@@ -1,4 +1,4 @@
-export interface Trade {
+export interface RedditPost {
   redditURL: string;
   author: string;
   type: PostType;
