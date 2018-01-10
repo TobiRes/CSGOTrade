@@ -5,22 +5,22 @@ import {Tradeoffer} from "../models/tradeoffer.model";
 
 @Injectable()
 export class TradeofferService {
-  constructor(private http: HttpClient, private storage: Storage){
+  constructor(private http: HttpClient, private storage: Storage) {
 
   }
 
-  sendTradeOffer(){
+  sendTradeOffer() {
     let tradeOffer: Tradeoffer = this.getTradeOffer();
     let tradeofferBody = this.getTradeOfferBody(tradeOffer);
     this.getTradeOfferHeader(tradeOffer)
-      .then(httpHeader =>{
+      .then(httpHeader => {
         console.log("offer, body, header", tradeOffer, tradeofferBody, httpHeader);
         this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeader)
-          .subscribe( response => {
+          .subscribe(response => {
             console.log(response);
           })
       })
-      .catch( error => console.error(error));
+      .catch(error => console.error(error));
   }
 
   private getTradeOfferBody(tradeofferData: Tradeoffer) {
@@ -36,26 +36,26 @@ export class TradeofferService {
 
   private getTradeOfferHeader(tradeofferData: Tradeoffer) {
     return new Promise((resolve, reject) => {
-        this.getSteamLoginSecureCookie(tradeofferData)
-          .then( (steamLoginSecureCookie: string) => {
-            let httpHeader = new HttpHeaders()
-              .set("Access-Control-Allow-Origin", "*")
-              .set("Access-Control-Allow-Headers", "*")
-              .set("Access-Control-Allow-Credentials", "true")
-              .set("Cookie", steamLoginSecureCookie)
-              .set("Referer", tradeofferData.tradeURL);
-            resolve(httpHeader);
-          })
-          .catch(error => reject(error));
-      })
+      this.getSteamLoginSecureCookie(tradeofferData)
+        .then((steamLoginSecureCookie: string) => {
+          let httpHeader = new HttpHeaders()
+            .set("Access-Control-Allow-Origin", "*")
+            .set("Access-Control-Allow-Headers", "*")
+            .set("Access-Control-Allow-Credentials", "true")
+            .set("Cookie", steamLoginSecureCookie)
+            .set("Referer", tradeofferData.tradeURL);
+          resolve(httpHeader);
+        })
+        .catch(error => reject(error));
+    })
   }
 
   private getSteamLoginSecureCookie(tradeofferData: Tradeoffer) {
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
       this.storage.get("steamLoginData")
-        .then( (steamLoginData: any) => {
+        .then((steamLoginData: any) => {
           console.log("steamLoginData", steamLoginData);
-          if(steamLoginData){
+          if (steamLoginData) {
             let steamLoginSecureCookie = "steamLoginSecure=" + steamLoginData.transfer_parameters.steamid + "%7C%7C"
               + steamLoginData.transfer_parameters.token_secure + ";sessionid="
               + tradeofferData.sessionId + ";";
@@ -71,18 +71,31 @@ export class TradeofferService {
     return {
       sessionId: this.generateSessionID(),
       partnerId: "76561198092556240",
-      content: {"newversion":true,"version":3,"me":{"assets":[{"appid":730,"contextid":"2","amount":1,"assetid":"13285612688"}],"currency":[],"ready":false},"them":{"assets":[{"appid":730,"contextid":"2","amount":1,"assetid":"12885033159"}],"currency":[],"ready":false}},
-      accessToken: {"trade_offer_access_token":"925lf5U-"},
+      content: {
+        "newversion": true,
+        "version": 3,
+        "me": {
+          "assets": [{"appid": 730, "contextid": "2", "amount": 1, "assetid": "13285612688"}],
+          "currency": [],
+          "ready": false
+        },
+        "them": {
+          "assets": [{"appid": 730, "contextid": "2", "amount": 1, "assetid": "12885033159"}],
+          "currency": [],
+          "ready": false
+        }
+      },
+      accessToken: {"trade_offer_access_token": "925lf5U-"},
       tradeURL: "https://steamcommunity.com/tradeoffer/new/?partner=132290512&token=925lf5U-"
     }
   }
 
-  private generateSessionID(){
+  private generateSessionID() {
     let charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let sessionid = '';
     for (let i = 0; i < 10; i++) {
       var randomPoz = Math.floor(Math.random() * charSet.length);
-      sessionid += charSet.substring(randomPoz,randomPoz+1);
+      sessionid += charSet.substring(randomPoz, randomPoz + 1);
     }
     return sessionid;
   }

@@ -8,11 +8,15 @@
 
 <ion-content>
   <ion-item class="tradeSummary">
-      <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b><p>
+    <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b>
+    <p>
   </ion-item>
-  <ion-list padding>
-    <div *ngFor="let item of csgoItems">
-      <skin-list-item [csgoItem]="item"></skin-list-item>
-    </div>
-  </ion-list>
+  <div padding>
+    <h2>Select Your Items</h2>
+    <ion-list>
+      <div *ngFor="let item of csgoItems">
+        <skin-list-item [csgoItem]="item"></skin-list-item>
+      </div>
+    </ion-list>
+  </div>
 </ion-content>

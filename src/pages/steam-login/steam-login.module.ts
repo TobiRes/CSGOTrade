@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { SteamLoginPage } from './steam-login';
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {SteamLoginPage} from './steam-login';
 
 @NgModule({
   declarations: [
@@ -10,4 +10,5 @@ import { SteamLoginPage } from './steam-login';
     IonicPageModule.forChild(SteamLoginPage),
   ],
 })
-export class SteamLoginPageModule {}
+export class SteamLoginPageModule {
+}

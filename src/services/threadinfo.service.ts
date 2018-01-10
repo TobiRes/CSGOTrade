@@ -98,7 +98,7 @@ export class ThreadinfoService {
 
   getSteamProfileURL(authorFlairText: string) {
     let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
-    if(startOfProfileURL < 0)
+    if (startOfProfileURL < 0)
       return "unknown";
     return authorFlairText.substr(startOfProfileURL, authorFlairText.length);
   }

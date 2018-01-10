@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SteamLoginService} from "../../services/steam-login.service";
 import {TradeofferService} from "../../services/tradeoffer-service";
 
@@ -17,11 +17,11 @@ export class SteamLoginPage {
               private tradeOfferService: TradeofferService) {
   }
 
-  logIntoSteam(){
-    this.steamLoginService.startLoginProcess(this.username,this.password);
+  logIntoSteam() {
+    this.steamLoginService.startLoginProcess(this.username, this.password);
   }
 
-  sendTradeOffer(){
+  sendTradeOffer() {
     this.tradeOfferService.sendTradeOffer();
   }
 

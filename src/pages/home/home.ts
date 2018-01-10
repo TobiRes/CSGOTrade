@@ -104,7 +104,7 @@ export class HomePage {
     this.navCtrl.push("post-view", {postData});
   }
 
-  sendTradeOffer(postData: RedditPost){
+  sendTradeOffer(postData: RedditPost) {
     this.navCtrl.push("trade-my-items", {postData});
   }
 

@@ -24,7 +24,7 @@ export class TradeListItemComponent {
     this.selected.emit(this.tradePost);
   }
 
-  sendTradeOffer(){
+  sendTradeOffer() {
     this.sendOffer.emit(this.tradePost)
   }
 

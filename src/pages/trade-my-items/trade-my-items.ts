@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {ItemService} from "../../services/item.service";
@@ -42,7 +42,7 @@ export class TradeMyItemsPage {
       .catch(error => console.error(error));
   }
 
-  private loadMyCsgoInventory(){
+  private loadMyCsgoInventory() {
     let loader = this.loadCtrl.create();
     loader.present();
     this.steamService.getCSGOInventory(this.mySteamProfile)
@@ -59,7 +59,7 @@ export class TradeMyItemsPage {
       });
   }
 
-  private alertLoadInventoryError(error: any){
+  private alertLoadInventoryError(error: any) {
     this.alertCtrl.create({
       title: "Error!",
       subTitle: error.message,
@@ -88,7 +88,7 @@ export class TradeMyItemsPage {
           text: 'Enter',
           handler: data => {
             if (data.steamProfileURL) {
-              this.mySteamProfile =data.steamProfileURL;
+              this.mySteamProfile = data.steamProfileURL;
               this.loadMyCsgoInventory();
             } else {
               console.log("Something went wrong.");

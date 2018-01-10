@@ -20,7 +20,7 @@ export class SteamLoginService {
               private storage: Storage) {
   }
 
-  startLoginProcess(username, password){
+  startLoginProcess(username, password) {
     this.username = username;
     this.password = password;
 
@@ -28,13 +28,13 @@ export class SteamLoginService {
     this.loading.present();
 
     this.getSteamRSAPublicKey()
-      .then( (steamRSAData: any) => {
+      .then((steamRSAData: any) => {
         this.encryptPWRSA(steamRSAData, this.password);
       })
-      .catch( error => console.error(error));
+      .catch(error => console.error(error));
   }
 
-  private getSteamRSAPublicKey(){
+  private getSteamRSAPublicKey() {
     return new Promise((resolve, reject) => {
       try {
         let body = new FormData();
@@ -50,21 +50,21 @@ export class SteamLoginService {
     });
   }
 
-  private encryptPWRSA(steamRSAData, password){
+  private encryptPWRSA(steamRSAData, password) {
     let timestamp = steamRSAData.timestamp;
     let publicKey = RSA.getPublicKey(steamRSAData.publickey_mod, steamRSAData.publickey_exp);
     let encryptedPW = RSA.encrypt(password, publicKey);
     this.logIntoSteam(this.getSteamLoginPostBody(encryptedPW, timestamp))
   }
 
-  private logIntoSteam(postBody){
+  private logIntoSteam(postBody) {
     this.http.post("https://steamcommunity.com/login/dologin/", postBody).subscribe(
       (steamResponse: any) => {
         console.log(steamResponse);
         this.loading.dismiss();
         this.loggedIn = (steamResponse.success && steamResponse.login_complete);
-        if(!this.loggedIn){
-          if(steamResponse.requires_twofactor){
+        if (!this.loggedIn) {
+          if (steamResponse.requires_twofactor) {
             let steamGuardAlert = this.createSteamGuardAlert();
             steamGuardAlert.present();
           } else {
@@ -94,7 +94,7 @@ export class SteamLoginService {
     });
   }
 
-  private createSteamGuardAlert(){
+  private createSteamGuardAlert() {
     return this.alertCtrl.create({
       title: 'Enter Steam-Guard Code',
       inputs: [
@@ -115,7 +115,7 @@ export class SteamLoginService {
           text: 'Login',
           handler: data => {
             if (data.steamGuardCode) {
-              this.steamGuardCode =data.steamGuardCode;
+              this.steamGuardCode = data.steamGuardCode;
               this.startLoginProcess(this.username, this.password);
             } else {
               console.log("Something went wrong.");

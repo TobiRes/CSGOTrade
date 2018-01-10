@@ -1,11 +1,11 @@
-var RSAPublicKey = function($modulus_hex, $encryptionExponent_hex) {
-  this.modulus = new BigInteger( $modulus_hex, 16);
-  this.encryptionExponent = new BigInteger( $encryptionExponent_hex, 16);
+var RSAPublicKey = function ($modulus_hex, $encryptionExponent_hex) {
+  this.modulus = new BigInteger($modulus_hex, 16);
+  this.encryptionExponent = new BigInteger($encryptionExponent_hex, 16);
 };
 
 var Base64 = {
   base64: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-  encode: function($input) {
+  encode: function ($input) {
     if (!$input) {
       return false;
     }
@@ -27,8 +27,8 @@ var Base64 = {
     } while ($i < $input.length);
     return $output;
   },
-  decode: function($input) {
-    if(!$input) return false;
+  decode: function ($input) {
+    if (!$input) return false;
     $input = $input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
     var $output = "";
     var $enc1, $enc2, $enc3, $enc4;
@@ -48,19 +48,19 @@ var Base64 = {
 
 var Hex = {
   hex: "0123456789abcdef",
-  encode: function($input) {
-    if(!$input) return false;
+  encode: function ($input) {
+    if (!$input) return false;
     var $output = "";
     var $k;
     var $i = 0;
     do {
       $k = $input.charCodeAt($i++);
-      $output += this.hex.charAt(($k >> 4) &0xf) + this.hex.charAt($k & 0xf);
+      $output += this.hex.charAt(($k >> 4) & 0xf) + this.hex.charAt($k & 0xf);
     } while ($i < $input.length);
     return $output;
   },
-  decode: function($input) {
-    if(!$input) return false;
+  decode: function ($input) {
+    if (!$input) return false;
     $input = $input.replace(/[^0-9abcdef]/g, "");
     var $output = "";
     var $i = 0;
@@ -73,32 +73,32 @@ var Hex = {
 
 var RSA = {
 
-  getPublicKey: function( $modulus_hex, $exponent_hex ) {
-    return new RSAPublicKey( $modulus_hex, $exponent_hex );
+  getPublicKey: function ($modulus_hex, $exponent_hex) {
+    return new RSAPublicKey($modulus_hex, $exponent_hex);
   },
 
-  encrypt: function($data, $pubkey) {
+  encrypt: function ($data, $pubkey) {
     if (!$pubkey) return false;
-    $data = this.pkcs1pad2($data,($pubkey.modulus.bitLength()+7)>>3);
-    if(!$data) return false;
+    $data = this.pkcs1pad2($data, ($pubkey.modulus.bitLength() + 7) >> 3);
+    if (!$data) return false;
     $data = $data.modPowInt($pubkey.encryptionExponent, $pubkey.modulus);
-    if(!$data) return false;
+    if (!$data) return false;
     $data = $data.toString(16);
-    if(($data.length & 1) == 1)
+    if (($data.length & 1) == 1)
       $data = "0" + $data;
     return Base64.encode(Hex.decode($data));
   },
 
-  pkcs1pad2: function($data, $keysize) {
-    if($keysize < $data.length + 11)
+  pkcs1pad2: function ($data, $keysize) {
+    if ($keysize < $data.length + 11)
       return null;
     var $buffer = [];
     var $i = $data.length - 1;
-    while($i >= 0 && $keysize > 0)
+    while ($i >= 0 && $keysize > 0)
       $buffer[--$keysize] = $data.charCodeAt($i--);
     $buffer[--$keysize] = 0;
-    while($keysize > 2)
-      $buffer[--$keysize] = Math.floor(Math.random()*254) + 1;
+    while ($keysize > 2)
+      $buffer[--$keysize] = Math.floor(Math.random() * 254) + 1;
     $buffer[--$keysize] = 2;
     $buffer[--$keysize] = 0;
     return new BigInteger($buffer);

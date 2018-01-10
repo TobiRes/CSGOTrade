@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { TradeMyItemsPage } from './trade-my-items';
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {TradeMyItemsPage} from './trade-my-items';
 import {ComponentsModule} from "../../components/components.module";
 
 @NgModule({
@@ -12,4 +12,5 @@ import {ComponentsModule} from "../../components/components.module";
     ComponentsModule
   ],
 })
-export class TradeMyItemsPageModule {}
+export class TradeMyItemsPageModule {
+}

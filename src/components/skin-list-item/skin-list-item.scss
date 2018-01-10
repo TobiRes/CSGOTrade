@@ -6,4 +6,29 @@ skin-list-item {
       color: #1E3847 !important;
     }
   }
+
+  .label {
+    padding: 0 !important;
+  }
+
+  ion-item .item-inner {
+    position: relative;
+    border-bottom: 0 !important;
+    .openPageButton {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: transparent;
+    }
+  }
+  ion-label {
+    margin: 0 0 0 0px !important;
+    white-space: normal;
+    .item-block {
+      padding: 0 !important;
+    }
+  }
+
 }
