@@ -56,7 +56,7 @@ export class ThreadinfoService {
     }
     let tradePartner: string = threadContent.match(/partner=[0-9]*/g)[0];
     let tradeToken: string = threadContent.match(/(token=[-0-9a-zA-Z_]*)/g)[0];
-    return tradeOfferBaseURL + tradePartner + "&amp;" + tradeToken;
+    return tradeOfferBaseURL + tradePartner + "&" + tradeToken;
   }
 
   getAdditionalTradeInformation(redditPost: any) {
@@ -96,4 +96,10 @@ export class ThreadinfoService {
     return Math.floor(seconds) + " seconds";
   }
 
+  getSteamProfileURL(authorFlairText: string) {
+    let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
+    if(startOfProfileURL < 0)
+      return "unknown";
+    return authorFlairText.substr(startOfProfileURL, authorFlairText.length);
+  }
 }

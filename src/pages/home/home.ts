@@ -109,11 +109,12 @@ export class HomePage {
       let tradeThread: Trade = {
         title: redditPost.data.title,
         author: redditPost.data.author,
-        url: redditPost.data.url,
+        redditURL: redditPost.data.url,
         timeSinceCreation: this.threadinfoService.timeSince(redditPost.data.created_utc),
         content: redditPost.data.selftext,
         type: this.threadinfoService.getPostType(redditPost.data.title),
-        tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext)
+        tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext),
+        steamProfileURL: this.threadinfoService.getSteamProfileURL(redditPost.data.author_flair_text)
       };
       if (tradeThread.type == PostType.trade) {
         let buysAndSells = this.threadinfoService.getAdditionalTradeInformation(redditPost);
@@ -122,7 +123,6 @@ export class HomePage {
       }
       this.backupPosts.push(tradeThread);
     });
-
     this.setMetaData(redditPostData);
     if (this.postTypesToFilter.length) {
       this.filterPosts();
@@ -160,6 +160,7 @@ export class HomePage {
 
   private setMetaData(redditPostData: any) {
     this.redditPosts = this.backupPosts;
+    console.log(this.redditPosts);
     this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;

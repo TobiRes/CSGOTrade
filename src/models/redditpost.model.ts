@@ -1,11 +1,12 @@
 export interface Trade {
-  url: string;
+  redditURL: string;
   author: string;
   type: PostType;
   title: string;
   content: string;
   timeSinceCreation: string;
   tradelink?: string;
+  steamProfileURL?: string;
   screenshotUrl?: string[];
   has?: string;
   wants?: string;

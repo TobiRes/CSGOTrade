@@ -13,19 +13,6 @@ export class SteamLoginService {
   private password: string = "";
   private loggedIn: boolean = false;
   private loading: any;
-  private testOffer = {
-    "newversion":true,
-    "version":3,
-    "me":{"assets":[{
-      "appid":730,
-        "contextid":2,
-        "amount":1,
-        "assetid":"13285612688"}],
-      "currency":[],
-      "ready":false},
-    "them":{"assets":[{"appid":730,"contextid":2,"amount":1,"assetid":"12885033159"}],"currency":[], "ready":false}}
-
-    //https://stackoverflow.com/questions/18513818/angularjs-cookie-read-response-value
 
   constructor(private http: HttpClient,
               private alertCtrl: AlertController,
@@ -45,10 +32,6 @@ export class SteamLoginService {
         this.encryptPWRSA(steamRSAData, this.password);
       })
       .catch( error => console.error(error));
-  }
-
-  sendTradeOffer(){
-
   }
 
   private getSteamRSAPublicKey(){
