@@ -19,7 +19,7 @@ export class TradeofferService {
           headers: httpHeader,
           withCredentials: true
         };
-        this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, options)
+        this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeader)
           .subscribe( response => {
             console.log(response);
           })
