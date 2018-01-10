@@ -73,7 +73,7 @@ export class TradeofferService {
 
   private getTradeOffer() {
     return {
-      sessionId: "",
+      sessionId: "abc123",
       partnerId: "76561198092556240",
       content: {"newversion":true,"version":3,"me":{"assets":[{"appid":730,"contextid":"2","amount":1,"assetid":"13285612688"}],"currency":[],"ready":false},"them":{"assets":[{"appid":730,"contextid":"2","amount":1,"assetid":"12885033159"}],"currency":[],"ready":false}},
       accessToken: {"trade_offer_access_token":"925lf5U-"},
