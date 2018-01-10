@@ -5,7 +5,9 @@ export interface CSGOItem {
   grade?: Grade,
   exterior?: Exterior,
   iconUrl?: string,
-  inspectLink?: string
+  inspectLink?: string,
+  classId?: number,
+  assetId?: number
 }
 
 export enum ItemType {

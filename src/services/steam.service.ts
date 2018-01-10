@@ -15,20 +15,15 @@ export class SteamService {
       try {
         this.http.get(steamInventoryURL + "/inventory/json/730/2").subscribe(
           (csgoInventoryData: any) => {
-            let csgoInventory = this.getInventoryFromJSONData(csgoInventoryData);
-            resolve(csgoInventory);
+            if (!csgoInventoryData.success)
+              resolve("unknown");
+            else {
+              resolve(csgoInventoryData);
+            }
           })
       } catch (error) {
         reject(error);
       }
     })
-  }
-
-  private getInventoryFromJSONData(csgoInventoryData: any) {
-    if (!csgoInventoryData.success)
-      return "unknown";
-    else {
-      return csgoInventoryData.rgDescriptions;
-    }
   }
 }

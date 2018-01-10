@@ -64,14 +64,19 @@ export class InventoryPage {
       this.csgoItems = [];
       this.storage.set("steamProfileURL", this.steamProfileURL);
       this.steamService.getCSGOInventory(this.steamProfileURL)
-        .then(csgoInventory => {
-          this.csgoInventoryData = csgoInventory;
+        .then((csgoInventory: any) => {
+          this.csgoInventoryData = csgoInventory.rgDescriptions;
           Object.keys(this.csgoInventoryData).forEach(key => {
             this.csgoItems.push(this.itemService.fillItemMetaData(this.csgoInventoryData[key]));
           });
-          this.storage.set("csgoItems", this.csgoItems);
-          this.backupCsgoItems = this.csgoItems;
-          loading.dismissAll();
+          this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
+          this.storage.set("csgoItems", this.csgoItems)
+            .then( () => {
+              console.log(this.csgoItems)
+              this.backupCsgoItems = this.csgoItems;
+              loading.dismissAll();
+            })
+            .catch( error => console.error(error));
         });
     }
   }

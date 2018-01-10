@@ -46,10 +46,12 @@ export class TradeMyItemsPage {
     let loader = this.loadCtrl.create();
     loader.present();
     this.steamService.getCSGOInventory(this.mySteamProfile)
-      .then(csgoInventory => {
-        Object.keys(csgoInventory).forEach(key => {
-          this.csgoItems.push(this.itemService.fillItemMetaData(csgoInventory[key]));
+      .then((csgoInventory: any) => {
+        let csgoItemData = csgoInventory.rgDescriptions;
+        Object.keys(csgoItemData).forEach(key => {
+          this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
         });
+        this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
         this.storage.set("csgoItems", this.csgoItems);
         loader.dismissAll();
       })

@@ -20,10 +20,26 @@ export class ItemService {
       exterior: this.getSkinExterior(itemFullName),
       grade: this.getSkinGrade(csgoInventoryItem),
       iconUrl: csgoInventoryItem.icon_url,
-      inspectLink: csgoInventoryItem.market_actions ? csgoInventoryItem.market_actions[0].link : "unknown"
+      inspectLink: csgoInventoryItem.market_actions ? csgoInventoryItem.market_actions[0].link : "unknown",
+      classId: csgoInventoryItem.classid,
     }
   }
 
+
+  addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
+    csgoInventoryData.forEach( (csgoItem: CSGOItem) => {
+      csgoItem.assetId = this.getMatchingAssetId(csgoItem.classId, inventoryIds)
+    })
+  }
+
+  private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
+    let assetId: number = 0;
+    Object.keys(inventoryIds).forEach((csgoItemData: any) => {
+      if(inventoryIds[csgoItemData].classid == csgoItemClassId)
+        assetId = inventoryIds[csgoItemData].id;
+    });
+    return assetId;
+  }
   private getItemType(itemFullName: string): ItemType {
     let itemPrefix: string = itemFullName.toLowerCase();
     if (itemPrefix.indexOf("|") > 0)
@@ -211,4 +227,5 @@ export class ItemService {
     }
     return skinRarity;
   }
+
 }
