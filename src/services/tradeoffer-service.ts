@@ -3,22 +3,22 @@ import {Storage} from "@ionic/storage";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Tradeoffer} from "../models/tradeoffer.model";
 import {CSGOItem} from "../models/item.model";
+import {RedditPost} from "../models/redditpost.model";
+import {CookieService} from "angular2-cookie/core";
 
 @Injectable()
 export class TradeofferService {
-  constructor(private http: HttpClient, private storage: Storage) {
+  constructor(private http: HttpClient, private storage: Storage, private cookieService: CookieService) {
 
   }
 
-  sendTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], tradeURL: any) {
-    let tradeOffer: Tradeoffer = this.getTradeOffer(myItemsToTrade,theirItemsToTrade,tradeURL);
+  sendTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], redditPost: RedditPost) {
+    let tradeOffer: Tradeoffer = this.getTradeOffer(myItemsToTrade,theirItemsToTrade,redditPost);
     let tradeofferBody = this.getTradeOfferBody(tradeOffer);
     this.getTradeOfferHeader(tradeOffer)
       .then(httpHeader => {
-        console.log("offer", tradeOffer);
-        console.log("json", JSON.stringify(tradeOffer.content));
-        console.log("body", tradeofferBody);
-        console.log("header", httpHeader);
+        console.log(document.cookie);
+        console.log(this.cookieService.get("sessionid"));
         this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeader)
           .subscribe(response => {
             console.log(response);
@@ -57,8 +57,11 @@ export class TradeofferService {
     return new Promise((resolve, reject) => {
       this.storage.get("steamLoginData")
         .then((steamLoginData: any) => {
-          console.log("steamLoginData", steamLoginData);
           if (steamLoginData) {
+/*            document.cookie = "steamLoginSecure=" + steamLoginData.transfer_parameters.steamid + "%7C%7C"
+              + steamLoginData.transfer_parameters.token_secure;
+            document.cookie = "sessionid=" + tradeofferData.sessionId;*/
+
             let steamLoginSecureCookie = "steamLoginSecure=" + steamLoginData.transfer_parameters.steamid + "%7C%7C"
               + steamLoginData.transfer_parameters.token_secure + ";sessionid="
               + tradeofferData.sessionId + ";";
@@ -69,14 +72,12 @@ export class TradeofferService {
     });
   }
 
-
-  private getTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], tradeURL: any) {
+  private getTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], redditPost: RedditPost) {
     return {
       sessionId: this.generateSessionID(),
-      partnerId: "76561198092556240",
+      partnerId: redditPost.partnerId,
       content: this.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade),
-      //accessToken: {"trade_offer_access_token": "925lf5U-"},
-      tradeURL: tradeURL
+      tradeURL: redditPost.tradelink
     }
   }
 

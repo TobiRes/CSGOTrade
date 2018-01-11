@@ -118,10 +118,11 @@ export class HomePage {
         content: redditPost.data.selftext,
         type: this.threadinfoService.getPostType(redditPost.data.title),
         tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext),
-        steamProfileURL: this.threadinfoService.getSteamProfileURL(redditPost.data.author_flair_text)
+        steamProfileURL: this.threadinfoService.getSteamProfileURL(redditPost.data.author_flair_text),
       };
       if (tradeThread.type == PostType.trade) {
         let buysAndSells = this.threadinfoService.getAdditionalTradeInformation(redditPost);
+        tradeThread.partnerId = this.threadinfoService.getTradeParterId(tradeThread.steamProfileURL)
         tradeThread.wants = buysAndSells.wants;
         tradeThread.has = buysAndSells.has;
       }

@@ -7,6 +7,7 @@ export interface RedditPost {
   timeSinceCreation: string;
   tradelink?: string;
   steamProfileURL?: string;
+  partnerId?: string;
   screenshotUrl?: string[];
   has?: string;
   wants?: string;

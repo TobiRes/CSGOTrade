@@ -28,6 +28,6 @@ export class TradeReviewPage {
   }
 
   sendTradeOffer(){
-    this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost.tradelink);
+    this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
   }
 }
