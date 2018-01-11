@@ -60,7 +60,6 @@ export class InventoryPage {
     let loading = this.loadingCtrl.create();
 
     if (this.steamProfileURL) {
-      loading.present();
       this.csgoItems = [];
       this.storage.set("steamProfileURL", this.steamProfileURL);
       this.steamService.getCSGOInventory(this.steamProfileURL)
@@ -74,9 +73,13 @@ export class InventoryPage {
             .then( () => {
               console.log(this.csgoItems)
               this.backupCsgoItems = this.csgoItems;
-              loading.dismissAll();
             })
-            .catch( error => console.error(error));
+            .catch( error => {
+              console.error(error)
+            });
+        })
+        .catch(error => {
+          console.error(error)
         });
     }
   }
