@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SteamLoginService} from "../../services/steam-login.service";
-import {TradeofferService} from "../../services/tradeoffer-service";
+import {TradeofferService} from "../../services/tradeoffer.service";
 
 @IonicPage()
 @Component({

@@ -17,11 +17,12 @@ import {ItemService} from "../services/item.service";
 import {IonicStorageModule} from "@ionic/storage";
 import {SteamLoginService} from "../services/steam-login.service";
 import {SteamLoginPageModule} from "../pages/steam-login/steam-login.module";
-import {TradeofferService} from "../services/tradeoffer-service";
+import {TradeofferService} from "../services/tradeoffer.service";
 import {TradeMyItemsPageModule} from "../pages/trade-my-items/trade-my-items.module";
 import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-items.module";
 import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
 import {CookieService} from "angular2-cookie/core";
+import {InterceptorModule} from "../services/http-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {CookieService} from "angular2-cookie/core";
     SteamLoginPageModule,
     TradeMyItemsPageModule,
     TradeTheirItemsPageModule,
-    TradeReviewPageModule
+    TradeReviewPageModule,
+    InterceptorModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

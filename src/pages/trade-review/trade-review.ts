@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {CSGOItem} from "../../models/item.model";
 import {RedditPost} from "../../models/redditpost.model";
-import {TradeofferService} from "../../services/tradeoffer-service";
+import {TradeofferService} from "../../services/tradeoffer.service";
 
 @IonicPage({
   name: "trade-review",

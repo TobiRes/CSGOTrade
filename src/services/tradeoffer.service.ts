@@ -18,12 +18,6 @@ export class TradeofferService {
     let tradeofferBody = this.getTradeOfferBody(tradeOffer);
     this.getTradeOfferHeaderOptions(tradeOffer)
       .then(httpHeaderOptions => {
-
-        console.log("DocumentCooki", document.cookie);
-        console.log("CookieService", this.cookieService.getAll());
-        console.log("Offerbody", tradeofferBody);
-        console.log("OfferHeader", httpHeaderOptions);
-
         this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeaderOptions)
           .subscribe(response => {
             console.log(response);
