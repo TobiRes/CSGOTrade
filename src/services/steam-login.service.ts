@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AlertController, LoadingController} from "ionic-angular";
 import {Storage} from "@ionic/storage";
+import {SteamLogin} from "../models/steamlogin.model";
 
 declare var RSA: any;
 
@@ -72,7 +73,8 @@ export class SteamLoginService {
             tooManyLoginsAlert.present();
           }
         } else {
-          this.storage.set("steamLoginData", steamResponse);
+          let steamLogin: SteamLogin = this.setSteamCookieData(steamResponse);
+          this.storage.set("steamLoginData", steamLogin);
           let successfullyLoggedInAlert = this.createSuccesfulLoginAlert();
           successfullyLoggedInAlert.present();
         }
@@ -141,5 +143,14 @@ export class SteamLoginService {
     postBody.append("remember_login", "false");
 
     return postBody;
+  }
+
+  private setSteamCookieData(steamResponse: any) {
+    return {
+      steamLogin: steamResponse.transfer_parameters.token,
+      steamLoginSecure: steamResponse.transfer_parameters.token_secure,
+      steamMachineAuth: steamResponse.transfer_parameters.webcookie,
+      steamId: steamResponse.transfer_parameters.steamid
+    }
   }
 }

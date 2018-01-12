@@ -4,6 +4,7 @@ import {RedditService} from "../../services/reddit.service";
 import {PostType, RedditPost} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
+import {CookieService} from "angular2-cookie/core";
 
 @IonicPage({
   name: "home",

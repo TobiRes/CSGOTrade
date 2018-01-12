@@ -5,6 +5,7 @@ import {Tradeoffer} from "../models/tradeoffer.model";
 import {CSGOItem} from "../models/item.model";
 import {RedditPost} from "../models/redditpost.model";
 import {CookieService} from "angular2-cookie/core";
+import {SteamLogin} from "../models/steamlogin.model";
 
 @Injectable()
 export class TradeofferService {
@@ -15,11 +16,15 @@ export class TradeofferService {
   sendTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], redditPost: RedditPost) {
     let tradeOffer: Tradeoffer = this.getTradeOffer(myItemsToTrade,theirItemsToTrade,redditPost);
     let tradeofferBody = this.getTradeOfferBody(tradeOffer);
-    this.getTradeOfferHeader(tradeOffer)
-      .then(httpHeader => {
-        console.log(document.cookie);
-        console.log(this.cookieService.get("sessionid"));
-        this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeader)
+    this.getTradeOfferHeaderOptions(tradeOffer)
+      .then(httpHeaderOptions => {
+
+        console.log("DocumentCooki", document.cookie);
+        console.log("CookieService", this.cookieService.getAll());
+        console.log("Offerbody", tradeofferBody);
+        console.log("OfferHeader", httpHeaderOptions);
+
+        this.http.post("https://steamcommunity.com/tradeoffer/new/send", tradeofferBody, httpHeaderOptions)
           .subscribe(response => {
             console.log(response);
           })
@@ -33,21 +38,25 @@ export class TradeofferService {
     postBody.append("serverid", "1");
     postBody.append("partner", tradeofferData.partnerId);
     postBody.append("json_tradeoffer", JSON.stringify(tradeofferData.content));
-    //postBody.append("trade_offer_create_params", tradeofferData.accessToken.toString());
+    postBody.append("trade_offer_create_params", this.setTradeOfferCreateParams(tradeofferData));
     return postBody;
   }
 
-  private getTradeOfferHeader(tradeofferData: Tradeoffer) {
+  private getTradeOfferHeaderOptions(tradeofferData: Tradeoffer) {
     return new Promise((resolve, reject) => {
       this.getSteamLoginSecureCookie(tradeofferData)
         .then((steamLoginSecureCookie: string) => {
-          let httpHeader = new HttpHeaders()
-            .set("Access-Control-Allow-Origin", "*")
-            .set("Access-Control-Allow-Headers", "*")
-            .set("Access-Control-Allow-Credentials", "true")
-            .set("Cookie", steamLoginSecureCookie)
-            .set("Referer", tradeofferData.tradeURL);
-          resolve(httpHeader);
+          let options = {
+            headers: new HttpHeaders({
+              "Access-Control-Allow-Headers": "*",
+              "Access-Control-Allow-Credentials": "true",
+              "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+              "Cookie": steamLoginSecureCookie,
+              "Referer": tradeofferData.tradeURL
+            }),
+            withCredentials: true};
+
+          resolve(options);
         })
         .catch(error => reject(error));
     })
@@ -56,15 +65,10 @@ export class TradeofferService {
   private getSteamLoginSecureCookie(tradeofferData: Tradeoffer) {
     return new Promise((resolve, reject) => {
       this.storage.get("steamLoginData")
-        .then((steamLoginData: any) => {
+        .then((steamLoginData: SteamLogin) => {
           if (steamLoginData) {
-/*            document.cookie = "steamLoginSecure=" + steamLoginData.transfer_parameters.steamid + "%7C%7C"
-              + steamLoginData.transfer_parameters.token_secure;
-            document.cookie = "sessionid=" + tradeofferData.sessionId;*/
-
-            let steamLoginSecureCookie = "steamLoginSecure=" + steamLoginData.transfer_parameters.steamid + "%7C%7C"
-              + steamLoginData.transfer_parameters.token_secure + ";sessionid="
-              + tradeofferData.sessionId + ";";
+            this.setDocumentCookies(steamLoginData, tradeofferData.sessionId);
+            let steamLoginSecureCookie = this.buildSteamLoginCookie(steamLoginData, tradeofferData.sessionId);
             resolve(steamLoginSecureCookie);
           }
         })
@@ -77,7 +81,8 @@ export class TradeofferService {
       sessionId: this.generateSessionID(),
       partnerId: redditPost.partnerId,
       content: this.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade),
-      tradeURL: redditPost.tradelink
+      tradeURL: redditPost.tradelink,
+      accessToken: this.getTradeOfferAccessToken(redditPost.tradelink)
     }
   }
 
@@ -120,5 +125,31 @@ export class TradeofferService {
       assets.push(singleAsset);
     });
     return assets;
+  }
+
+  private buildSteamLoginCookie(steamLoginData: SteamLogin, sessionId: string){
+    return "sessionid=" + sessionId + ";"
+    + "steamLoginSecure=" + steamLoginData.steamId + "%7C%7C"
+    + steamLoginData.steamLoginSecure + ";"
+    + "steamLogin=" + steamLoginData.steamId + "%7C%7C" + steamLoginData.steamLogin + ";"
+    + "steamMachineAuth" + steamLoginData.steamId + "=" + steamLoginData.steamMachineAuth + ";"
+  }
+
+  private setDocumentCookies(steamLoginData: SteamLogin, sessionId: string) {
+    document.cookie = "sessionid=" + sessionId;
+    document.cookie = "steamLoginSecure=" + steamLoginData.steamId + "%7C%7C"
+      + steamLoginData.steamLoginSecure;
+    document.cookie = "steamLogin=" + steamLoginData.steamId + "%7C%7C" + steamLoginData.steamLogin;
+    document.cookie = "steamMachineAuth" + steamLoginData.steamId + "=" + steamLoginData.steamMachineAuth;
+  }
+
+  private setTradeOfferCreateParams(tradeofferData: Tradeoffer) {
+    return JSON.stringify({"trade_offer_access_tolen": tradeofferData.accessToken.toString()});
+  }
+
+  private getTradeOfferAccessToken(tradelink: string) {
+    let indexOfAccesTokenInTradeLink = tradelink.indexOf("token=");
+    let accesToken = tradelink.substr(indexOfAccesTokenInTradeLink, tradelink.length)
+    return accesToken;
   }
 }

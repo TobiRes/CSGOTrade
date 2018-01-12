@@ -21,6 +21,7 @@ import {TradeofferService} from "../services/tradeoffer-service";
 import {TradeMyItemsPageModule} from "../pages/trade-my-items/trade-my-items.module";
 import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-items.module";
 import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
+import {CookieService} from "angular2-cookie/core";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
     SteamService,
     ItemService,
     SteamLoginService,
-    TradeofferService
+    TradeofferService,
+    CookieService
   ]
 })
 export class AppModule {
