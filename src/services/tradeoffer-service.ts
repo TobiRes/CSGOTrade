@@ -144,12 +144,12 @@ export class TradeofferService {
   }
 
   private setTradeOfferCreateParams(tradeofferData: Tradeoffer) {
-    return JSON.stringify({"trade_offer_access_tolen": tradeofferData.accessToken.toString()});
+    return JSON.stringify({"trade_offer_access_token": tradeofferData.accessToken.toString()});
   }
 
   private getTradeOfferAccessToken(tradelink: string) {
     let indexOfAccesTokenInTradeLink = tradelink.indexOf("token=");
-    let accesToken = tradelink.substr(indexOfAccesTokenInTradeLink, tradelink.length)
+    let accesToken = tradelink.substr(indexOfAccesTokenInTradeLink, tradelink.length).replace("token=", "")
     return accesToken;
   }
 }
