@@ -33,8 +33,8 @@ export enum ItemType {
 
 export enum SkinCategory {
   normal = <any> "Normal",
-  statTrak = <any> "StatTrak",
-  souvenir = <any> "Souvenir"
+  statTrak = <any> "ST",
+  souvenir = <any> "SV"
 }
 
 export enum Grade {
@@ -54,10 +54,10 @@ export enum Grade {
 }
 
 export enum Exterior {
-  fn = <any> "Factory New",
-  mw = <any> "Minimal Wear",
-  ft = <any> "Field-Tested",
-  ww = <any> "Well-Worn",
-  bs = <any> "Battle-Scarred",
-  notPainted = <any> "Vanilla"
+  fn = <any> "FN",
+  mw = <any> "MW",
+  ft = <any> "FT",
+  ww = <any> "WW",
+  bs = <any> "BS",
+  notPainted = <any> ""
 }

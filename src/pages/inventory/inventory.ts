@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 import {IonicPage, LoadingController} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {ItemService} from "../../services/item.service";
-import {CSGOItem} from "../../models/item.model";
+import {CSGOItem, ItemType, SkinCategory} from "../../models/item.model";
 import {Storage} from "@ionic/storage";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @IonicPage()
 @Component({
@@ -19,6 +20,7 @@ export class InventoryPage {
   selectedCategories: string[] = [];
   selectedGrades: string[] = [];
   selectedExteriors: string[] = [];
+  checkType: SkinCategory = SkinCategory.statTrak;
 
   private csgoInventoryData: any;
   private backupCsgoItems: CSGOItem[];
@@ -27,7 +29,7 @@ export class InventoryPage {
   constructor(private steamService: SteamService,
               private itemService: ItemService,
               private storage: Storage,
-              private loadingCtrl: LoadingController) {
+              private sanitizer: DomSanitizer) {
 
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
@@ -57,8 +59,6 @@ export class InventoryPage {
   }
 
   getCSGOInventory() {
-    let loading = this.loadingCtrl.create();
-
     if (this.steamProfileURL) {
       this.csgoItems = [];
       this.storage.set("steamProfileURL", this.steamProfileURL);
@@ -98,5 +98,14 @@ export class InventoryPage {
       );
     });
     this.csgoItems = completeFilteredItemList;
+  }
+
+  setBorderColorIfNotNormalItem(csgoItem: CSGOItem) {
+    if (csgoItem.skinCategory == SkinCategory.normal)
+      return "";
+    if (csgoItem.skinCategory == SkinCategory.statTrak)
+      return {"border" : "1px solid orangered"};
+    else
+      return {"border" : "1px solid yellow"};
   }
 }
