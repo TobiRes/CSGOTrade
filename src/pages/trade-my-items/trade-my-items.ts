@@ -48,7 +48,6 @@ export class TradeMyItemsPage {
   }
 
   continueSelectingTheirItems() {
-    console.log(this.myItemsToTrade);
     this.navCtrl.push("trade-their-items", {myItemsToTrade: this.myItemsToTrade, redditPost: this.redditPost})
   }
 

@@ -165,7 +165,6 @@ export class HomePage {
 
   private setMetaData(redditPostData: any) {
     this.redditPosts = this.backupPosts;
-    console.log(this.redditPosts);
     this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;

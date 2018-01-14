@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, LoadingController} from 'ionic-angular';
+import {IonicPage} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {ItemService} from "../../services/item.service";
-import {CSGOItem, ItemType, SkinCategory} from "../../models/item.model";
+import {CSGOItem, SkinCategory} from "../../models/item.model";
 import {Storage} from "@ionic/storage";
 import {DomSanitizer} from "@angular/platform-browser";
 
@@ -13,8 +13,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class InventoryPage {
 
-  //"http://steamcommunity.com/profiles/76561198128420241/inventory/json/730/2"
-  csgoItems: CSGOItem[];
+  csgoItems: CSGOItem[] = [];
   steamProfileURL: string;
   selectedSkinTypes: string[] = [];
   selectedCategories: string[] = [];
@@ -28,12 +27,12 @@ export class InventoryPage {
 
   constructor(private steamService: SteamService,
               private itemService: ItemService,
-              private storage: Storage,
-              private sanitizer: DomSanitizer) {
+              private storage: Storage) {
 
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
         this.csgoItems = storageData[0];
+        this.backupCsgoItems = this.csgoItems;
         this.steamProfileURL = storageData[1];
         if (!this.csgoItems) {
           this.getCSGOInventory();
@@ -48,13 +47,15 @@ export class InventoryPage {
       this.filterItems("type", this.selectedSkinTypes);
     }
     if (this.selectedCategories.length) {
-      this.filterItems("skinCategory", this.selectedCategories);
+      let categories: string[] = this.itemService.mapSkinCategory(this.selectedCategories);
+      this.filterItems("skinCategory", categories);
     }
     if (this.selectedGrades.length) {
       this.filterItems("grade", this.selectedGrades);
     }
     if (this.selectedExteriors.length) {
-      this.filterItems("exterior", this.selectedExteriors);
+      let exteriors: string[] = this.itemService.mapExterior(this.selectedExteriors);
+      this.filterItems("exterior", exteriors);
     }
   }
 
@@ -71,7 +72,6 @@ export class InventoryPage {
           this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
           this.storage.set("csgoItems", this.csgoItems)
             .then(() => {
-              console.log(this.csgoItems)
               this.backupCsgoItems = this.csgoItems;
             })
             .catch(error => {
@@ -84,13 +84,20 @@ export class InventoryPage {
     }
   }
 
+  setBorderColorIfNotNormalItem(csgoItem: CSGOItem) {
+    if (csgoItem.skinCategory == SkinCategory.normal)
+      return "";
+    if (csgoItem.skinCategory == SkinCategory.statTrak)
+      return {"border": "1px solid orangered"};
+    else
+      return {"border": "1px solid yellow"};
+  }
+
   private filterItems(propertyToCompare: any, selectedFilter: any[]) {
     let completeFilteredItemList: CSGOItem[] = [];
     selectedFilter.forEach((selectedFilter: any) => {
       completeFilteredItemList = completeFilteredItemList.concat(
         this.csgoItems.filter(singleItem => {
-          console.log("selectedFilter", selectedFilter);
-          console.log("propertyToCompare", singleItem[propertyToCompare]);
           if (singleItem[propertyToCompare] == selectedFilter)
             return true;
           return false;
@@ -98,14 +105,5 @@ export class InventoryPage {
       );
     });
     this.csgoItems = completeFilteredItemList;
-  }
-
-  setBorderColorIfNotNormalItem(csgoItem: CSGOItem) {
-    if (csgoItem.skinCategory == SkinCategory.normal)
-      return "";
-    if (csgoItem.skinCategory == SkinCategory.statTrak)
-      return {"border" : "1px solid orangered"};
-    else
-      return {"border" : "1px solid yellow"};
   }
 }

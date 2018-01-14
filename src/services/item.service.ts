@@ -8,7 +8,6 @@ export class ItemService {
   constructor() {
   }
 
-
   fillItemMetaData(csgoInventoryItem: any): CSGOItem {
     //e.g. "StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
     let itemFullName = csgoInventoryItem.market_hash_name;
@@ -25,11 +24,52 @@ export class ItemService {
     }
   }
 
-
   addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
     csgoInventoryData.forEach((csgoItem: CSGOItem) => {
       csgoItem.assetId = this.getMatchingAssetId(csgoItem.classId, inventoryIds)
     })
+  }
+
+  mapExterior(selectedExteriors: string[]) {
+    let exteriors: string[] = [];
+    selectedExteriors.forEach( exterior => {
+      switch (exterior){
+        case "Factory New":
+          exteriors.push("FN");
+          break;
+        case "Minimal Wear":
+          exteriors.push("MW");
+          break;
+        case "Field-Tested":
+          exteriors.push("FT");
+          break;
+        case "Well-Worn":
+          exteriors.push("WW");
+          break;
+        default:
+          exteriors.push("BS");
+          break;
+      }
+    });
+    return exteriors;
+  }
+
+  mapSkinCategory(selectedCategories: string[]) {
+    let categories: string[] = [];
+    selectedCategories.forEach( category => {
+      switch (category){
+        case "StatTrak":
+          categories.push("ST");
+          break;
+        case "Souvenir":
+          categories.push("SV");
+          break;
+        default:
+          categories.push("Normal");
+          break;
+      }
+    });
+    return categories;
   }
 
   private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
@@ -159,29 +199,29 @@ export class ItemService {
     let skinRarity = this.getSkinRarity(csgoItem.tags);
 
     switch (skinRarity) {
-      case "Consumer Grade":
+      case "Rarity_Common_Weapon":
         return Grade.consumer;
-      case "Mil-Spec Grade":
+      case "Rarity_Rare_Weapon":
         return Grade.milspec;
-      case "Industrial Grade":
+      case "Rarity_Uncommon_Weapon":
         return Grade.industrial;
-      case "Restricted Grade":
+      case "Rarity_Mythical_Weapon":
         return Grade.restricted;
-      case "Classified":
+      case "Rarity_Legendary_Weapon":
         return Grade.classified;
-      case "Covert":
+      case "Rarity_Ancient_Weapon":
         return Grade.covert;
-      case "Base Grade":
+      case "Rarity_Common":
         return Grade.base;
-      case "High Grade":
+      case "Rarity_Rare":
         return Grade.high;
-      case "Extraordinary":
+      case "Rarity_Ancient":
         return Grade.extraoridinary;
-      case "Exotic":
+      case "Rarity_Legendary":
         return Grade.exotic;
-      case "Remarkable":
+      case "Rarity_Mythical":
         return Grade.remarkable;
-      case "Contraband":
+      case "Rarity_Contraband":
         return Grade.contraband;
       default:
         return Grade.unknown;
@@ -222,7 +262,7 @@ export class ItemService {
     for (let i = 0; i < csgoItemTags.length; i++) {
       Object.keys(csgoItemTags[i]).forEach(key => {
         if (csgoItemTags[i][key] == "Rarity") {
-          skinRarity = csgoItemTags[i].name;
+          skinRarity = csgoItemTags[i].internal_name;
         }
       })
     }
