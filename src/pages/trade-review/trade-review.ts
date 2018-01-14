@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavParams} from 'ionic-angular';
 import {CSGOItem} from "../../models/item.model";
 import {RedditPost} from "../../models/redditpost.model";
 import {TradeofferService} from "../../services/tradeoffer.service";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @IonicPage({
   name: "trade-review",
@@ -22,13 +21,13 @@ export class TradeReviewPage {
   private myItemsToTrade: CSGOItem[] = []
   private theirItemsToTrade: CSGOItem[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private tradeOfferService: TradeofferService, private iab: InAppBrowser) {
+  constructor(public navParams: NavParams, private tradeOfferService: TradeofferService) {
     this.redditPost = this.navParams.get("redditPost");
     this.myItemsToTrade = this.navParams.get("myItemsToTrade");
     this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
   }
 
-  sendTradeOffer(){
+  sendTradeOffer() {
     this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
   }
 }

@@ -1,33 +1,45 @@
-import {Injectable} from "@angular/core";
+import {Injectable, OnDestroy} from "@angular/core";
 import {CSGOItem} from "../models/item.model";
 import {RedditPost} from "../models/redditpost.model";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {Subject} from "rxjs/Subject";
+import {takeUntil} from "rxjs/operators";
 
 @Injectable()
-export class TradeofferService {
-  constructor(private inAppBrowser: InAppBrowser) {
+export class TradeofferService implements OnDestroy {
 
+  destroyed$ = new Subject<void>();
+
+  constructor(private inAppBrowser: InAppBrowser) {
   }
 
   sendTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], redditPost: RedditPost) {
     let tradeOfferContent = JSON.stringify(this.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade));
     const browser = this.inAppBrowser.create(redditPost.tradelink);
     let tradeScript = this.buildTradeScript(tradeOfferContent);
+
     try {
-      browser.on("loadstop").subscribe( () => {
-        console.log("test");
-        browser.executeScript({code : tradeScript});
-      })
+      browser.on("loadstop")
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe(() => {
+          console.log("test");
+          browser.executeScript({code: tradeScript});
+        })
     } catch (e) {
       console.error(e)
     }
   }
 
-  private buildTradeScript(tradeOfferContent: string){
-    return "(function() { g_rgCurrentTradeStatus =" + tradeOfferContent +  "; RefreshTradeStatus( g_rgCurrentTradeStatus ); alert('123'); })()";
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
-  private buildTradeOfferContent(myItems: CSGOItem[], theirItems: CSGOItem[]){
+  private buildTradeScript(tradeOfferContent: string) {
+    return "(function() { g_rgCurrentTradeStatus =" + tradeOfferContent + "; RefreshTradeStatus( g_rgCurrentTradeStatus );})()";
+  }
+
+  private buildTradeOfferContent(myItems: CSGOItem[], theirItems: CSGOItem[]) {
     return {
       "newversion": true,
       "version": 3,
@@ -46,7 +58,7 @@ export class TradeofferService {
 
   private buildAssets(csgoItems: CSGOItem[]) {
     let assets: any[] = [];
-    csgoItems.forEach( (csgoItem: CSGOItem) => {
+    csgoItems.forEach((csgoItem: CSGOItem) => {
       let singleAsset = {
         "appid": 730,
         "contextid": "2",

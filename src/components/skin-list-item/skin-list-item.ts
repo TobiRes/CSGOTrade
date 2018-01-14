@@ -17,7 +17,7 @@ export class SkinListItemComponent {
 
   }
 
-  selectItem(){
+  selectItem() {
     this.selected.emit(this.csgoItem);
   }
 

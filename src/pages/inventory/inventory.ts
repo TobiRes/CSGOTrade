@@ -70,11 +70,11 @@ export class InventoryPage {
           });
           this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
           this.storage.set("csgoItems", this.csgoItems)
-            .then( () => {
+            .then(() => {
               console.log(this.csgoItems)
               this.backupCsgoItems = this.csgoItems;
             })
-            .catch( error => {
+            .catch(error => {
               console.error(error)
             });
         })

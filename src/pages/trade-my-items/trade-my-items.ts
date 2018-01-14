@@ -43,11 +43,11 @@ export class TradeMyItemsPage {
       .catch(error => console.error(error));
   }
 
-  addItemToTrade(csgoItem){
+  addItemToTrade(csgoItem) {
     this.myItemsToTrade.push(csgoItem);
   }
 
-  continueSelectingTheirItems(){
+  continueSelectingTheirItems() {
     console.log(this.myItemsToTrade);
     this.navCtrl.push("trade-their-items", {myItemsToTrade: this.myItemsToTrade, redditPost: this.redditPost})
   }

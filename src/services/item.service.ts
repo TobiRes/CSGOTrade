@@ -27,7 +27,7 @@ export class ItemService {
 
 
   addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
-    csgoInventoryData.forEach( (csgoItem: CSGOItem) => {
+    csgoInventoryData.forEach((csgoItem: CSGOItem) => {
       csgoItem.assetId = this.getMatchingAssetId(csgoItem.classId, inventoryIds)
     })
   }
@@ -35,11 +35,12 @@ export class ItemService {
   private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
     let assetId: number = 0;
     Object.keys(inventoryIds).forEach((csgoItemData: any) => {
-      if(inventoryIds[csgoItemData].classid == csgoItemClassId)
+      if (inventoryIds[csgoItemData].classid == csgoItemClassId)
         assetId = inventoryIds[csgoItemData].id;
     });
     return assetId;
   }
+
   private getItemType(itemFullName: string): ItemType {
     let itemPrefix: string = itemFullName.toLowerCase();
     if (itemPrefix.indexOf("|") > 0)

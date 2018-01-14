@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {PostType, RedditPost} from "../models/redditpost.model";
+import {PostType} from "../models/redditpost.model";
 
 @Injectable()
 export class ThreadinfoService {
@@ -49,7 +49,7 @@ export class ThreadinfoService {
     return postType;
   }
 
-  getTradeParterId(partnerProfileURL: string){
+  getTradeParterId(partnerProfileURL: string) {
     let partnerProfileId = partnerProfileURL.replace("https://steamcommunity.com/profiles/", "");
     return partnerProfileId;
   }

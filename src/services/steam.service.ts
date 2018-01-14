@@ -12,18 +12,18 @@ export class SteamService {
 
   getCSGOInventory(steamInventoryURL: string) {
     return new Promise((resolve, reject) => {
-      try {
-        this.http.get(steamInventoryURL + "/inventory/json/730/2").subscribe(
-          (csgoInventoryData: any) => {
-            if (!csgoInventoryData.success)
-              resolve("unknown");
-            else {
-              resolve(csgoInventoryData);
-            }
-          })
-      } catch (error) {
-        reject(error);
-      }
+      this.http.get(steamInventoryURL + "/inventory/json/730/2").subscribe(
+        (csgoInventoryData: any) => {
+          if (!csgoInventoryData.success) {
+            throw ("Error Loading Data Exception");
+          }
+          else {
+            resolve(csgoInventoryData);
+          }
+        },
+        onerror => {
+          reject(onerror);
+        });
     })
   }
 }

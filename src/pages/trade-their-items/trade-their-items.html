@@ -17,10 +17,11 @@
       </div>
     </ion-list>
   </div>
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <button ion-button full (click)="continueToTradeReview()">Select my items</button>
+    <button ion-button full (click)="continueToTradeReview()">Select their items</button>
   </ion-toolbar>
 </ion-footer>
