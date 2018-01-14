@@ -23,6 +23,7 @@ import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-
 import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
 import {CookieService} from "angular2-cookie/core";
 import {InterceptorModule} from "../services/http-interceptor.service";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {InterceptorModule} from "../services/http-interceptor.service";
     ItemService,
     SteamLoginService,
     TradeofferService,
-    CookieService
+    CookieService,
+    InAppBrowser
   ]
 })
 export class AppModule {
