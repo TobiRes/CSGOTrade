@@ -22,7 +22,6 @@ import {TradeMyItemsPageModule} from "../pages/trade-my-items/trade-my-items.mod
 import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-items.module";
 import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
 import {CookieService} from "angular2-cookie/core";
-import {InterceptorModule} from "../services/http-interceptor.service";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @NgModule({
@@ -40,8 +39,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     SteamLoginPageModule,
     TradeMyItemsPageModule,
     TradeTheirItemsPageModule,
-    TradeReviewPageModule,
-    InterceptorModule
+    TradeReviewPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
