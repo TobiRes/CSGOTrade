@@ -1,52 +1,61 @@
 page-home {
   ion-header {
     box-shadow: 0 3px 3px #999;
+    background-color: darkorange;
+    margin-bottom: 20px !important;
 
     ion-icon {
       color: white;
     }
 
-    .pageToolbar, .toolbar-background {
-      height: auto;
-      min-height: auto;
-      background-color: #fffbfb69;
+    .toolbar-background {
+      background-color: darkorange !important;
+    }
 
-      .filter {
-        width: 100%;
-        z-index: 2;
+    .filter {
+      width: 100%;
+      z-index: 2;
 
-        .filtercontent {
+      .filtercontent {
 
-          ion-item {
-            background-color: transparent;
-            color: #1E3847;
-            height: auto;
-            width: auto;
-            float: right;
-            min-height: auto;
+        ion-item {
+          background-color: transparent;
+          color: white;
+          height: auto;
+          width: auto;
+          float: right;
+          min-height: auto;
 
-            .select {
-              padding: 0 5px 0 0;
-              .select-placeholder {
-                min-width: auto;
-              }
-              .select-text {
-                min-width: auto;
-              }
-              .select-icon-inner {
-                color: #1E3847;
-              }
-              .item-inner, .button-inner, .input-wrapper, button {
-                height: auto;
-              }
+          .select {
+            padding: 0 5px 0 0;
+            .select-placeholder {
+              min-width: auto;
             }
-            ion-label {
-              margin: 0 !important;
+            .select-text {
+              min-width: auto;
             }
+            .select-icon-inner {
+              color: white;
+            }
+            .item-inner, .button-inner, .input-wrapper, button {
+              height: auto;
+            }
+          }
+          ion-label {
+            margin: 5px !important;
           }
         }
       }
     }
+
+    .searchbar{
+      background: transparent;
+    }
+
+  }
+
+  .postList{
+    margin-top: 8px !important;
   }
 
   .title {
@@ -58,7 +67,7 @@ page-home {
   }
 
   .items {
-    margin: 10px !important;
+    margin: 5px;
   }
 
   .item-inner {

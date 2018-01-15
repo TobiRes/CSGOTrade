@@ -20,10 +20,12 @@ export class HomePage {
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
   currentPage: string = "Hot";
+  searchInput: string = "";
 
   private backupPosts: RedditPost[] = [];
   private lastThreadName: string;
   private threadCount: number = 0;
+  private alreadyFound: boolean = false;
 
   constructor(public navCtrl: NavController,
               private redditService: RedditService,
@@ -32,18 +34,50 @@ export class HomePage {
     this.getAllThreads();
   }
 
+  buildSearchTerm(event){
+    let searchTerm: string;
+    if (event.target) {
+      searchTerm = event.target.value ? event.target.value.trim().toLowerCase() : "";
+    } else {
+      searchTerm = event;
+    }
+    let searchTermArray: string[]= searchTerm.split(" ");
+    this.search(searchTermArray);
+  }
+
+  private search(searchTermArray){
+    let searchedPosts: RedditPost[] = [];
+    console.log(searchTermArray)
+    for(let i = 0; i < searchTermArray.length; i++){
+      for(let n = 0; n < this.redditPosts.length; n++){
+        Object.keys(this.redditPosts[n]).forEach( key => {
+          console.log(this.redditPosts[n][key]);
+          this.alreadyFound = false;
+          if(this.redditPosts[n][key].toString().toLowerCase().indexOf(searchTermArray[i]) > -1
+          && !this.alreadyFound){
+            searchedPosts.push(this.redditPosts[n]);
+            this.alreadyFound = true;
+          }
+        })
+      }
+    }
+    this.redditPosts = searchedPosts;
+  }
+
   getAllThreads() {
     this.backupPosts = [];
     this.storage.get("redditPosts")
       .then(redditPosts => {
         console.log(redditPosts);
-        if (redditPosts) {
+        if (redditPosts && this.currentPage == "Hot") {
           this.redditPosts = redditPosts;
         } else {
-          this.currentPage = "Hot";
           this.scrollLoadThreshold = "10%";
           this.redditService.getRedditThreads(this.currentPage)
-            .then(redditPostData => this.getTradeInfo(redditPostData))
+            .then(redditPostData => {
+              console.log("redditPost", redditPostData)
+              this.getTradeInfo(redditPostData)
+            })
             .catch(error => console.error(error));
         }
       })
@@ -168,7 +202,9 @@ export class HomePage {
     this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
-    this.storage.set("redditPosts", this.backupPosts);
+    if(this.currentPage == "Hot"){
+      this.storage.set("redditPosts", this.backupPosts);
+    }
   }
 
   private checkIfPostIsFiltered(postType: PostType): boolean {

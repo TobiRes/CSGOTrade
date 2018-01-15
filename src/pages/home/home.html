@@ -3,49 +3,48 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>
-      <img src="../../assets/imgs/banner.png">
-    </ion-title>
+      <div class="filter">
+        <div class="filtercontent">
+          <ion-item>
+            <ion-label>{{currentPage}}</ion-label>
+            <ion-select [(ngModel)]="currentPage" (ionChange)="getAllThreads()">
+              <ion-option>Hot</ion-option>
+              <ion-option>New</ion-option>
+              <ion-option>Controversial</ion-option>
+              <ion-option>Top</ion-option>
+            </ion-select>
+          </ion-item>
+        </div>
+      </div>
+      <div class="filter">
+        <div class="filtercontent">
+          <ion-item>
+            <ion-label>Filter</ion-label>
+            <ion-select [(ngModel)]="postTypesToFilter" (ionChange)="filterPosts(event)" multiple="true">
+              <ion-option>Trade</ion-option>
+              <ion-option>Store</ion-option>
+              <ion-option>Pricecheck</ion-option>
+              <ion-option>Question</ion-option>
+              <ion-option>< 15 Keys</ion-option>
+              <ion-option>PSA</ion-option>
+              <ion-option>Free</ion-option>
+              <ion-option>Sticky</ion-option>
+            </ion-select>
+          </ion-item>
+        </div>
+      </div>
   </ion-navbar>
-  <ion-toolbar class="pageToolbar">
-    <div class="filter">
-      <div class="filtercontent">
-        <ion-item>
-          <ion-label>{{currentPage}}</ion-label>
-          <ion-select [(ngModel)]="currentPage" (ionChange)="getAllThreads()">
-            <ion-option>Hot</ion-option>
-            <ion-option>New</ion-option>
-            <ion-option>Controversial</ion-option>
-            <ion-option>Top</ion-option>
-          </ion-select>
-        </ion-item>
-      </div>
-    </div>
-    <div class="filter">
-      <div class="filtercontent">
-        <ion-item>
-          <ion-label>Filter</ion-label>
-          <ion-select [(ngModel)]="postTypesToFilter" (ionChange)="filterPosts(event)" multiple="true">
-            <ion-option>Trade</ion-option>
-            <ion-option>Store</ion-option>
-            <ion-option>Pricecheck</ion-option>
-            <ion-option>Question</ion-option>
-            <ion-option>< 15 Keys</ion-option>
-            <ion-option>PSA</ion-option>
-            <ion-option>Free</ion-option>
-            <ion-option>Sticky</ion-option>
-          </ion-select>
-        </ion-item>
-      </div>
-    </div>
-  </ion-toolbar>
+  <ion-searchbar
+    [(ngModel)]="searchInput"
+    (ionInput)="buildSearchTerm($event)">
+  </ion-searchbar>
 </ion-header>
 
 <ion-content>
   <ion-refresher (ionRefresh)="refreshPosts($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list>
+  <ion-list class="postList">
     <div *ngFor="let post of redditPosts" class="items">
       <post-list-item *ngIf="!isTrade(post.type)" [tradePost]="post" (selected)="openPost($event)"></post-list-item>
       <trade-list-item *ngIf="isTrade(post.type)" [tradePost]="post" (selected)="openPost($event)"
