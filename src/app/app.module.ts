@@ -23,6 +23,7 @@ import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-
 import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {DynamicStyleService} from "../services/dynamic-style.service";
+import {AboutPageModule} from "../pages/about/about.module";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {DynamicStyleService} from "../services/dynamic-style.service";
     SteamLoginPageModule,
     TradeMyItemsPageModule,
     TradeTheirItemsPageModule,
-    TradeReviewPageModule
+    TradeReviewPageModule,
+    AboutPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

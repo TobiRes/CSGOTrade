@@ -8,7 +8,7 @@ page-home {
     }
 
     .toolbar-background {
-      background-color: ff6000 !important;
+      background-color: #ff5400 !important;
     }
 
     .filter {
@@ -50,11 +50,9 @@ page-home {
     .searchbar{
       background: transparent;
     }
-
   }
 
   .postList{
-    margin-top: 8px !important;
   }
 
   .title {
@@ -66,7 +64,7 @@ page-home {
   }
 
   .items {
-    margin: 5px;
+    border: 0.5px solid gray;
   }
 
   .item-inner {

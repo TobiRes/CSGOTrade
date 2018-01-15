@@ -6,6 +6,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {HomePage} from '../pages/home/home';
 import {InventoryPage} from "../pages/inventory/inventory";
 import {SteamLoginPage} from "../pages/steam-login/steam-login";
+import {AboutPage} from "../pages/about/about";
 
 @Component({
   templateUrl: 'app.html'
@@ -20,7 +21,8 @@ export class MyApp {
     this.pages = [
       {title: 'Home', component: HomePage},
       {title: 'Inventory', component: InventoryPage},
-      {title: "Steam Login", component: SteamLoginPage}
+      {title: "Steam Login", component: SteamLoginPage},
+      {title: "About", component: AboutPage}
     ];
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
