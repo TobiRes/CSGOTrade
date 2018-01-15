@@ -9,21 +9,17 @@
     <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b>
     <p>
   </ion-item>
-  <div padding>
-    <h2>Summary My Items</h2>
-    <ion-list>
-      <div *ngFor="let item of myItemsToTrade">
-        <skin-list-item [csgoItem]="item"></skin-list-item>
-      </div>
-    </ion-list>
+  <h2>My Items</h2>
+  <div class="container">
+    <div class="csgoItem" *ngFor="let item of myItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
+      <skin-list-item [csgoItem]="item"></skin-list-item>
+    </div>
   </div>
-  <div padding>
-    <h2>Summary Their Items</h2>
-    <ion-list>
-      <div *ngFor="let item of theirItemsToTrade">
-        <skin-list-item [csgoItem]="item"></skin-list-item>
-      </div>
-    </ion-list>
+  <h2>Their Items</h2>
+  <div class="container">
+    <div class="csgoItem" *ngFor="let item of theirItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
+      <skin-list-item [csgoItem]="item"></skin-list-item>
+    </div>
   </div>
 </ion-content>
 

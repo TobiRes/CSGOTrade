@@ -86,9 +86,8 @@
   <ion-spinner *ngIf="isLoading"></ion-spinner>
 
   <div class="container">
-    <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalItem(item)">
-      <img class="itemIcon" src="http://cdn.steamcommunity.com/economy/image/{{item.iconUrl}}">
-      <p class="itemDescription">{{item.exterior}}<span *ngIf="item.skinCategory == checkType">{{item.skinCategory}}</span></p>
+    <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
+      <skin-list-item [csgoItem]="item"></skin-list-item>
     </div>
   </div>
 

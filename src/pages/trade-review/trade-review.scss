@@ -1,3 +1,24 @@
 page-trade-review {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
 
+    .csgoItem {
+      margin: 1%;
+      flex-basis: 23%;
+      flex-grow: 0;
+      border: 1px solid gray;
+      background-color: white;
+    }
+  }
+
+  .tradeSummary {
+    .item-inner {
+      border-bottom: 0 !important;
+    }
+    p {
+      text-align: center !important;
+      white-space: normal !important;
+    }
+  }
 }

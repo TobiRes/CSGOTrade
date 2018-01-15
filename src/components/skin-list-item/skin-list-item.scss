@@ -1,33 +1,31 @@
 skin-list-item {
-  #skinItem {
+
+  .selectItemButton {
+    padding: 0;
+  }
+
+  .item-inner {
     padding: 0 !important;
-    p {
-      padding: 5px;
-      color: #1E3847 !important;
+    border: 0 !important;
+    .label {
+      margin: 0;
     }
   }
 
-  .label {
-    padding: 0 !important;
+  .itemIcon {
+    padding: 2px;
   }
-
-  ion-item .item-inner {
-    position: relative;
-    border-bottom: 0 !important;
-    .openPageButton {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background-color: transparent;
-    }
-  }
-  ion-label {
-    margin: 0 0 0 0px !important;
-    white-space: normal;
-    .item-block {
-      padding: 0 !important;
+  .itemDescription {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 2px;
+    font-size: 0.6em;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    span {
+      float: right;
+      padding-right: 5px;
+      color: orangered;
     }
   }
 

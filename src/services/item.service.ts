@@ -32,8 +32,8 @@ export class ItemService {
 
   mapExterior(selectedExteriors: string[]) {
     let exteriors: string[] = [];
-    selectedExteriors.forEach( exterior => {
-      switch (exterior){
+    selectedExteriors.forEach(exterior => {
+      switch (exterior) {
         case "Factory New":
           exteriors.push("FN");
           break;
@@ -56,8 +56,8 @@ export class ItemService {
 
   mapSkinCategory(selectedCategories: string[]) {
     let categories: string[] = [];
-    selectedCategories.forEach( category => {
-      switch (category){
+    selectedCategories.forEach(category => {
+      switch (category) {
         case "StatTrak":
           categories.push("ST");
           break;

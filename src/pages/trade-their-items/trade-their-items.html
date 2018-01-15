@@ -11,11 +11,11 @@
   </ion-item>
   <div padding>
     <h2>Select Their Items</h2>
-    <ion-list>
-      <div *ngFor="let item of csgoItems">
+    <div class="container">
+      <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
         <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)"></skin-list-item>
       </div>
-    </ion-list>
+    </div>
   </div>
   <ion-spinner *ngIf="isLoading"></ion-spinner>
 </ion-content>

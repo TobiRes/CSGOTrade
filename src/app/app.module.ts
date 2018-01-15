@@ -21,8 +21,8 @@ import {TradeofferService} from "../services/tradeoffer.service";
 import {TradeMyItemsPageModule} from "../pages/trade-my-items/trade-my-items.module";
 import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-items.module";
 import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
-import {CookieService} from "angular2-cookie/core";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {DynamicStyleService} from "../services/dynamic-style.service";
 
 @NgModule({
   declarations: [
@@ -56,8 +56,8 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     ItemService,
     SteamLoginService,
     TradeofferService,
-    CookieService,
-    InAppBrowser
+    InAppBrowser,
+    DynamicStyleService
   ]
 })
 export class AppModule {

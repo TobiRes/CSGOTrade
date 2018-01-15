@@ -5,6 +5,7 @@ import {CSGOItem} from "../../models/item.model";
 import {RedditPost} from "../../models/redditpost.model";
 import {Storage} from "@ionic/storage";
 import {ItemService} from "../../services/item.service";
+import {DynamicStyleService} from "../../services/dynamic-style.service";
 
 @IonicPage({
   name: "trade-their-items",
@@ -26,7 +27,8 @@ export class TradeTheirItemsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private steamService: SteamService,
               private itemService: ItemService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private dynStyleService: DynamicStyleService) {
     this.redditPost = this.navParams.get("redditPost");
     this.myItemsToTrade = this.navParams.get("myItemsToTrade");
     this.loadTheirInventory();
@@ -42,6 +44,10 @@ export class TradeTheirItemsPage {
       theirItemsToTrade: this.theirItemsToTrade,
       redditPost: this.redditPost
     })
+  }
+
+  setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
+    return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
   }
 
   private loadTheirInventory() {

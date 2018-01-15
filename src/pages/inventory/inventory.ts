@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 import {IonicPage} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {ItemService} from "../../services/item.service";
-import {CSGOItem, SkinCategory} from "../../models/item.model";
+import {CSGOItem} from "../../models/item.model";
 import {Storage} from "@ionic/storage";
-import {DomSanitizer} from "@angular/platform-browser";
+import {DynamicStyleService} from "../../services/dynamic-style.service";
 
 @IonicPage()
 @Component({
@@ -19,7 +19,6 @@ export class InventoryPage {
   selectedCategories: string[] = [];
   selectedGrades: string[] = [];
   selectedExteriors: string[] = [];
-  checkType: SkinCategory = SkinCategory.statTrak;
   isLoading: boolean = true;
 
   private csgoInventoryData: any;
@@ -28,7 +27,8 @@ export class InventoryPage {
 
   constructor(private steamService: SteamService,
               private itemService: ItemService,
-              private storage: Storage) {
+              private storage: Storage,
+              private dynStyleService: DynamicStyleService) {
 
     this.isLoading = true;
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
@@ -91,13 +91,8 @@ export class InventoryPage {
     }
   }
 
-  setBorderColorIfNotNormalItem(csgoItem: CSGOItem) {
-    if (csgoItem.skinCategory == SkinCategory.normal)
-      return "";
-    if (csgoItem.skinCategory == SkinCategory.statTrak)
-      return {"border": "1px solid orangered"};
-    else
-      return {"border": "1px solid yellow"};
+  setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
+    return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
   }
 
   private filterItems(propertyToCompare: any, selectedFilter: any[]) {
