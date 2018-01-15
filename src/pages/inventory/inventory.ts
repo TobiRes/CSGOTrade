@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {ItemService} from "../../services/item.service";
-import {CSGOItem} from "../../models/item.model";
+import {CSGOItem, SkinCategory} from "../../models/item.model";
 import {Storage} from "@ionic/storage";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
 

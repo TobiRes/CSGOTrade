@@ -75,7 +75,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-item class="steamLinkInput">
     <ion-input placeholder="Enter your Steamprofile-URL" [(ngModel)]="steamProfileURL"></ion-input>
     <button clear icon-only item-right class="refreshButton" (click)="getCSGOInventory()">
@@ -85,7 +85,7 @@
 
   <ion-spinner *ngIf="isLoading"></ion-spinner>
 
-  <div class="container">
+  <div class="container" padding>
     <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
       <skin-list-item [csgoItem]="item"></skin-list-item>
     </div>

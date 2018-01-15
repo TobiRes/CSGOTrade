@@ -7,6 +7,7 @@ import {CSGOItem, SkinCategory} from "../../models/item.model";
 })
 export class SkinListItemComponent {
   checkType: SkinCategory = SkinCategory.statTrak;
+  itemSelected: boolean = false;
 
   @Input()
   csgoItem: CSGOItem;
@@ -20,7 +21,13 @@ export class SkinListItemComponent {
   }
 
   selectItem() {
+    this.itemSelected = !this.itemSelected;
     this.selected.emit(this.csgoItem);
   }
 
+  styleItemBySelected(){
+    if(this.itemSelected){
+      return {"background-color": "lightgray"};
+    }
+  }
 }
