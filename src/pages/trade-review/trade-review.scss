@@ -1,14 +1,6 @@
 page-trade-review {
   ion-header {
     box-shadow: 0 1px 5px #999;
-
-    .back-button, .toolbar-title{
-      color: white;
-    }
-
-    .toolbar-background{
-      background-color: darkorange;
-    }
   }
 
   .tradeSummary {
@@ -19,22 +11,5 @@ page-trade-review {
       text-align: center !important;
       white-space: normal !important;
     }
-  }
-
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-
-    .csgoItem {
-      margin: 1%;
-      flex-basis: 23%;
-      flex-grow: 0;
-      border: 1px solid gray;
-      background-color: white;
-    }
-  }
-
-  .continueButton{
-    background-color: darkorange;
   }
 }

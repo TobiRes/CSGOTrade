@@ -20,3 +20,50 @@ ion-content {
 button.item.item-block {
   background-color: transparent;
 }
+
+ion-header{
+  background-color: #ff7800;
+}
+
+.toolbar-background {
+  background-color: #ff7800 !important;
+}
+
+.back-button, .toolbar-title{
+  color: white;
+}
+
+.selectedItem {
+  background-color: #ff7800 !important;
+  border: 1px solid black !important;
+  .itemDescription {
+    color: black;
+    span {
+      color: black;
+    }
+  }
+  .itemType{
+    color: black;
+  }
+}
+
+.continueButton{
+  background-color: #ff7800;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+
+  .csgoItem {
+    margin: 1%;
+    flex-basis: 23%;
+    flex-grow: 0;
+    border: 1px solid gray;
+    background-color: white;
+  }
+}
+
+.scroll-content{
+  background-color: white;
+}
