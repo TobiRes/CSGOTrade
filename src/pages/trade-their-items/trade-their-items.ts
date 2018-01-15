@@ -35,8 +35,24 @@ export class TradeTheirItemsPage {
   }
 
   addItemToTrade(csgoItem) {
-    this.theirItemsToTrade.push(csgoItem);
+    let indexOfItem: number = this.myItemsToTrade.indexOf(csgoItem);
+    if( indexOfItem > -1){
+      this.theirItemsToTrade.splice(indexOfItem, 1);
+    } else {
+      this.theirItemsToTrade.push(csgoItem);
+    }
   }
+
+  isSelected(item: CSGOItem){
+    let selected = false;
+    this.theirItemsToTrade.forEach( myItem => {
+      if(myItem == item){
+        selected = true;
+      }
+    });
+    return selected;
+  }
+
 
   continueToTradeReview() {
     this.navCtrl.push("trade-review", {

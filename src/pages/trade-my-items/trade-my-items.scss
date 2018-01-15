@@ -1,5 +1,14 @@
 page-trade-my-items {
-  header {
+  ion-header {
+    box-shadow: 0 1px 5px #999;
+
+    .back-button, .toolbar-title{
+      color: white;
+    }
+
+    .toolbar-background{
+      background-color: darkorange;
+    }
   }
 
   .tradeSummary {
@@ -23,5 +32,23 @@ page-trade-my-items {
       border: 1px solid gray;
       background-color: white;
     }
+  }
+
+  .selectedItem {
+    background-color: darkorange !important;
+    border: 1px solid black !important;
+    .itemDescription {
+      color: black;
+      span {
+        color: black;
+      }
+    }
+    .itemType{
+      color: black;
+    }
+  }
+
+  .continueButton{
+    background-color: darkorange;
   }
 }

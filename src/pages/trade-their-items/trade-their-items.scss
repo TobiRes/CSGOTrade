@@ -1,5 +1,19 @@
 page-trade-their-items {
-  header {
+  ion-header {
+    box-shadow: 0 1px 5px #999;
+
+    .back-button, .toolbar-title{
+      color: white;
+    }
+
+    .toolbar-background{
+      background-color: darkorange;
+    }
+  }
+
+  ion-spinner {
+    display: block;
+    margin: auto;
   }
 
   .tradeSummary {
@@ -10,10 +24,6 @@ page-trade-their-items {
       text-align: center !important;
       white-space: normal !important;
     }
-  }
-  ion-spinner {
-    display: block;
-    margin: auto;
   }
 
   .container {
@@ -27,5 +37,23 @@ page-trade-their-items {
       border: 1px solid gray;
       background-color: white;
     }
+  }
+
+  .selectedItem {
+    background-color: darkorange !important;
+    border: 1px solid black !important;
+    .itemDescription {
+      color: black;
+      span {
+        color: black;
+      }
+    }
+    .itemType{
+      color: black;
+    }
+  }
+
+  .continueButton{
+    background-color: darkorange;
   }
 }

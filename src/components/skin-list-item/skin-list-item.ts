@@ -24,10 +24,4 @@ export class SkinListItemComponent {
     this.itemSelected = !this.itemSelected;
     this.selected.emit(this.csgoItem);
   }
-
-  styleItemBySelected(){
-    if(this.itemSelected){
-      return {"background-color": "lightgray"};
-    }
-  }
 }

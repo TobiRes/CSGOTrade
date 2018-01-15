@@ -1,9 +1,8 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Trade with {{redditPost.author}} - My Items</ion-title>
+    <ion-title>Trade with {{redditPost.author}}</ion-title>
   </ion-navbar>
 </ion-header>
-
 
 <ion-content>
   <ion-item class="tradeSummary">
@@ -13,7 +12,7 @@
   <div padding>
     <h2>Select Your Items</h2>
     <div class="container">
-      <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
+      <div class="csgoItem" *ngFor="let item of csgoItems" [ngClass]="isSelected(item) ? 'selectedItem' : ''" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
         <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)"></skin-list-item>
       </div>
     </div>
@@ -22,6 +21,6 @@
 
 <ion-footer>
   <ion-toolbar>
-    <button ion-button full (click)="continueSelectingTheirItems()">Select my items</button>
+    <button class="continueButton" ion-button full (click)="continueSelectingTheirItems()">Continue</button>
   </ion-toolbar>
 </ion-footer>
