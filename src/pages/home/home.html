@@ -34,9 +34,8 @@
         </div>
       </div>
   </ion-navbar>
-  <ion-searchbar
-    [(ngModel)]="searchInput"
-    (ionInput)="buildSearchTerm($event)">
+  <ion-searchbar no-border [(ngModel)]="searchbarInput"
+                 (ionInput)="buildSearchString($event)">
   </ion-searchbar>
 </ion-header>
 

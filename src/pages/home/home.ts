@@ -4,6 +4,7 @@ import {RedditService} from "../../services/reddit.service";
 import {PostType, RedditPost} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
+import {SearchUtil} from "../../utils/search-util";
 
 @IonicPage({
   name: "home",
@@ -34,35 +35,31 @@ export class HomePage {
     this.getAllThreads();
   }
 
-  buildSearchTerm(event){
+  buildSearchString(event: any){
     let searchTerm: string;
     if (event.target) {
-      searchTerm = event.target.value ? event.target.value.trim().toLowerCase() : "";
+      searchTerm = event.target.value ? event.target.value.trim() : "";
     } else {
       searchTerm = event;
     }
-    let searchTermArray: string[]= searchTerm.split(" ");
-    this.search(searchTermArray);
+    if(!searchTerm.length){
+      this.redditPosts = this.backupPosts;
+    } else {
+      searchTerm = searchTerm.toLowerCase();
+      this.search(searchTerm);
+    }
   }
 
-  private search(searchTermArray){
+  private search(searchTerm){
+    let allPosts: RedditPost[] = this.backupPosts
     let searchedPosts: RedditPost[] = [];
-    console.log(searchTermArray)
-    for(let i = 0; i < searchTermArray.length; i++){
-      for(let n = 0; n < this.redditPosts.length; n++){
-        Object.keys(this.redditPosts[n]).forEach( key => {
-          console.log(this.redditPosts[n][key]);
-          this.alreadyFound = false;
-          if(this.redditPosts[n][key].toString().toLowerCase().indexOf(searchTermArray[i]) > -1
-          && !this.alreadyFound){
-            searchedPosts.push(this.redditPosts[n]);
-            this.alreadyFound = true;
-          }
-        })
-      }
+    for(let n = 0; n < allPosts.length; n++){
+
     }
+    searchedPosts = SearchUtil.removeDuplicatePostObjectsFromArray(searchedPosts);
     this.redditPosts = searchedPosts;
   }
+
 
   getAllThreads() {
     this.backupPosts = [];
@@ -70,6 +67,7 @@ export class HomePage {
       .then(redditPosts => {
         console.log(redditPosts);
         if (redditPosts && this.currentPage == "Hot") {
+          this.backupPosts = redditPosts;
           this.redditPosts = redditPosts;
         } else {
           this.scrollLoadThreshold = "10%";
