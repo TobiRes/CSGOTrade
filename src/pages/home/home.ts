@@ -8,7 +8,7 @@ import {SearchUtil} from "../../utils/search-util";
 
 @IonicPage({
   name: "home",
-  segment: ""
+  segment: "home"
 })
 @Component({
   selector: 'page-home',

@@ -22,11 +22,11 @@ button.item.item-block {
 }
 
 ion-header{
-  background-color: #ff7800;
+  background-color: #ff5400;
 }
 
 .toolbar-background {
-  background-color: #ff7800 !important;
+  background-color: #ff5400 !important;
 }
 
 .back-button, .toolbar-title{
@@ -34,7 +34,7 @@ ion-header{
 }
 
 .selectedItem {
-  background-color: #ff7800 !important;
+  background-color: #ff5400 !important;
   border: 1px solid black !important;
   .itemDescription {
     color: black;
@@ -48,7 +48,7 @@ ion-header{
 }
 
 .continueButton{
-  background-color: #ff7800;
+  background-color: #ff5400;
 }
 
 .container {
@@ -64,6 +64,19 @@ ion-header{
   }
 }
 
+.menu-inner {
+  .scroll-content{
+    background-color: white !important;
+  }
+}
+
 .scroll-content{
-  background-color: white;
+  background-color: lightgray;
+}
+
+ion-item-options{
+  border: 0 !important;
+  .button{
+    background-color: #ff5400 !important;
+  }
 }
