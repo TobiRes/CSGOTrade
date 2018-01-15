@@ -83,6 +83,8 @@
     </button>
   </ion-item>
 
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
+
   <div class="container">
     <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalItem(item)">
       <img class="itemIcon" src="http://cdn.steamcommunity.com/economy/image/{{item.iconUrl}}">

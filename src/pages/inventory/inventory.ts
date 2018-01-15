@@ -20,6 +20,7 @@ export class InventoryPage {
   selectedGrades: string[] = [];
   selectedExteriors: string[] = [];
   checkType: SkinCategory = SkinCategory.statTrak;
+  isLoading: boolean = true;
 
   private csgoInventoryData: any;
   private backupCsgoItems: CSGOItem[];
@@ -29,6 +30,7 @@ export class InventoryPage {
               private itemService: ItemService,
               private storage: Storage) {
 
+    this.isLoading = true;
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
         this.csgoItems = storageData[0];
@@ -36,6 +38,8 @@ export class InventoryPage {
         this.steamProfileURL = storageData[1];
         if (!this.csgoItems) {
           this.getCSGOInventory();
+        } else {
+          this.isLoading = false;
         }
       })
       .catch(error => console.error(error));
@@ -60,6 +64,7 @@ export class InventoryPage {
   }
 
   getCSGOInventory() {
+    this.isLoading = true;
     if (this.steamProfileURL) {
       this.csgoItems = [];
       this.storage.set("steamProfileURL", this.steamProfileURL);
@@ -70,6 +75,7 @@ export class InventoryPage {
             this.csgoItems.push(this.itemService.fillItemMetaData(this.csgoInventoryData[key]));
           });
           this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
+          this.isLoading = false;
           this.storage.set("csgoItems", this.csgoItems)
             .then(() => {
               this.backupCsgoItems = this.csgoItems;
@@ -79,6 +85,7 @@ export class InventoryPage {
             });
         })
         .catch(error => {
+          this.isLoading = false;
           console.error(error)
         });
     }
