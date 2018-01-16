@@ -19,7 +19,7 @@ export class HideHeaderDirective {
 
 
   ngOnInit(){
-    //TODO: Set eventcount to show header on upscroll according to the device height
+    //TODO: Set eventcount to show header on upscroll according to the device height (event.scrollHeight)
     this.headerHeight = this.header.clientHeight;
     this.scrollContent = this.element.nativeElement.getElementsByClassName("scroll-content")[0];
     this.renderer.setStyle(this.header, 'webkitTransition', 'top 1200ms');

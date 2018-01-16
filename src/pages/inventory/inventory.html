@@ -1,10 +1,10 @@
-<ion-header>
+<ion-header #postHeader>
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <img src="../../assets/imgs/banner.png">
+      Inventory
     </ion-title>
   </ion-navbar>
   <ion-toolbar class="pageToolbar">
@@ -75,7 +75,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content hide-header [header]="postHeader">
   <ion-item class="steamLinkInput">
     <ion-input placeholder="Enter your Steamprofile-URL" [(ngModel)]="steamProfileURL"></ion-input>
     <button clear icon-only item-right class="refreshButton" (click)="getCSGOInventory()">

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavParams} from 'ionic-angular';
 import {CSGOItem} from "../../models/item.model";
 import {RedditPost} from "../../models/redditpost.model";
 import {TradeofferService} from "../../services/tradeoffer.service";
@@ -22,17 +22,46 @@ export class TradeReviewPage {
   private myItemsToTrade: CSGOItem[] = []
   private theirItemsToTrade: CSGOItem[] = [];
 
-  constructor(public navParams: NavParams, private tradeOfferService: TradeofferService, private dynStyleService: DynamicStyleService) {
+  constructor(public navParams: NavParams,
+              private tradeOfferService: TradeofferService,
+              private dynStyleService: DynamicStyleService,
+              private alertCtrl: AlertController) {
     this.redditPost = this.navParams.get("redditPost");
     this.myItemsToTrade = this.navParams.get("myItemsToTrade");
     this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
   }
 
   sendTradeOffer() {
-    this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
+    if(!this.theirItemsToTrade.length){
+      this.alertUserHasNotSetAnyItemsForTradePartner();
+    } else {
+      this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
+    }
   }
 
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
+  }
+
+  private alertUserHasNotSetAnyItemsForTradePartner(){
+    this.alertCtrl.create({
+      title: 'You are about to create a empty Tradeoffer!',
+      subTitle: "When you send this offer you will not get any items in return. Continue anyway?",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Continue',
+          handler: () => {
+            this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
+          }
+        }
+      ]
+    }).present();
   }
 }

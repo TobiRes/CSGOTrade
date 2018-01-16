@@ -13,7 +13,8 @@ page-inventory {
     .pageToolbar, .toolbar-background {
       height: auto;
       min-height: auto;
-      background-color: #fffbfb69;
+      background-color: #ff5400;
+      border: 0 !important;
 
       .filter {
         width: 100%;
@@ -23,7 +24,7 @@ page-inventory {
 
           ion-item {
             background-color: transparent;
-            color: #1E3847;
+            color: white;
             height: auto;
             width: auto;
             float: right;
@@ -44,7 +45,7 @@ page-inventory {
                 visibility: hidden;
               }
               .select-icon-inner {
-                color: #1E3847;
+                color: white;
               }
               .item-inner, .button-inner, .input-wrapper, button {
                 height: auto;
@@ -70,19 +71,6 @@ page-inventory {
       text-overflow: ellipsis;
       width: 90%;
       color: gray;
-    }
-  }
-
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-
-    .csgoItem {
-      margin: 1%;
-      flex-basis: 23%;
-      flex-grow: 0;
-      border: 1px solid gray;
-      background-color: white;
     }
   }
 
