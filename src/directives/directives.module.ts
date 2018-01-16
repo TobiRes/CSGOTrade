@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { HideHeaderDirective } from './hide-header/hide-header';
+import {NgModule} from '@angular/core';
+import {HideHeaderDirective} from './hide-header/hide-header';
 
 @NgModule({
-	declarations: [HideHeaderDirective],
-	imports: [],
-	exports: [HideHeaderDirective]
+  declarations: [HideHeaderDirective],
+  imports: [],
+  exports: [HideHeaderDirective]
 })
-export class DirectivesModule {}
+export class DirectivesModule {
+}

@@ -1,4 +1,4 @@
-import {Directive, Input, ElementRef, Renderer2} from '@angular/core';
+import {Directive, ElementRef, Input, Renderer2} from '@angular/core';
 
 @Directive({
   selector: '[hide-header]',
@@ -18,7 +18,7 @@ export class HideHeaderDirective {
   }
 
 
-  ngOnInit(){
+  ngOnInit() {
     //TODO: Set eventcount to show header on upscroll according to the device height (event.scrollHeight)
     this.headerHeight = this.header.clientHeight;
     this.scrollContent = this.element.nativeElement.getElementsByClassName("scroll-content")[0];
@@ -26,35 +26,35 @@ export class HideHeaderDirective {
     this.renderer.setStyle(this.scrollContent, 'webkitTransition', 'margin-top 1200ms');
   }
 
-  onContentScroll(event){
+  onContentScroll(event) {
     this.setMarginOfScrollContent(event.contentTop);
     let scrollTopChecker = this.getScrollTopChecker(event);
     this.setHeaderAndScrollContentPositionAndMargin(event, scrollTopChecker);
   }
 
   private setMarginOfScrollContent(contentTop) {
-    if(!this.marginTopOfScrollContent)
+    if (!this.marginTopOfScrollContent)
       this.marginTopOfScrollContent = contentTop;
   }
 
   private getScrollTopChecker(event: any) {
     let scrollTopChecker: number = 0;
     this.eventArray.push(event);
-    if(this.eventArray.length > 130){
+    if (this.eventArray.length > 130) {
       this.eventArray.splice(0, 1);
     }
-    this.eventArray.forEach( event => {
-      if(event.directionY == "up"){
-        scrollTopChecker ++;
+    this.eventArray.forEach(event => {
+      if (event.directionY == "up") {
+        scrollTopChecker++;
       }
     });
     return scrollTopChecker;
   }
 
   private setHeaderAndScrollContentPositionAndMargin(event: any, scrollTopChecker: number) {
-    if(event.scrollTop > this.marginTopOfScrollContent && scrollTopChecker < 130) {
-      if (event.directionY == "down"){
-        this.renderer.setStyle(this.header, "top", "-" + (this.marginTopOfScrollContent + 2) +"px");
+    if (event.scrollTop > this.marginTopOfScrollContent && scrollTopChecker < 130) {
+      if (event.directionY == "down") {
+        this.renderer.setStyle(this.header, "top", "-" + (this.marginTopOfScrollContent + 2) + "px");
         this.renderer.setStyle(this.scrollContent, 'margin-top', '0');
       }
     } else {

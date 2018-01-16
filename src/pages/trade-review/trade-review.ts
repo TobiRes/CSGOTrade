@@ -32,7 +32,7 @@ export class TradeReviewPage {
   }
 
   sendTradeOffer() {
-    if(!this.theirItemsToTrade.length){
+    if (!this.theirItemsToTrade.length) {
       this.alertUserHasNotSetAnyItemsForTradePartner();
     } else {
       this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
@@ -43,7 +43,7 @@ export class TradeReviewPage {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
   }
 
-  private alertUserHasNotSetAnyItemsForTradePartner(){
+  private alertUserHasNotSetAnyItemsForTradePartner() {
     this.alertCtrl.create({
       title: 'You are about to create a empty Tradeoffer!',
       subTitle: "When you send this offer you will not get any items in return. Continue anyway?",

@@ -50,7 +50,7 @@ export class TradeMyItemsPage {
 
   addItemToTrade(csgoItem) {
     let indexOfItem: number = this.myItemsToTrade.indexOf(csgoItem);
-    if( indexOfItem > -1){
+    if (indexOfItem > -1) {
       this.myItemsToTrade.splice(indexOfItem, 1);
     } else {
       this.myItemsToTrade.push(csgoItem);
@@ -58,10 +58,10 @@ export class TradeMyItemsPage {
 
   }
 
-  isSelected(item: CSGOItem){
+  isSelected(item: CSGOItem) {
     let selected = false;
-    this.myItemsToTrade.forEach( myItem => {
-      if(myItem == item){
+    this.myItemsToTrade.forEach(myItem => {
+      if (myItem == item) {
         selected = true;
       }
     });
@@ -72,7 +72,8 @@ export class TradeMyItemsPage {
     this.navCtrl.push("trade-review", {
       myItemsToTrade: this.myItemsToTrade,
       theirItemsToTrade: this.theirItemsToTrade,
-      redditPost: this.redditPost})
+      redditPost: this.redditPost
+    })
   }
 
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {

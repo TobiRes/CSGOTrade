@@ -1,6 +1,7 @@
 <button detail-none ion-item class="selectItemButton" (click)="selectItem()">
   <img class="itemIcon" src="http://cdn.steamcommunity.com/economy/image/{{csgoItem.iconUrl}}">
-  <p *ngIf="csgoItem.exterior" class="itemDescription">{{csgoItem.exterior}}<span *ngIf="csgoItem.skinCategory == checkType">{{csgoItem.skinCategory}}</span>
+  <p *ngIf="csgoItem.exterior" class="itemDescription">{{csgoItem.exterior}}<span
+    *ngIf="csgoItem.skinCategory == checkType">{{csgoItem.skinCategory}}</span>
   </p>
   <p *ngIf="!csgoItem.exterior" class="itemType">{{csgoItem.type}}</p>
 </button>

@@ -34,36 +34,19 @@ export class HomePage {
     this.getAllThreads();
   }
 
-  buildSearchString(event: any){
+  buildSearchString(event: any) {
     let searchTerm: string;
     if (event.target) {
       searchTerm = event.target.value ? event.target.value.trim() : "";
     } else {
       searchTerm = event;
     }
-    if(!searchTerm.length){
+    if (!searchTerm.length) {
       this.redditPosts = this.backupPosts;
     } else {
       searchTerm = searchTerm.toLowerCase();
       this.search(searchTerm);
     }
-  }
-
-  private search(searchTerm){
-    let allPosts: RedditPost[] = this.backupPosts;
-    let searchedPosts: RedditPost[] = [];
-    for(let n = 0; n < allPosts.length; n++){
-        Object.keys(allPosts[n]).forEach( key => {
-          this.alreadyFound = false;
-          if(allPosts[n][key].toString().toLowerCase().indexOf(searchTerm) > -1
-            && !this.alreadyFound){
-            searchedPosts.push(allPosts[n]);
-            this.alreadyFound = true;
-          }
-        })
-    }
-    searchedPosts = SearchUtil.removeDuplicatePostObjectsFromArray(searchedPosts);
-    this.redditPosts = searchedPosts;
   }
 
   getAllThreads() {
@@ -145,6 +128,23 @@ export class HomePage {
     this.navCtrl.push("trade-their-items", {postData});
   }
 
+  private search(searchTerm) {
+    let allPosts: RedditPost[] = this.backupPosts;
+    let searchedPosts: RedditPost[] = [];
+    for (let n = 0; n < allPosts.length; n++) {
+      Object.keys(allPosts[n]).forEach(key => {
+        this.alreadyFound = false;
+        if (allPosts[n][key].toString().toLowerCase().indexOf(searchTerm) > -1
+          && !this.alreadyFound) {
+          searchedPosts.push(allPosts[n]);
+          this.alreadyFound = true;
+        }
+      })
+    }
+    searchedPosts = SearchUtil.removeDuplicatePostObjectsFromArray(searchedPosts);
+    this.redditPosts = searchedPosts;
+  }
+
   private getTradeInfo(redditPostData: any) {
     redditPostData.forEach(redditPost => {
       let tradeThread: RedditPost = {
@@ -205,7 +205,7 @@ export class HomePage {
     this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
-    if(this.currentPage == "Hot"){
+    if (this.currentPage == "Hot") {
       this.storage.set("redditPosts", this.backupPosts);
     }
   }
