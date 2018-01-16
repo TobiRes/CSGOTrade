@@ -1,13 +1,15 @@
 page-post-view {
   ion-content {
-    background-image: url("../../assets/imgs/background.jpg");
 
+    .card{
+      margin: 0 !important;
+      width: 100%;
+    }
     .postContent {
     }
     .additionalInfo {
       border-top: 1px solid black !important;
       p {
-        padding: 5px;
         white-space: normal;
       }
       ion-label {
