@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
-import {CSGOItem} from "../../models/item.model";
+import {CSGOItem} from "../../models/csgoItem.model";
 import {RedditPost} from "../../models/redditpost.model";
 import {Storage} from "@ionic/storage";
 import {ItemService} from "../../services/item.service";

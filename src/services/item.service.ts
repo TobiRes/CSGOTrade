@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {CSGOItem, Exterior, Grade, ItemType, SkinCategory} from "../models/item.model";
+import {CSGOItem, Exterior, Grade, ItemType, SkinCategory} from "../models/csgoItem.model";
 
 
 @Injectable()

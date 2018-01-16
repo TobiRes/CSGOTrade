@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavParams} from 'ionic-angular';
-import {CSGOItem} from "../../models/item.model";
+import {CSGOItem} from "../../models/csgoItem.model";
 import {RedditPost} from "../../models/redditpost.model";
 import {TradeofferService} from "../../services/tradeoffer.service";
 import {DynamicStyleService} from "../../services/dynamic-style.service";

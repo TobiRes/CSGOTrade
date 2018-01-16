@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from "@angular/core";
-import {CSGOItem} from "../models/item.model";
+import {CSGOItem} from "../models/csgoItem.model";
 import {RedditPost} from "../models/redditpost.model";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {Subject} from "rxjs/Subject";

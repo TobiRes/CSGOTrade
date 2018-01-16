@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CSGOItem, SkinCategory} from "../../models/item.model";
+import {CSGOItem, SkinCategory} from "../../models/csgoItem.model";
 
 @Component({
   selector: 'skin-list-item',

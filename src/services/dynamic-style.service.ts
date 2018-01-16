@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {CSGOItem, SkinCategory} from "../models/item.model";
+import {CSGOItem, SkinCategory} from "../models/csgoItem.model";
 
 @Injectable()
 export class DynamicStyleService {
