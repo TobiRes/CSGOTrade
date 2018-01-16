@@ -25,6 +25,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {DynamicStyleService} from "../services/dynamic-style.service";
 import {AboutPageModule} from "../pages/about/about.module";
 import {DirectivesModule} from "../directives/directives.module";
+import {ItemModalPageModule} from "../pages/item-modal/item-modal.module";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {DirectivesModule} from "../directives/directives.module";
     TradeTheirItemsPageModule,
     TradeReviewPageModule,
     AboutPageModule,
+    ItemModalPageModule,
     DirectivesModule
   ],
   bootstrap: [IonicApp],

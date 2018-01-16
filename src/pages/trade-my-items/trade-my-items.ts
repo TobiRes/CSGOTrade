@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {
+  AlertController, IonicPage, LoadingController, Modal, ModalController, ModalOptions, NavController,
+  NavParams
+} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {CSGOItemService} from "../../services/csgoItem.service";
 import {CSGOItem} from "../../models/csgoItem.model";
@@ -26,10 +29,14 @@ export class TradeMyItemsPage {
 
   private mySteamProfile: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private steamService: SteamService,
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private storage: Storage,
+              private steamService: SteamService,
               private loadCtrl: LoadingController,
               private itemService: CSGOItemService,
               private alertCtrl: AlertController,
+              private modal: ModalController,
               private dynStyleService: DynamicStyleService) {
 
     this.redditPost = this.navParams.get("redditPost");
@@ -49,13 +56,24 @@ export class TradeMyItemsPage {
   }
 
   addItemToTrade(csgoItem) {
+    this.openModal(csgoItem);
     let indexOfItem: number = this.myItemsToTrade.indexOf(csgoItem);
     if (indexOfItem > -1) {
       this.myItemsToTrade.splice(indexOfItem, 1);
     } else {
       this.myItemsToTrade.push(csgoItem);
     }
+  }
 
+  private openModal(csgoItem: CSGOItem){
+    const csgoItemModalOptions: ModalOptions = {
+      cssClass: "csgoItemModal"
+    }
+    const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: csgoItem}, csgoItemModalOptions);
+    itemModal.present();
+    itemModal.onDidDismiss((data => {
+      console.log(data)
+    }));
   }
 
   isSelected(item: CSGOItem) {

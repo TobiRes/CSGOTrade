@@ -102,6 +102,32 @@ ion-item-options {
   }
 }
 
+//MODAL
+.csgoItemModal .modal-wrapper{
+  position: absolute;
+  overflow: hidden;
+  max-width: 93vw;
+  border-radius: 5px;
+  width: 95vw;
+  height: 70vh !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border: 0;
+  box-shadow: 0 16px 20px rgba(0,0,0,.4);
+
+  button {
+    color: white;
+  }
+}
+ion-backdrop {
+  visibility: visible !important;
+  background: black !important;
+  opacity: 0.5 !important;
+}
+
 //REDDIT POST OUTLINE
 .store {
   border-left: 5px solid black;
