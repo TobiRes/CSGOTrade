@@ -5,8 +5,8 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 
 import {HomePage} from '../pages/home/home';
 import {InventoryPage} from "../pages/inventory/inventory";
-import {SteamLoginPage} from "../pages/steam-login/steam-login";
 import {AboutPage} from "../pages/about/about";
+import {SettingsPage} from "../pages/settings/settings"
 
 @Component({
   templateUrl: 'app.html'
@@ -21,7 +21,7 @@ export class MyApp {
     this.pages = [
       {title: 'Home', component: HomePage},
       {title: 'Inventory', component: InventoryPage},
-      {title: "Steam Login", component: SteamLoginPage},
+      {title: "Settings", component: SettingsPage},
       {title: "About", component: AboutPage}
     ];
     platform.ready().then(() => {
