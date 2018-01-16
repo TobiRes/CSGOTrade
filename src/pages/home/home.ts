@@ -63,7 +63,7 @@ export class HomePage {
           this.scrollLoadThreshold = "10%";
           this.redditService.getRedditThreads(this.currentPage)
             .then(redditPostData => {
-              console.log("redditPost", redditPostData)
+              this.backupPosts = [];
               this.getTradeInfo(redditPostData)
             })
             .catch(error => console.error(error));
@@ -148,7 +148,6 @@ export class HomePage {
   }
 
   private getTradeInfo(redditPostData: any) {
-    this.backupPosts = [];
     redditPostData.forEach(redditPost => {
       let tradeThread: RedditPost = {
         title: redditPost.data.title,
@@ -218,7 +217,7 @@ export class HomePage {
     let filtered: boolean = false;
     this.postTypesToFilter.forEach(type => {
       switch (type) {
-        case "RedditPost":
+        case "Trade":
           if (postType == PostType.trade)
             filtered = true;
           break;
