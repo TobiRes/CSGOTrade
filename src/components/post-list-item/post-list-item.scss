@@ -1,32 +1,5 @@
 post-list-item {
 
-  .store {
-    border-left: 5px solid black;
-  }
-  .pricecheck {
-    border-left: 5px solid darkred;
-  }
-  .discussion {
-    border-left: 5px solid darkblue;
-  }
-  .question {
-    border-left: 5px solid sandybrown;
-  }
-  .lph {
-    border-left: 5px solid darkgreen;
-  }
-  .psa {
-    border-left: 5px solid purple;
-  }
-  .free {
-    border-left: 5px solid green;
-  }
-  .important {
-    border-left: 5px solid red;
-  }
-  .unkown {
-    border-left: 5px solid yellow;
-  }
 
   ion-item-sliding {
     box-shadow: 0 2px 3px #999;
@@ -51,6 +24,18 @@ post-list-item {
       bottom: 5px;
       p {
         font-size: 0.6em;
+      }
+    }
+    .numberOfComments {
+      position: absolute;
+      right: 5px;
+      bottom: 15px;
+      p {
+        font-size: 0.6em;
+      }
+      ion-icon{
+        font-size: 1.3em;
+        margin: 3px;
       }
     }
   }

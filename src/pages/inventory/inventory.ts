@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
-import {ItemService} from "../../services/item.service";
+import {CSGOItemService} from "../../services/csgoItem.service";
 import {CSGOItem} from "../../models/csgoItem.model";
 import {Storage} from "@ionic/storage";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
@@ -26,7 +26,7 @@ export class InventoryPage {
 
 
   constructor(private steamService: SteamService,
-              private itemService: ItemService,
+              private itemService: CSGOItemService,
               private storage: Storage,
               private dynStyleService: DynamicStyleService) {
 

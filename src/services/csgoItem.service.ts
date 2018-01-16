@@ -3,7 +3,7 @@ import {CSGOItem, Exterior, Grade, ItemType, SkinCategory} from "../models/csgoI
 
 
 @Injectable()
-export class ItemService {
+export class CSGOItemService {
 
   constructor() {
   }

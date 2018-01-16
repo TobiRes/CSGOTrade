@@ -151,6 +151,7 @@ export class HomePage {
         title: redditPost.data.title,
         author: redditPost.data.author,
         redditURL: redditPost.data.url,
+        numberOfComments: redditPost.data.num_comments,
         timeSinceCreation: this.threadinfoService.timeSince(redditPost.data.created_utc),
         content: redditPost.data.selftext,
         type: this.threadinfoService.getPostType(redditPost.data.title),

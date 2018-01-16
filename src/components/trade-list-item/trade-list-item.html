@@ -1,6 +1,6 @@
 <ion-item-sliding>
   <ion-item>
-    <button ion-item class="openPageButton" (click)="openPost()">
+    <button ion-item class="openPageButton" (click)="openPost()" detail-none>
     </button>
     <p class="has">
       {{tradePost.has}}
@@ -8,8 +8,13 @@
     <p class="wants">
       B/O: {{tradePost.wants}}
     </p>
-    <div class="timeSinceCreation">
-      <p>{{tradePost.timeSinceCreation}} ago</p>
+    <div>
+      <div class="timeSinceCreation">
+        <p>{{tradePost.timeSinceCreation}} ago</p>
+      </div>
+      <div class="numberOfComments">
+        <p><ion-icon outline name="text-outline"></ion-icon>{{tradePost.numberOfComments}}</p>
+      </div>
     </div>
   </ion-item>
   <ion-item-options>

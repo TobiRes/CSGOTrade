@@ -5,6 +5,7 @@ export interface RedditPost {
   title: string;
   content: string;
   timeSinceCreation: string;
+  numberOfComments: string;
   tradelink?: string;
   steamProfileURL?: string;
   partnerId?: string;

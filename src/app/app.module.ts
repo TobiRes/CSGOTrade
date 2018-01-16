@@ -13,7 +13,7 @@ import {ComponentsModule} from "../components/components.module";
 import {HomePageModule} from "../pages/home/home.module";
 import {InventoryPageModule} from "../pages/inventory/inventory.module";
 import {SteamService} from "../services/steam.service";
-import {ItemService} from "../services/item.service";
+import {CSGOItemService} from "../services/csgoItem.service";
 import {IonicStorageModule} from "@ionic/storage";
 import {SteamLoginService} from "../services/steam-login.service";
 import {SteamLoginPageModule} from "../pages/steam-login/steam-login.module";
@@ -57,7 +57,7 @@ import {DirectivesModule} from "../directives/directives.module";
     RedditService,
     ThreadinfoService,
     SteamService,
-    ItemService,
+    CSGOItemService,
     SteamLoginService,
     TradeofferService,
     InAppBrowser,

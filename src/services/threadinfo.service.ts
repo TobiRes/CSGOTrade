@@ -7,7 +7,6 @@ export class ThreadinfoService {
   constructor() {
   }
 
-
   getPostType(threadTitle: string) {
     let postType: PostType;
 

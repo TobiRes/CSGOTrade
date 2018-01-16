@@ -4,7 +4,7 @@ import {SteamService} from "../../services/steam.service";
 import {CSGOItem} from "../../models/csgoItem.model";
 import {RedditPost} from "../../models/redditpost.model";
 import {Storage} from "@ionic/storage";
-import {ItemService} from "../../services/item.service";
+import {CSGOItemService} from "../../services/csgoItem.service";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
 
 @IonicPage({
@@ -26,7 +26,7 @@ export class TradeTheirItemsPage {
   private theirItemsToTrade: CSGOItem[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private steamService: SteamService,
-              private itemService: ItemService,
+              private itemService: CSGOItemService,
               private alertCtrl: AlertController,
               private dynStyleService: DynamicStyleService) {
     this.redditPost = this.navParams.get("postData");

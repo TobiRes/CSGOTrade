@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
-import {ItemService} from "../../services/item.service";
+import {CSGOItemService} from "../../services/csgoItem.service";
 import {CSGOItem} from "../../models/csgoItem.model";
 import {Storage} from "@ionic/storage";
 import {RedditPost} from "../../models/redditpost.model";
@@ -28,7 +28,7 @@ export class TradeMyItemsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private steamService: SteamService,
               private loadCtrl: LoadingController,
-              private itemService: ItemService,
+              private itemService: CSGOItemService,
               private alertCtrl: AlertController,
               private dynStyleService: DynamicStyleService) {
 
