@@ -8,7 +8,7 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
 @IonicPage({
   name: "trade-review",
   segment: "trade-review",
-  defaultHistory: ["trade-their-items"]
+  defaultHistory: ["trade-my-items"]
 })
 @Component({
   selector: 'page-trade-review',

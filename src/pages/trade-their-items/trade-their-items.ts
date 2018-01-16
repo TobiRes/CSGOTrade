@@ -10,7 +10,7 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
 @IonicPage({
   name: "trade-their-items",
   segment: "trade-their-items",
-  defaultHistory: ["trade-my-items"]
+  defaultHistory: ["home"]
 })
 @Component({
   selector: 'page-trade-their-items',
@@ -29,8 +29,7 @@ export class TradeTheirItemsPage {
               private itemService: ItemService,
               private alertCtrl: AlertController,
               private dynStyleService: DynamicStyleService) {
-    this.redditPost = this.navParams.get("redditPost");
-    this.myItemsToTrade = this.navParams.get("myItemsToTrade");
+    this.redditPost = this.navParams.get("postData");
     this.loadTheirInventory();
   }
 
@@ -53,9 +52,8 @@ export class TradeTheirItemsPage {
     return selected;
   }
 
-  continueToTradeReview() {
-    this.navCtrl.push("trade-review", {
-      myItemsToTrade: this.myItemsToTrade,
+  continueSelectingMyItems() {
+    this.navCtrl.push("trade-my-items", {
       theirItemsToTrade: this.theirItemsToTrade,
       redditPost: this.redditPost
     })

@@ -66,7 +66,6 @@ export class HomePage {
     this.redditPosts = searchedPosts;
   }
 
-
   getAllThreads() {
     this.backupPosts = [];
     this.storage.get("redditPosts")
@@ -143,7 +142,7 @@ export class HomePage {
   }
 
   sendTradeOffer(postData: RedditPost) {
-    this.navCtrl.push("trade-my-items", {postData});
+    this.navCtrl.push("trade-their-items", {postData});
   }
 
   private getTradeInfo(redditPostData: any) {

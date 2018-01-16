@@ -11,7 +11,7 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
 @IonicPage({
   name: "trade-my-items",
   segment: "trade-my-items",
-  defaultHistory: ["home"]
+  defaultHistory: ["trade-their-items"]
 })
 @Component({
   selector: 'page-trade-my-items',
@@ -22,6 +22,7 @@ export class TradeMyItemsPage {
   redditPost: RedditPost;
   csgoItems: CSGOItem[] = [];
   myItemsToTrade: CSGOItem[] = [];
+  theirItemsToTrade: CSGOItem[] = [];
 
   private mySteamProfile: string;
 
@@ -30,7 +31,9 @@ export class TradeMyItemsPage {
               private itemService: ItemService,
               private alertCtrl: AlertController,
               private dynStyleService: DynamicStyleService) {
-    this.redditPost = this.navParams.get("postData");
+
+    this.redditPost = this.navParams.get("redditPost");
+    this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
 
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
@@ -65,8 +68,11 @@ export class TradeMyItemsPage {
     return selected;
   }
 
-  continueSelectingTheirItems() {
-    this.navCtrl.push("trade-their-items", {myItemsToTrade: this.myItemsToTrade, redditPost: this.redditPost})
+  continueToTradeReview() {
+    this.navCtrl.push("trade-review", {
+      myItemsToTrade: this.myItemsToTrade,
+      theirItemsToTrade: this.theirItemsToTrade,
+      redditPost: this.redditPost})
   }
 
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
