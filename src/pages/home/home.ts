@@ -148,6 +148,7 @@ export class HomePage {
   }
 
   private getTradeInfo(redditPostData: any) {
+    this.backupPosts = [];
     redditPostData.forEach(redditPost => {
       let tradeThread: RedditPost = {
         title: redditPost.data.title,
