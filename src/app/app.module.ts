@@ -24,6 +24,7 @@ import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {DynamicStyleService} from "../services/dynamic-style.service";
 import {AboutPageModule} from "../pages/about/about.module";
+import {DirectivesModule} from "../directives/directives.module";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {AboutPageModule} from "../pages/about/about.module";
     TradeMyItemsPageModule,
     TradeTheirItemsPageModule,
     TradeReviewPageModule,
-    AboutPageModule
+    AboutPageModule,
+    DirectivesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

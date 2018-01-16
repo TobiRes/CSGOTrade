@@ -2,6 +2,7 @@ import {ComponentsModule} from "../../components/components.module";
 import {IonicPageModule} from "ionic-angular";
 import {NgModule} from "@angular/core";
 import {HomePage} from "./home";
+import {DirectivesModule} from "../../directives/directives.module";
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import {HomePage} from "./home";
   ],
   imports: [
     IonicPageModule.forChild(HomePage),
-    ComponentsModule
+    ComponentsModule,
+    DirectivesModule
   ],
   exports: [
     HomePage

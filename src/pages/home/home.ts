@@ -21,7 +21,6 @@ export class HomePage {
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
   currentPage: string = "Hot";
-  searchInput: string = "";
 
   private backupPosts: RedditPost[] = [];
   private lastThreadName: string;

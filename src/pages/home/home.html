@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header #postHeader>
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -39,7 +39,7 @@
   </ion-searchbar>
 </ion-header>
 
-<ion-content>
+<ion-content hide-header [header]="postHeader">
   <ion-refresher (ionRefresh)="refreshPosts($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
