@@ -34,11 +34,6 @@ ion-header {
 .back-button, .toolbar-title {
   color: white;
 }
-.menu-inner {
-  .scroll-content {
-    background-color: white !important;
-  }
-}
 
 .scroll-content {
   background-color: lightgray;
@@ -141,12 +136,23 @@ ion-item-options {
   text-align: center;
   color: green;
   .circle {
-    display: block;
+    display: inline-block;
     background: green;
     border-radius: 50%;
     height: 5px;
     width: 5px;
-    margin: 0;
+    margin: 0 4px 2px 0;
+  }
+  span{
+    color: green;
+  }
+  p {
+    color: black;
+  }
+}
+.menu-inner {
+  .scroll-content {
+    background-color: white !important;
   }
 }
 
