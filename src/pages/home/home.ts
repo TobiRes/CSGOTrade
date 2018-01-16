@@ -50,10 +50,17 @@ export class HomePage {
   }
 
   private search(searchTerm){
-    let allPosts: RedditPost[] = this.backupPosts
+    let allPosts: RedditPost[] = this.backupPosts;
     let searchedPosts: RedditPost[] = [];
     for(let n = 0; n < allPosts.length; n++){
-
+        Object.keys(allPosts[n]).forEach( key => {
+          this.alreadyFound = false;
+          if(allPosts[n][key].toString().toLowerCase().indexOf(searchTerm) > -1
+            && !this.alreadyFound){
+            searchedPosts.push(allPosts[n]);
+            this.alreadyFound = true;
+          }
+        })
     }
     searchedPosts = SearchUtil.removeDuplicatePostObjectsFromArray(searchedPosts);
     this.redditPosts = searchedPosts;
