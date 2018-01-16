@@ -135,3 +135,19 @@ ion-item-options {
 .unkown {
   border-left: 5px solid yellow;
 }
+
+//MENU
+.activeUserCount {
+  text-align: center;
+  color: green;
+  .circle {
+    display: block;
+    background: green;
+    border-radius: 50%;
+    height: 5px;
+    width: 5px;
+    margin: 0;
+  }
+}
+
+

@@ -17,6 +17,7 @@ export class RedditService {
       try {
         this.http.get(this.globalOffensiveAboutURL).subscribe(
           (redditPostData: any) => {
+            console.log(redditPostData)
             resolve(redditPostData.data.active_user_count);
           })
       } catch (error) {

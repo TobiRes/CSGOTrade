@@ -32,7 +32,6 @@ export class HomePage {
               private redditService: RedditService,
               private threadinfoService: ThreadinfoService,
               private storage: Storage) {
-    this.getActiveUserCount();
     this.getAllThreads();
   }
 
@@ -257,9 +256,4 @@ export class HomePage {
     return filtered;
   }
 
-  private getActiveUserCount() {
-    this.redditService.getActiveUserCount()
-      .then((activeUser: number) => this.activeUserCount = activeUser)
-      .catch(error => console.error(error));
-  }
 }

@@ -7,6 +7,7 @@ import {HomePage} from '../pages/home/home';
 import {InventoryPage} from "../pages/inventory/inventory";
 import {SteamLoginPage} from "../pages/steam-login/steam-login";
 import {AboutPage} from "../pages/about/about";
+import {RedditService} from "../services/reddit.service";
 
 @Component({
   templateUrl: 'app.html'
@@ -16,8 +17,12 @@ export class MyApp {
 
   rootPage: any = HomePage;
   pages: Array<{ title: string, component: any }>;
+  private activeUserCount: number;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform,
+              statusBar: StatusBar,
+              splashScreen: SplashScreen,
+              private redditService: RedditService) {
     this.pages = [
       {title: 'Home', component: HomePage},
       {title: 'Inventory', component: InventoryPage},
@@ -27,6 +32,7 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      this.getActiveUserCount();
       statusBar.styleDefault();
       splashScreen.hide();
     });
@@ -35,5 +41,12 @@ export class MyApp {
   openPage(page) {
     this.nav.setRoot(page.component);
   }
+
+  private getActiveUserCount() {
+    this.redditService.getActiveUserCount()
+      .then((activeUser: number) => this.activeUserCount = activeUser)
+      .catch(error => console.error(error));
+  }
+
 }
 
