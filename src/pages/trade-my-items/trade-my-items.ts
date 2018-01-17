@@ -9,13 +9,10 @@ import {CSGOItem} from "../../models/csgoItem.model";
 import {Storage} from "@ionic/storage";
 import {RedditPost} from "../../models/redditpost.model";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
+import {TradeReviewPage} from "../trade-review/trade-review";
 
 
-@IonicPage({
-  name: "trade-my-items",
-  segment: "trade-my-items",
-  defaultHistory: ["trade-their-items"]
-})
+@IonicPage()
 @Component({
   selector: 'page-trade-my-items',
   templateUrl: 'trade-my-items.html',
@@ -90,7 +87,7 @@ export class TradeMyItemsPage {
   }
 
   continueToTradeReview() {
-    this.navCtrl.push("trade-review", {
+    this.navCtrl.push(TradeReviewPage, {
       myItemsToTrade: this.myItemsToTrade,
       theirItemsToTrade: this.theirItemsToTrade,
       redditPost: this.redditPost

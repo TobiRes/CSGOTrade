@@ -5,11 +5,10 @@ import {PostType, RedditPost} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
 import {SearchUtil} from "../../utils/search-util";
+import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
+import {PostViewPage} from "../post-view/post-view";
 
-@IonicPage({
-  name: "home",
-  segment: "home"
-})
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -122,11 +121,11 @@ export class HomePage {
   }
 
   openPost(postData: RedditPost) {
-    this.navCtrl.push("post-view", {postData});
+    this.navCtrl.push(PostViewPage, {postData});
   }
 
   sendTradeOffer(postData: RedditPost) {
-    this.navCtrl.push("trade-their-items", {postData});
+    this.navCtrl.push(TradeTheirItemsPage, {postData});
   }
 
   private search(searchTerm) {

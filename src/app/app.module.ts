@@ -26,6 +26,8 @@ import {DynamicStyleService} from "../services/dynamic-style.service";
 import {AboutPageModule} from "../pages/about/about.module";
 import {DirectivesModule} from "../directives/directives.module";
 import {ItemModalPageModule} from "../pages/item-modal/item-modal.module";
+import {PostViewPage} from "../pages/post-view/post-view";
+import {PostViewPageModule} from "../pages/post-view/post-view.module";
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import {ItemModalPageModule} from "../pages/item-modal/item-modal.module";
     TradeReviewPageModule,
     AboutPageModule,
     ItemModalPageModule,
+    PostViewPageModule,
     DirectivesModule
   ],
   bootstrap: [IonicApp],

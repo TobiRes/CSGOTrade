@@ -5,11 +5,7 @@ import {RedditPost} from "../../models/redditpost.model";
 import {TradeofferService} from "../../services/tradeoffer.service";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
 
-@IonicPage({
-  name: "trade-review",
-  segment: "trade-review",
-  defaultHistory: ["trade-my-items"]
-})
+@IonicPage()
 @Component({
   selector: 'page-trade-review',
   templateUrl: 'trade-review.html',
