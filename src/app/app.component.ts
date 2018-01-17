@@ -5,12 +5,9 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 
 import {HomePage} from '../pages/home/home';
 import {InventoryPage} from "../pages/inventory/inventory";
-import {AboutPage} from "../pages/about/about";
-<<<<<<< HEAD
+import { AboutPage } from "../pages/about/about";
 import {SettingsPage} from "../pages/settings/settings"
-=======
-import {RedditService} from "../services/reddit.service";
->>>>>>> develop
+import {RedditService} from "../services/reddit.service"
 
 @Component({
   templateUrl: 'app.html'
