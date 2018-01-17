@@ -73,7 +73,7 @@ export class RedditService {
 
   private getSearchSpecification(searchTerm: string[]) {
     let searchSpecification = searchTerm[0];
-    for(let i = 1; i < searchTerm.length; i++){
+    for (let i = 1; i < searchTerm.length; i++) {
       searchSpecification += "+" + searchTerm[i];
     }
     return searchSpecification;

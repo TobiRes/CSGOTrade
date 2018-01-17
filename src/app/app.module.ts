@@ -26,9 +26,7 @@ import {DynamicStyleService} from "../services/dynamic-style.service";
 import {AboutPageModule} from "../pages/about/about.module";
 import {DirectivesModule} from "../directives/directives.module";
 import {ItemModalPageModule} from "../pages/item-modal/item-modal.module";
-import {PostViewPage} from "../pages/post-view/post-view";
 import {PostViewPageModule} from "../pages/post-view/post-view.module";
-import {SearchRedditPage} from "../pages/search-reddit/search-reddit";
 import {SearchRedditPageModule} from "../pages/search-reddit/search-reddit.module";
 
 @NgModule({

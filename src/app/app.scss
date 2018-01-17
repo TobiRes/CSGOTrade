@@ -91,6 +91,7 @@ ion-item-options {
     font-size: 0.6em;
   }
 }
+
 .numberOfComments {
   position: absolute;
   right: 5px;
@@ -106,7 +107,7 @@ ion-item-options {
 }
 
 //MODAL
-.csgoItemModal .modal-wrapper{
+.csgoItemModal .modal-wrapper {
   position: absolute;
   overflow: hidden;
   max-width: 93vw;
@@ -119,9 +120,9 @@ ion-item-options {
   right: 0;
   margin: auto;
   border: 0;
-  box-shadow: 0 16px 20px rgba(0,0,0,.4);
+  box-shadow: 0 16px 20px rgba(0, 0, 0, .4);
 
-  .scroll-content{
+  .scroll-content {
     background-color: white !important;
     padding: 0 !important;
   }
@@ -130,6 +131,7 @@ ion-item-options {
     color: white;
   }
 }
+
 ion-backdrop {
   visibility: visible !important;
   background: black !important;
@@ -140,27 +142,35 @@ ion-backdrop {
 .store {
   border-left: 5px solid black;
 }
+
 .pricecheck {
   border-left: 5px solid darkred;
 }
+
 .discussion {
   border-left: 5px solid darkblue;
 }
+
 .question {
   border-left: 5px solid sandybrown;
 }
+
 .lph {
   border-left: 5px solid darkgreen;
 }
+
 .psa {
   border-left: 5px solid purple;
 }
+
 .free {
   border-left: 5px solid green;
 }
+
 .important {
   border-left: 5px solid red;
 }
+
 .unkown {
   border-left: 5px solid yellow;
 }
@@ -177,13 +187,14 @@ ion-backdrop {
     width: 5px;
     margin: 0 4px 2px 0;
   }
-  span{
+  span {
     color: green;
   }
   p {
     color: black;
   }
 }
+
 .menu-inner {
   .scroll-content {
     background-color: white !important;

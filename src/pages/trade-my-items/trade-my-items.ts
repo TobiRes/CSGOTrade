@@ -64,14 +64,14 @@ export class TradeMyItemsPage {
     }
   }
 
-  openModal(csgoItem: CSGOItem){
+  openModal(csgoItem: CSGOItem) {
     const csgoItemModalOptions: ModalOptions = {
       cssClass: "csgoItemModal",
       showBackdrop: true
     }
     const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: csgoItem}, csgoItemModalOptions);
     itemModal.present();
-    itemModal.onWillDismiss((data)=> {
+    itemModal.onWillDismiss((data) => {
 
     });
   }

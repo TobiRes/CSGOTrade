@@ -75,10 +75,10 @@ export class CSGOItemService {
     return categories;
   }
 
-  getTradeableItems(csgoItems: CSGOItem[]): CSGOItem[]{
+  getTradeableItems(csgoItems: CSGOItem[]): CSGOItem[] {
     let tradeableItems: CSGOItem[] = [];
     csgoItems.forEach(csgoItem => {
-      if(csgoItem.tradable)
+      if (csgoItem.tradable)
         tradeableItems.push(csgoItem)
     });
     return tradeableItems;
@@ -282,7 +282,7 @@ export class CSGOItemService {
   }
 
   private getTradeableStatus(tradable: number) {
-    if(tradable == 1)
+    if (tradable == 1)
       return true;
     else
       return false;

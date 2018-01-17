@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController} from 'ionic-angular';
 import {PostType, RedditPost} from "../../models/redditpost.model";
 import {RedditService} from "../../services/reddit.service";
 import {ThreadinfoService} from "../../services/threadinfo.service";
@@ -48,69 +48,7 @@ export class SearchRedditPage {
     }
     searchTermArray = searchTerm.toLowerCase().split(" ");
     this.savedSearchTerm = searchTermArray;
-    this.search(searchTermArray);}
-
-
-  private search(searchTermArray: string[]) {
-    let additionalDetails = this.getCertainKindOfPostsString()
-    this.redditService.searchSubreddit(searchTermArray, additionalDetails)
-      .then(redditPostsData => {
-        if(redditPostsData){
-          this.backupPosts = [];
-          this.getTradeInfo(redditPostsData)
-        } else {
-          //TODO: ALERT NO FOUND!
-        }
-      });
-  }
-
-  private getCertainKindOfPostsString() {
-      let additionalPostTypeInfo: string = "";
-      switch(this.sortBy){
-        case "New":
-          additionalPostTypeInfo = "&sort=new";
-          break;
-        case "Relevance":
-          additionalPostTypeInfo = "&sort=relevance";
-          break;
-        case "Top":
-          additionalPostTypeInfo = "&sort=top";
-          break;
-        case "Total Comments":
-          additionalPostTypeInfo = "&sort=comments";
-          break;
-        default:
-          additionalPostTypeInfo = "";
-          break;
-      }
-
-      additionalPostTypeInfo += "&restrict_sr=on";
-
-      switch(this.chosenTime){
-        case "Hour":
-          additionalPostTypeInfo += "&t=hour";
-          break;
-        case "Day":
-          additionalPostTypeInfo += "&t=day";
-          break;
-        case "Week":
-          additionalPostTypeInfo += "&t=week";
-          break;
-        case "Month":
-          additionalPostTypeInfo += "&t=month";
-          break;
-        case "Year":
-          additionalPostTypeInfo += "&t=year";
-          break;
-        case "All Time":
-          additionalPostTypeInfo += "&t=all";
-          break;
-        default:
-          additionalPostTypeInfo += "";
-          break;
-      }
-
-      return additionalPostTypeInfo;
+    this.search(searchTermArray);
   }
 
   loadAdditionalThreads(): Promise<any> {
@@ -129,11 +67,6 @@ export class SearchRedditPage {
     });
   }
 
-  private getTradeInfo(redditPostData: any) {
-    this.backupPosts = this.threadInfoService.getTradeInfo(this.backupPosts, redditPostData)
-    this.setMetaData(redditPostData);
-  }
-
   isTrade(postType: PostType): boolean {
     if (postType == PostType.trade)
       return true;
@@ -142,6 +75,77 @@ export class SearchRedditPage {
 
   sendTradeOffer(postData: RedditPost) {
     this.navCtrl.push(TradeTheirItemsPage, {postData});
+  }
+
+  filterPosts() {
+    this.buildSearchString();
+  }
+
+  private search(searchTermArray: string[]) {
+    let additionalDetails = this.getCertainKindOfPostsString()
+    this.redditService.searchSubreddit(searchTermArray, additionalDetails)
+      .then(redditPostsData => {
+        if (redditPostsData) {
+          this.backupPosts = [];
+          this.getTradeInfo(redditPostsData)
+        } else {
+          //TODO: ALERT NO FOUND!
+        }
+      });
+  }
+
+  private getCertainKindOfPostsString() {
+    let additionalPostTypeInfo: string = "";
+    switch (this.sortBy) {
+      case "New":
+        additionalPostTypeInfo = "&sort=new";
+        break;
+      case "Relevance":
+        additionalPostTypeInfo = "&sort=relevance";
+        break;
+      case "Top":
+        additionalPostTypeInfo = "&sort=top";
+        break;
+      case "Total Comments":
+        additionalPostTypeInfo = "&sort=comments";
+        break;
+      default:
+        additionalPostTypeInfo = "";
+        break;
+    }
+
+    additionalPostTypeInfo += "&restrict_sr=on";
+
+    switch (this.chosenTime) {
+      case "Hour":
+        additionalPostTypeInfo += "&t=hour";
+        break;
+      case "Day":
+        additionalPostTypeInfo += "&t=day";
+        break;
+      case "Week":
+        additionalPostTypeInfo += "&t=week";
+        break;
+      case "Month":
+        additionalPostTypeInfo += "&t=month";
+        break;
+      case "Year":
+        additionalPostTypeInfo += "&t=year";
+        break;
+      case "All Time":
+        additionalPostTypeInfo += "&t=all";
+        break;
+      default:
+        additionalPostTypeInfo += "";
+        break;
+    }
+
+    return additionalPostTypeInfo;
+  }
+
+  private getTradeInfo(redditPostData: any) {
+    this.backupPosts = this.threadInfoService.getTradeInfo(this.backupPosts, redditPostData)
+    this.setMetaData(redditPostData);
   }
 
   private setMetaData(redditPostData: any) {
@@ -180,10 +184,6 @@ export class SearchRedditPage {
           break;
       }
     }
-  }
-
-  filterPosts() {
-    this.buildSearchString();
   }
 
   private getSearchTermFromSavedSearchTermArray(savedSearchTerm: string[]) {

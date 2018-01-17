@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, ViewController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {CSGOItem, Exterior} from "../../models/csgoItem.model";
 
 
@@ -12,15 +12,15 @@ export class ItemModalPage {
   csgoItem: CSGOItem;
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams) {
-   this.csgoItem = this.navParams.get("csgoItem");
+    this.csgoItem = this.navParams.get("csgoItem");
   }
 
-  closeModal(){
+  closeModal() {
     this.viewCtrl.dismiss();
   }
 
-  getExteriorString(){
-    switch (this.csgoItem.exterior){
+  getExteriorString() {
+    switch (this.csgoItem.exterior) {
       case Exterior.fn:
         return "Factory New";
       case Exterior.mw:
