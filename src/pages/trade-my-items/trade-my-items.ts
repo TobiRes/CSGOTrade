@@ -1,18 +1,18 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {
+  AlertController, IonicPage, LoadingController, Modal, ModalController, ModalOptions, NavController,
+  NavParams
+} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {CSGOItemService} from "../../services/csgoItem.service";
 import {CSGOItem} from "../../models/csgoItem.model";
 import {Storage} from "@ionic/storage";
 import {RedditPost} from "../../models/redditpost.model";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
+import {TradeReviewPage} from "../trade-review/trade-review";
 
 
-@IonicPage({
-  name: "trade-my-items",
-  segment: "trade-my-items",
-  defaultHistory: ["trade-their-items"]
-})
+@IonicPage()
 @Component({
   selector: 'page-trade-my-items',
   templateUrl: 'trade-my-items.html',
@@ -20,16 +20,21 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
 export class TradeMyItemsPage {
 
   redditPost: RedditPost;
-  csgoItems: CSGOItem[] = [];
-  myItemsToTrade: CSGOItem[] = [];
-  theirItemsToTrade: CSGOItem[] = [];
+  tradeableItems: CSGOItem[] = [];
 
+  private myItemsToTrade: CSGOItem[] = [];
+  private theirItemsToTrade: CSGOItem[] = [];
+  private csgoItems: CSGOItem[] = [];
   private mySteamProfile: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private steamService: SteamService,
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private storage: Storage,
+              private steamService: SteamService,
               private loadCtrl: LoadingController,
               private itemService: CSGOItemService,
               private alertCtrl: AlertController,
+              private modal: ModalController,
               private dynStyleService: DynamicStyleService) {
 
     this.redditPost = this.navParams.get("redditPost");
@@ -38,7 +43,9 @@ export class TradeMyItemsPage {
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
         this.csgoItems = storageData[0];
+        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.mySteamProfile = storageData[1];
+        console.log(this.csgoItems);
         if (!this.csgoItems && this.mySteamProfile) {
           this.loadMyCsgoInventory();
         } else {
@@ -55,7 +62,18 @@ export class TradeMyItemsPage {
     } else {
       this.myItemsToTrade.push(csgoItem);
     }
+  }
 
+  openModal(csgoItem: CSGOItem){
+    const csgoItemModalOptions: ModalOptions = {
+      cssClass: "csgoItemModal",
+      showBackdrop: true
+    }
+    const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: csgoItem}, csgoItemModalOptions);
+    itemModal.present();
+    itemModal.onWillDismiss((data)=> {
+
+    });
   }
 
   isSelected(item: CSGOItem) {
@@ -69,7 +87,7 @@ export class TradeMyItemsPage {
   }
 
   continueToTradeReview() {
-    this.navCtrl.push("trade-review", {
+    this.navCtrl.push(TradeReviewPage, {
       myItemsToTrade: this.myItemsToTrade,
       theirItemsToTrade: this.theirItemsToTrade,
       redditPost: this.redditPost
@@ -89,7 +107,8 @@ export class TradeMyItemsPage {
         Object.keys(csgoItemData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
         });
-        this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
+        this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.storage.set("csgoItems", this.csgoItems);
         this.storage.set("steamProfileURL", this.mySteamProfile);
         loader.dismissAll();

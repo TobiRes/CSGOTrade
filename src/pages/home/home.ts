@@ -5,11 +5,10 @@ import {PostType, RedditPost} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
 import {SearchUtil} from "../../utils/search-util";
+import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
+import {PostViewPage} from "../post-view/post-view";
 
-@IonicPage({
-  name: "home",
-  segment: "home"
-})
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -32,7 +31,6 @@ export class HomePage {
               private redditService: RedditService,
               private threadinfoService: ThreadinfoService,
               private storage: Storage) {
-    this.getActiveUserCount();
     this.getAllThreads();
   }
 
@@ -63,7 +61,7 @@ export class HomePage {
           this.scrollLoadThreshold = "10%";
           this.redditService.getRedditThreads(this.currentPage)
             .then(redditPostData => {
-              console.log("redditPost", redditPostData)
+              this.backupPosts = [];
               this.getTradeInfo(redditPostData)
             })
             .catch(error => console.error(error));
@@ -123,11 +121,11 @@ export class HomePage {
   }
 
   openPost(postData: RedditPost) {
-    this.navCtrl.push("post-view", {postData});
+    this.navCtrl.push(PostViewPage, {postData});
   }
 
   sendTradeOffer(postData: RedditPost) {
-    this.navCtrl.push("trade-their-items", {postData});
+    this.navCtrl.push(TradeTheirItemsPage, {postData});
   }
 
   private search(searchTerm) {
@@ -148,7 +146,6 @@ export class HomePage {
   }
 
   private getTradeInfo(redditPostData: any) {
-    this.backupPosts = [];
     redditPostData.forEach(redditPost => {
       let tradeThread: RedditPost = {
         title: redditPost.data.title,
@@ -218,7 +215,7 @@ export class HomePage {
     let filtered: boolean = false;
     this.postTypesToFilter.forEach(type => {
       switch (type) {
-        case "RedditPost":
+        case "Trade":
           if (postType == PostType.trade)
             filtered = true;
           break;
@@ -258,9 +255,4 @@ export class HomePage {
     return filtered;
   }
 
-  private getActiveUserCount() {
-    this.redditService.getActiveUserCount()
-      .then((activeUser: number) => this.activeUserCount = activeUser)
-      .catch(error => console.error(error));
-  }
 }

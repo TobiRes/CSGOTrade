@@ -3,11 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {PostType, RedditPost} from "../../models/redditpost.model";
 
 
-@IonicPage({
-  name: "post-view",
-  segment: "post-view",
-  defaultHistory: ["home"]
-})
+@IonicPage()
 @Component({
   selector: 'page-post-view',
   templateUrl: 'post-view.html',

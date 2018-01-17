@@ -11,9 +11,9 @@ export class CSGOItemService {
   fillItemMetaData(csgoInventoryItem: any): CSGOItem {
     //e.g. "StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
     let itemFullName = csgoInventoryItem.market_hash_name;
-
     return {
-      name: itemFullName,
+      fullName: itemFullName,
+      name: csgoInventoryItem.name,
       skinCategory: this.getSkinCategory(itemFullName),
       type: this.getItemType(itemFullName),
       exterior: this.getSkinExterior(itemFullName),
@@ -21,13 +21,16 @@ export class CSGOItemService {
       iconUrl: csgoInventoryItem.icon_url,
       inspectLink: csgoInventoryItem.market_actions ? csgoInventoryItem.market_actions[0].link : "unknown",
       classId: csgoInventoryItem.classid,
+      tradable: this.getTradeableStatus(csgoInventoryItem.tradable)
     }
   }
 
   addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
-    csgoInventoryData.forEach((csgoItem: CSGOItem) => {
+    let csgoItems: CSGOItem[] = csgoInventoryData;
+    csgoItems.forEach((csgoItem: CSGOItem) => {
       csgoItem.assetId = this.getMatchingAssetId(csgoItem.classId, inventoryIds)
     })
+    return csgoItems;
   }
 
   mapExterior(selectedExteriors: string[]) {
@@ -70,6 +73,15 @@ export class CSGOItemService {
       }
     });
     return categories;
+  }
+
+  getTradeableItems(csgoItems: CSGOItem[]): CSGOItem[]{
+    let tradeableItems: CSGOItem[] = [];
+    csgoItems.forEach(csgoItem => {
+      if(csgoItem.tradable)
+        tradeableItems.push(csgoItem)
+    });
+    return tradeableItems;
   }
 
   private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
@@ -269,4 +281,10 @@ export class CSGOItemService {
     return skinRarity;
   }
 
+  private getTradeableStatus(tradable: number) {
+    if(tradable == 1)
+      return true;
+    else
+      return false;
+  }
 }

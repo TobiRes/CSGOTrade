@@ -3,9 +3,6 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>
-      {{activeUserCount}}
-    </ion-title>
     <div class="filter">
       <div class="filtercontent">
         <ion-item>
@@ -37,9 +34,6 @@
       </div>
     </div>
   </ion-navbar>
-  <ion-searchbar no-border [(ngModel)]="searchbarInput"
-                 (ionInput)="buildSearchString($event)">
-  </ion-searchbar>
 </ion-header>
 
 <ion-content hide-header [header]="postHeader">

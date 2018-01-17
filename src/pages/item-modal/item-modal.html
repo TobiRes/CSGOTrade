@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{csgoItem.name}}</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="closeModal()">Close</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class="container">
+    <div class="infoItem">
+      <img src="http://cdn.steamcommunity.com/economy/image/{{csgoItem.iconUrl}}">
+    </div>
+    <div class="infoItem">
+      <p>{{csgoItem.fullName}}</p>
+      <p>{{getExteriorString()}}</p>
+      <p>{{csgoItem.skinCategory}}</p>
+      <button ion-button> Show Metjim</button>
+    </div>
+  </div>
+  <ion-footer>
+    <button ion-button full>Add to Trade</button>
+  </ion-footer>
+</ion-content>

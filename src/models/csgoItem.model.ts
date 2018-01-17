@@ -1,13 +1,15 @@
 export interface CSGOItem {
   type: ItemType,
-  name: string,
+  fullName: string,
+  name?: string,
   skinCategory?: SkinCategory,
   grade?: Grade,
   exterior?: Exterior,
   iconUrl?: string,
   inspectLink?: string,
   classId?: number,
-  assetId?: number
+  assetId?: number,
+  tradable?: boolean,
 }
 
 export enum ItemType {

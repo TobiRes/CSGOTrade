@@ -12,7 +12,11 @@
       </button>
     </ion-list>
   </ion-content>
-
+  <ion-footer>
+    <div class="activeUserCount">
+     <p><figure class="circle"></figure><span>{{activeUserCount}}</span> Active</p>
+    </div>
+  </ion-footer>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content></ion-nav>

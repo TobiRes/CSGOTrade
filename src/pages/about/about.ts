@@ -2,10 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage} from 'ionic-angular';
 
 
-@IonicPage({
-  name: "about",
-  segment: "about"
-})
+@IonicPage()
 @Component({
   selector: 'page-about',
   templateUrl: 'about.html',
