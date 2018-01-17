@@ -12,7 +12,7 @@
   <div padding>
     <h2>Select Their Items</h2>
     <div class="container">
-      <div class="csgoItem" *ngFor="let item of csgoItems" [ngClass]="isSelected(item) ? 'selectedItem' : ''"
+      <div class="csgoItem" *ngFor="let item of tradeableItems" [ngClass]="isSelected(item) ? 'selectedItem' : ''"
            [ngStyle]="setBorderColorIfNotNormalCategory(item)">
         <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)"></skin-list-item>
       </div>

@@ -23,10 +23,11 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
 export class TradeMyItemsPage {
 
   redditPost: RedditPost;
-  csgoItems: CSGOItem[] = [];
-  myItemsToTrade: CSGOItem[] = [];
-  theirItemsToTrade: CSGOItem[] = [];
+  tradeableItems: CSGOItem[] = [];
 
+  private myItemsToTrade: CSGOItem[] = [];
+  private theirItemsToTrade: CSGOItem[] = [];
+  private csgoItems: CSGOItem[] = [];
   private mySteamProfile: string;
 
   constructor(public navCtrl: NavController,
@@ -45,6 +46,7 @@ export class TradeMyItemsPage {
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
         this.csgoItems = storageData[0];
+        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.mySteamProfile = storageData[1];
         console.log(this.csgoItems);
         if (!this.csgoItems && this.mySteamProfile) {
@@ -108,7 +110,8 @@ export class TradeMyItemsPage {
         Object.keys(csgoItemData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
         });
-        this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
+        this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.storage.set("csgoItems", this.csgoItems);
         this.storage.set("steamProfileURL", this.mySteamProfile);
         loader.dismissAll();

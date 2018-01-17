@@ -17,12 +17,12 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
   templateUrl: 'trade-their-items.html',
 })
 export class TradeTheirItemsPage {
+
   redditPost: RedditPost;
-  csgoItems: CSGOItem[] = [];
   isLoading: boolean = true;
+  tradeableItems: CSGOItem[] = [];
 
-
-  private myItemsToTrade: CSGOItem[] = []
+  private csgoItems: CSGOItem[] = [];
   private theirItemsToTrade: CSGOItem[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private steamService: SteamService,
@@ -71,7 +71,8 @@ export class TradeTheirItemsPage {
         Object.keys(csgoItemData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
         });
-        this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+        this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.isLoading = false;
       })
       .catch(error => {

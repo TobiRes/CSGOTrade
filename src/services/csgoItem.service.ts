@@ -26,9 +26,11 @@ export class CSGOItemService {
   }
 
   addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
-    csgoInventoryData.forEach((csgoItem: CSGOItem) => {
+    let csgoItems: CSGOItem[] = csgoInventoryData;
+    csgoItems.forEach((csgoItem: CSGOItem) => {
       csgoItem.assetId = this.getMatchingAssetId(csgoItem.classId, inventoryIds)
     })
+    return csgoItems;
   }
 
   mapExterior(selectedExteriors: string[]) {
@@ -71,6 +73,15 @@ export class CSGOItemService {
       }
     });
     return categories;
+  }
+
+  getTradeableItems(csgoItems: CSGOItem[]): CSGOItem[]{
+    let tradeableItems: CSGOItem[] = [];
+    csgoItems.forEach(csgoItem => {
+      if(csgoItem.tradable)
+        tradeableItems.push(csgoItem)
+    });
+    return tradeableItems;
   }
 
   private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
