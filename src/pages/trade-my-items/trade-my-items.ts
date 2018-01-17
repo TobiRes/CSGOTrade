@@ -46,6 +46,7 @@ export class TradeMyItemsPage {
       .then(storageData => {
         this.csgoItems = storageData[0];
         this.mySteamProfile = storageData[1];
+        console.log(this.csgoItems);
         if (!this.csgoItems && this.mySteamProfile) {
           this.loadMyCsgoInventory();
         } else {
@@ -56,7 +57,6 @@ export class TradeMyItemsPage {
   }
 
   addItemToTrade(csgoItem) {
-    this.openModal(csgoItem);
     let indexOfItem: number = this.myItemsToTrade.indexOf(csgoItem);
     if (indexOfItem > -1) {
       this.myItemsToTrade.splice(indexOfItem, 1);
@@ -65,15 +65,16 @@ export class TradeMyItemsPage {
     }
   }
 
-  private openModal(csgoItem: CSGOItem){
+  openModal(csgoItem: CSGOItem){
     const csgoItemModalOptions: ModalOptions = {
-      cssClass: "csgoItemModal"
+      cssClass: "csgoItemModal",
+      showBackdrop: true
     }
     const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: csgoItem}, csgoItemModalOptions);
     itemModal.present();
-    itemModal.onDidDismiss((data => {
-      console.log(data)
-    }));
+    itemModal.onWillDismiss((data)=> {
+
+    });
   }
 
   isSelected(item: CSGOItem) {

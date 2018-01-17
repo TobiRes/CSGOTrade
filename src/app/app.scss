@@ -118,6 +118,11 @@ ion-item-options {
   border: 0;
   box-shadow: 0 16px 20px rgba(0,0,0,.4);
 
+  .scroll-content{
+    background-color: white !important;
+    padding: 0 !important;
+  }
+
   button {
     color: white;
   }

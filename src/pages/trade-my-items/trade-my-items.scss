@@ -12,17 +12,4 @@ page-trade-my-items {
       white-space: normal !important;
     }
   }
-
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-
-    .csgoItem {
-      margin: 1%;
-      flex-basis: 23%;
-      flex-grow: 0;
-      border: 1px solid gray;
-      background-color: white;
-    }
-  }
 }

@@ -1,3 +1,13 @@
 page-item-modal {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
 
+    .infoItem {
+      margin: 2%;
+      flex-basis: 46%;
+      flex-grow: 0;
+      background-color: white;
+    }
+  }
 }
