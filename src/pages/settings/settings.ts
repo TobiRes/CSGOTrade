@@ -10,7 +10,7 @@ import { SettingsService } from "../../services/settings.service";
 })
 export class SettingsPage {
 
-  steamTradeLink: string;
+  steamTradeLink: string = "";
 
   constructor(private settingsService: SettingsService) {
   }

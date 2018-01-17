@@ -14,7 +14,7 @@
     <p>You can save your Steam trade link in order to directly trade with players. See your tradelink below:</p>
     <a href="http://steamcommunity.com/my/tradeoffers/privacy"></a>
     <ion-item>
-      <ion-input type="text" placeholder="Steam Trade Link"> [(ngModel)]="steamTradeLink"</ion-input>
+      <input type="text" placeholder="Steam Trade Link" [(ngModel)]="steamTradeLink">
     </ion-item>
     <button full ion-button (click)="saveTradeLink()">Save Trade Link</button>
   </div>
