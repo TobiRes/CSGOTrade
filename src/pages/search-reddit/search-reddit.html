@@ -1,0 +1,54 @@
+<ion-header #postHeader>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <div class="filter">
+      <div class="filtercontent">
+        <ion-item>
+          <ion-label>{{sortBy}}</ion-label>
+          <ion-select [(ngModel)]="sortBy" (ionChange)="filterPosts()">
+            <ion-option>New</ion-option>
+            <ion-option>Relevance</ion-option>
+            <ion-option>Top</ion-option>
+            <ion-option>Total Comments</ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
+    <div class="filter">
+      <div class="filtercontent">
+        <ion-item>
+          <ion-label>{{chosenTime}}</ion-label>
+          <ion-select [(ngModel)]="chosenTime" (ionChange)="filterPosts()">
+            <ion-option>Hour</ion-option>
+            <ion-option>Day</ion-option>
+            <ion-option>Week</ion-option>
+            <ion-option>Month</ion-option>
+            <ion-option>Year</ion-option>
+            <ion-option>All Time</ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
+  </ion-navbar>
+  <ion-searchbar no-border [(ngModel)]="searchbarInput"
+                 (search)="buildSearchString()">
+  </ion-searchbar>
+</ion-header>
+
+<ion-content hide-header [header]="postHeader">
+  <ion-refresher (ionRefresh)="refreshPosts($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list class="postList">
+    <div *ngFor="let post of redditPosts" class="items">
+      <post-list-item *ngIf="!isTrade(post.type)" [tradePost]="post" (selected)="openPost($event)"></post-list-item>
+      <trade-list-item *ngIf="isTrade(post.type)" [tradePost]="post" (selected)="openPost($event)"
+                       (sendOffer)="sendTradeOffer($event)"></trade-list-item>
+    </div>
+  </ion-list>
+ <!-- <ion-infinite-scroll [threshold]="scrollLoadThreshold" (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+</ion-content>

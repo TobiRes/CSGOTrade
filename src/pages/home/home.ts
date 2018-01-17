@@ -4,7 +4,6 @@ import {RedditService} from "../../services/reddit.service";
 import {PostType, RedditPost} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
-import {SearchUtil} from "../../utils/search-util";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {PostViewPage} from "../post-view/post-view";
 
@@ -20,33 +19,16 @@ export class HomePage {
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
   currentPage: string = "Hot";
-  activeUserCount: number = 0;
 
   private backupPosts: RedditPost[] = [];
   private lastThreadName: string;
   private threadCount: number = 0;
-  private alreadyFound: boolean = false;
 
   constructor(public navCtrl: NavController,
               private redditService: RedditService,
               private threadinfoService: ThreadinfoService,
               private storage: Storage) {
     this.getAllThreads();
-  }
-
-  buildSearchString(event: any) {
-    let searchTerm: string;
-    if (event.target) {
-      searchTerm = event.target.value ? event.target.value.trim() : "";
-    } else {
-      searchTerm = event;
-    }
-    if (!searchTerm.length) {
-      this.redditPosts = this.backupPosts;
-    } else {
-      searchTerm = searchTerm.toLowerCase();
-      this.search(searchTerm);
-    }
   }
 
   getAllThreads() {
@@ -68,7 +50,6 @@ export class HomePage {
         }
       })
       .catch(error => console.log(error))
-
   }
 
   refreshPosts(refresher: any) {
@@ -128,44 +109,8 @@ export class HomePage {
     this.navCtrl.push(TradeTheirItemsPage, {postData});
   }
 
-  private search(searchTerm) {
-    let allPosts: RedditPost[] = this.backupPosts;
-    let searchedPosts: RedditPost[] = [];
-    for (let n = 0; n < allPosts.length; n++) {
-      Object.keys(allPosts[n]).forEach(key => {
-        this.alreadyFound = false;
-        if (allPosts[n][key].toString().toLowerCase().indexOf(searchTerm) > -1
-          && !this.alreadyFound) {
-          searchedPosts.push(allPosts[n]);
-          this.alreadyFound = true;
-        }
-      })
-    }
-    searchedPosts = SearchUtil.removeDuplicatePostObjectsFromArray(searchedPosts);
-    this.redditPosts = searchedPosts;
-  }
-
   private getTradeInfo(redditPostData: any) {
-    redditPostData.forEach(redditPost => {
-      let tradeThread: RedditPost = {
-        title: redditPost.data.title,
-        author: redditPost.data.author,
-        redditURL: redditPost.data.url,
-        numberOfComments: redditPost.data.num_comments,
-        timeSinceCreation: this.threadinfoService.timeSince(redditPost.data.created_utc),
-        content: redditPost.data.selftext,
-        type: this.threadinfoService.getPostType(redditPost.data.title),
-        tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext),
-        steamProfileURL: this.threadinfoService.getSteamProfileURL(redditPost.data.author_flair_text),
-      };
-      if (tradeThread.type == PostType.trade) {
-        let buysAndSells = this.threadinfoService.getAdditionalTradeInformation(redditPost);
-        tradeThread.partnerId = this.threadinfoService.getTradeParterId(tradeThread.steamProfileURL)
-        tradeThread.wants = buysAndSells.wants;
-        tradeThread.has = buysAndSells.has;
-      }
-      this.backupPosts.push(tradeThread);
-    });
+    this.backupPosts = this.threadinfoService.getTradeInfo(this.backupPosts, redditPostData)
     this.setMetaData(redditPostData);
     if (this.postTypesToFilter.length) {
       this.filterPosts();

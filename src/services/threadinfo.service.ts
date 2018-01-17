@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {PostType} from "../models/redditpost.model";
+import {PostType, RedditPost} from "../models/redditpost.model";
 
 @Injectable()
 export class ThreadinfoService {
@@ -98,6 +98,30 @@ export class ThreadinfoService {
       return interval + " minutes";
     }
     return Math.floor(seconds) + " seconds";
+  }
+
+  getTradeInfo(existingRedditPosts: RedditPost[], redditPostData: any) {
+    redditPostData.forEach(redditPost => {
+      let tradeThread: RedditPost = {
+        title: redditPost.data.title,
+        author: redditPost.data.author,
+        redditURL: redditPost.data.url,
+        numberOfComments: redditPost.data.num_comments,
+        timeSinceCreation: this.timeSince(redditPost.data.created_utc),
+        content: redditPost.data.selftext,
+        type: this.getPostType(redditPost.data.title),
+        tradelink: this.getTradeUrl(redditPost.data.selftext),
+        steamProfileURL: this.getSteamProfileURL(redditPost.data.author_flair_text),
+      };
+      if (tradeThread.type == PostType.trade) {
+        let buysAndSells = this.getAdditionalTradeInformation(redditPost);
+        tradeThread.partnerId = this.getTradeParterId(tradeThread.steamProfileURL)
+        tradeThread.wants = buysAndSells.wants;
+        tradeThread.has = buysAndSells.has;
+      }
+      existingRedditPosts.push(tradeThread);
+    });
+    return existingRedditPosts;
   }
 
   getSteamProfileURL(authorFlairText: string) {

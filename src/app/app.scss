@@ -15,7 +15,7 @@
 // automatically applied to the <body> element in the app.
 
 //GENERAL
-ion-content {
+ion-content, .scroll-content {
   background-color: white !important;
 }
 
@@ -25,6 +25,9 @@ button.item.item-block {
 
 ion-header {
   background-color: #ff5400;
+  ion-icon {
+    color: white;
+  }
 }
 
 .toolbar-background {

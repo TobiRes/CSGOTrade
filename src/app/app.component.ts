@@ -8,6 +8,7 @@ import {InventoryPage} from "../pages/inventory/inventory";
 import {SteamLoginPage} from "../pages/steam-login/steam-login";
 import {AboutPage} from "../pages/about/about";
 import {RedditService} from "../services/reddit.service";
+import {SearchRedditPage} from "../pages/search-reddit/search-reddit";
 
 @Component({
   templateUrl: 'app.html'
@@ -25,6 +26,7 @@ export class MyApp {
               private redditService: RedditService) {
     this.pages = [
       {title: 'Home', component: HomePage},
+      {title: "Search", component: SearchRedditPage},
       {title: 'Inventory', component: InventoryPage},
       {title: "Steam Login", component: SteamLoginPage},
       {title: "About", component: AboutPage}
