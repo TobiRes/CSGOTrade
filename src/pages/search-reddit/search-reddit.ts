@@ -25,6 +25,7 @@ export class SearchRedditPage {
   private threadCount: number = 0;
 
   constructor(public navCtrl: NavController, private storage: Storage, private redditService: RedditService, private threadInfoService: ThreadinfoService) {
+    //TODO: ONLY SAVE POST AND LAST THREAD COUNT FOR A CERTAIN TIME
     Promise.all([this.storage.get("searchedPosts"), this.storage.get("searchTerm"), this.storage.get("lastSearchThreadName"), this.storage.get("searchThreadCount")])
       .then(storageData => {
         this.redditPosts = storageData[0];
@@ -36,6 +37,20 @@ export class SearchRedditPage {
         }
       })
       .catch(error => console.error(error));
+  }
+
+  refreshPosts(refresher: any) {
+    setTimeout(() => {
+      this.redditService.searchSubreddit(this.savedSearchTerm, this.getCertainKindOfPostsString())
+        .then(redditPostsData => {
+          if (redditPostsData) {
+            this.backupPosts = [];
+            this.getTradeInfo(redditPostsData)
+          } else {
+            //TODO: ALERT NO FOUND!
+          }
+        });
+    }, 2000);
   }
 
   search() {
