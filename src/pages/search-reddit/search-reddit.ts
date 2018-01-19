@@ -25,36 +25,39 @@ export class SearchRedditPage {
   private threadCount: number = 0;
 
   constructor(public navCtrl: NavController, private storage: Storage, private redditService: RedditService, private threadInfoService: ThreadinfoService) {
-    Promise.all([this.storage.get("searchedPosts"), this.storage.get("searchTerm")])
+    Promise.all([this.storage.get("searchedPosts"), this.storage.get("searchTerm"), this.storage.get("lastSearchThreadName"), this.storage.get("searchThreadCount")])
       .then(storageData => {
         this.redditPosts = storageData[0];
         this.getSearchTermFromSavedSearchTermArray(storageData[1]);
+        this.lastThreadName = storageData[2];
+        this.threadCount = storageData[3];
         if (this.searchbarInput && !this.redditPosts) {
-          this.search(this.savedSearchTerm);
-        } else {
+          this.search();
         }
       })
       .catch(error => console.error(error));
   }
 
-
-  buildSearchString() {
-    let searchTerm: string;
-    let searchTermArray: string[];
-    if (this.searchbarInput) {
-      searchTerm = this.searchbarInput.trim();
-    } else {
-      searchTerm = "";
-    }
-    searchTermArray = searchTerm.toLowerCase().split(" ");
-    this.savedSearchTerm = searchTermArray;
-    this.search(searchTermArray);
+  search() {
+    let searchTermArray: string[] = this.buildSearchString();
+    let additionalDetails = this.getCertainKindOfPostsString()
+    this.redditService.searchSubreddit(searchTermArray, additionalDetails)
+      .then(redditPostsData => {
+        if (redditPostsData) {
+          this.backupPosts = [];
+          this.getTradeInfo(redditPostsData)
+        } else {
+          //TODO: ALERT NO FOUND!
+        }
+      });
   }
 
   loadAdditionalThreads(): Promise<any> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        this.redditService.getNextRedditThreads(this.threadCount, this.lastThreadName, this.sortBy)
+        let searchTermArray: string[] = this.searchbarInput ? this.buildSearchString() : this.savedSearchTerm;
+        let additionalDetails = this.getCertainKindOfPostsString()
+        this.redditService.getNextSearchThreads(this.threadCount, this.lastThreadName,searchTermArray, additionalDetails)
           .then(redditPostData => {
             this.getTradeInfo(redditPostData);
             resolve();
@@ -65,6 +68,21 @@ export class SearchRedditPage {
           });
       }, 1000);
     });
+  }
+
+  private buildSearchString() {
+    let searchTerm: string;
+    let searchTermArray: string[];
+    if (this.searchbarInput) {
+      searchTerm = this.searchbarInput.trim();
+      searchTermArray = searchTerm.toLowerCase().split(" ");
+    } else if(this.savedSearchTerm) {
+      searchTermArray = this.savedSearchTerm;
+    } else {
+      searchTermArray = [""];
+    }
+    this.savedSearchTerm = searchTermArray;
+    return searchTermArray;
   }
 
   isTrade(postType: PostType): boolean {
@@ -79,19 +97,6 @@ export class SearchRedditPage {
 
   filterPosts() {
     this.buildSearchString();
-  }
-
-  private search(searchTermArray: string[]) {
-    let additionalDetails = this.getCertainKindOfPostsString()
-    this.redditService.searchSubreddit(searchTermArray, additionalDetails)
-      .then(redditPostsData => {
-        if (redditPostsData) {
-          this.backupPosts = [];
-          this.getTradeInfo(redditPostsData)
-        } else {
-          //TODO: ALERT NO FOUND!
-        }
-      });
   }
 
   private getCertainKindOfPostsString() {
@@ -154,7 +159,9 @@ export class SearchRedditPage {
     this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
     this.threadCount = this.threadCount + 25;
     this.storage.set("searchedPosts", this.backupPosts);
-    this.storage.set("searchTerm", this.savedSearchTerm)
+    this.storage.set("searchTerm", this.savedSearchTerm);
+    this.storage.set("lastSearchThreadName", this.lastThreadName);
+    this.storage.set("searchThreadCount", this.threadCount);
   }
 
   private defineThresholdForLoadingMorePosts() {

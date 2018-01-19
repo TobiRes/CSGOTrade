@@ -33,7 +33,7 @@
     </div>
   </ion-navbar>
   <ion-searchbar no-border [(ngModel)]="searchbarInput"
-                 (search)="buildSearchString()">
+                 (search)="search()">
   </ion-searchbar>
 </ion-header>
 
@@ -48,7 +48,7 @@
                        (sendOffer)="sendTradeOffer($event)"></trade-list-item>
     </div>
   </ion-list>
-  <!-- <ion-infinite-scroll [threshold]="scrollLoadThreshold" (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
+  <ion-infinite-scroll [threshold]="scrollLoadThreshold" (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-   </ion-infinite-scroll> -->
+   </ion-infinite-scroll>
 </ion-content>

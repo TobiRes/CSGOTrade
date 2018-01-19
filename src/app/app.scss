@@ -24,14 +24,14 @@ button.item.item-block {
 }
 
 ion-header {
-  background-color: #ff5400;
+  background-color: #6ba8a5;
   ion-icon {
     color: white;
   }
 }
 
 .toolbar-background {
-  background-color: #ff5400 !important;
+  background-color: #6ba8a5 !important;
 }
 
 .back-button, .toolbar-title {
@@ -44,7 +44,7 @@ ion-header {
 
 //TRADING
 .selectedItem {
-  background-color: #ff5400 !important;
+  background-color: #6ba8a5 !important;
   border: 1px solid black !important;
   .itemDescription {
     color: black;
@@ -58,7 +58,7 @@ ion-header {
 }
 
 .continueButton {
-  background-color: #ff5400 !important;
+  background-color: #6ba8a5 !important;
 }
 
 .container {
@@ -78,7 +78,7 @@ ion-header {
 ion-item-options {
   border: 0 !important;
   .button {
-    background-color: #ff5400 !important;
+    background-color: #6ba8a5 !important;
   }
 }
 

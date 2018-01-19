@@ -55,11 +55,24 @@ export class RedditService {
     });
   }
 
+  getNextSearchThreads(threadCount: number, lastThreadName: string, searchTerm: string[], additionalDetails: string) {
+    return new Promise((resolve, reject) => {
+      try {
+        let searchSpecification = this.getSearchSpecification(searchTerm);
+        this.http.get(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
+          (redditPostData: any) => {
+            resolve(redditPostData.data.children);
+          })
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   searchSubreddit(searchTerm: string[], additionalDetails: string) {
     return new Promise((resolve, reject) => {
       try {
         let searchSpecification = this.getSearchSpecification(searchTerm);
-        console.log(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails)
         this.http.get(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails).subscribe(
           (redditPostData: any) => {
             console.log(redditPostData)

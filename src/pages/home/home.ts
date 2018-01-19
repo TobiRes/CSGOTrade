@@ -33,12 +33,13 @@ export class HomePage {
 
   getAllThreads() {
     this.backupPosts = [];
-    this.storage.get("redditPosts")
-      .then(redditPosts => {
-        console.log(redditPosts);
-        if (redditPosts && this.currentPage == "Hot") {
-          this.backupPosts = redditPosts;
-          this.redditPosts = redditPosts;
+    Promise.all([this.storage.get("redditPosts"), this.storage.get("lastThreadName"), this.storage.get("threadCount")])
+      .then(storageData => {
+        if (storageData[0] && storageData[1] && storageData[2] && this.currentPage == "Hot") {
+          this.backupPosts = storageData[0];
+          this.redditPosts = storageData[0];
+          this.lastThreadName = storageData[1];
+          this.threadCount = storageData[2]
         } else {
           this.scrollLoadThreshold = "10%";
           this.redditService.getRedditThreads(this.currentPage)
@@ -153,6 +154,8 @@ export class HomePage {
     this.threadCount = this.threadCount + 25;
     if (this.currentPage == "Hot") {
       this.storage.set("redditPosts", this.backupPosts);
+      this.storage.set("lastThreadName", this.lastThreadName);
+      this.storage.set("threadCount", this.threadCount);
     }
   }
 

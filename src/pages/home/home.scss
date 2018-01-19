@@ -4,7 +4,8 @@ page-home {
     margin-bottom: 20px !important;
 
     .toolbar-background {
-      background-color: #ff5400 !important;
+      background-image: url(../../assets/imgs/banner.png);
+      background-size: cover;
     }
 
     .filter {
