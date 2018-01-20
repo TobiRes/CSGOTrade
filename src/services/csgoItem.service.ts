@@ -11,7 +11,7 @@ export class CSGOItemService {
   fillItemMetaData(csgoInventoryItem: any): CSGOItem {
     //e.g. "StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
     let itemFullName = csgoInventoryItem.market_hash_name;
-    return {
+    let csgoItem: CSGOItem = {
       fullName: itemFullName,
       name: csgoInventoryItem.name,
       skinCategory: this.getSkinCategory(itemFullName),
@@ -23,6 +23,9 @@ export class CSGOItemService {
       classId: csgoInventoryItem.classid,
       tradable: this.getTradeableStatus(csgoInventoryItem.tradable)
     }
+    csgoItem = this.fillAdditionalInformation(csgoInventoryItem, csgoItem);
+    console.log(csgoItem)
+    return csgoItem;
   }
 
   addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
@@ -168,7 +171,7 @@ export class CSGOItemService {
           itemType = ItemType.tool;
           break;
         }
-        if (itemPrefix.indexOf("sticker") > -1) {
+        if (itemPrefix.indexOf("stickerUrl") > -1) {
           itemType = ItemType.sticker;
           break;
         }
@@ -287,4 +290,70 @@ export class CSGOItemService {
     else
       return false;
   }
+
+  private fillAdditionalInformation(csgoInventoryItem: any, csgoItem: CSGOItem) {
+    let collection: string = this.getCollection(csgoInventoryItem.tags);
+    let stickerUrls: string[] = this.getStickers(csgoInventoryItem.descriptions);
+    if(csgoItem.skinCategory == SkinCategory.statTrak){
+      csgoItem.statTrakCount = this.getStatTrackCount(csgoInventoryItem.descriptions);
+    }
+    if(csgoInventoryItem.fraudwarnings){
+      csgoItem.nameTag = this.getNameTag(csgoInventoryItem.fraudwarnings);
+    }
+    if(collection.length){
+      csgoItem.collection = collection;
+    }
+    if(stickerUrls.length){
+      csgoItem.stickerUrl = stickerUrls;
+    }
+    return csgoItem;
+  }
+
+  private getStickers(csgoDescriptions: any[]){
+    let stickerUrls: string[] = [];
+    csgoDescriptions.forEach(description => {
+      if(description.value.indexOf("<br>") == 0){
+        stickerUrls = this.getStickerUrlsFromHTMLString(description.value);
+      }
+    });
+    return stickerUrls;
+  }
+
+  private getStickerUrlsFromHTMLString(htmlString: string) {
+    let stickerUrls = htmlString.match(/src="([^"]+)"/g)
+    for(let i = 0; i < stickerUrls.length; i++){
+      stickerUrls[i] = stickerUrls[i].replace("src=", "");
+      stickerUrls[i] = stickerUrls[i].replace('"', "");
+      stickerUrls[i] = stickerUrls[i].replace('"', "");
+    }
+    console.log(stickerUrls)
+    return stickerUrls;
+  }
+
+  private getStatTrackCount(csgoDescription: any[]){
+    let statTrackCount: string = "";
+    csgoDescription.forEach(csgoDescription => {
+      if(csgoDescription.value.indexOf("StatTrak") == 0){
+        statTrackCount = csgoDescription.value.replace( /^\D+/g, '');
+      }
+    })
+    return statTrackCount;
+  }
+
+  private getNameTag(csgoItemFraudWarnings: any[]){
+    let startIndexOfNameTag = csgoItemFraudWarnings.indexOf("''");
+    let lastIndexOfNameTag = csgoItemFraudWarnings.lastIndexOf("''");
+    return csgoItemFraudWarnings[0].substring(startIndexOfNameTag + 2, lastIndexOfNameTag);
+  }
+
+  private getCollection(csgoItemTags: any[]){
+    let collection: string = "";
+    csgoItemTags.forEach(tag => {
+      if(tag.internal_name.indexOf("set") == 0){
+        collection = tag.name;
+      }
+    })
+    return collection;
+  }
+
 }

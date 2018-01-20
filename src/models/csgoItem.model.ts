@@ -10,6 +10,10 @@ export interface CSGOItem {
   classId?: number,
   assetId?: number,
   tradable?: boolean,
+  stickerUrl?: string[];
+  statTrakCount?: string;
+  nameTag?: string;
+  collection?: string;
 }
 
 export enum ItemType {
