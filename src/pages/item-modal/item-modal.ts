@@ -16,8 +16,8 @@ export class ItemModalPage {
     console.log(this.csgoItem)
   }
 
-  closeModal() {
-    this.viewCtrl.dismiss();
+  showMetjm(){
+    
   }
 
   getExteriorString() {
