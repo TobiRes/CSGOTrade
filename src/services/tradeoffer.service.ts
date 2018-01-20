@@ -8,7 +8,7 @@ import {takeUntil} from "rxjs/operators";
 @Injectable()
 export class TradeofferService implements OnDestroy {
 
-  destroyed$ = new Subject<void>();
+  private destroyed$ = new Subject<void>();
 
   constructor(private inAppBrowser: InAppBrowser) {
   }
@@ -17,7 +17,7 @@ export class TradeofferService implements OnDestroy {
     let tradeOfferContent = JSON.stringify(this.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade));
     const browser = this.inAppBrowser.create(redditPost.tradelink);
     let tradeScript = this.buildTradeScript(tradeOfferContent);
-
+    console.log(tradeScript);
     try {
       browser.on("loadstop")
         .pipe(takeUntil(this.destroyed$))

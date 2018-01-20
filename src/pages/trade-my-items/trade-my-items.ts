@@ -47,8 +47,10 @@ export class TradeMyItemsPage {
         if (!this.csgoItems && this.mySteamProfile) {
           this.csgoItems = [];
           this.loadMyCsgoInventory();
-        } else {
+        } else if(!this.mySteamProfile) {
           this.alertEnterSteamProfile();
+        } else {
+          this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         }
       })
       .catch(error => console.error(error));
