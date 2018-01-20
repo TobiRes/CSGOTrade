@@ -119,7 +119,7 @@ export class ThreadinfoService {
         tradeThread.partnerId = this.getTradeParterId(tradeThread.steamProfileURL)
         tradeThread.wants = buysAndSells.wants;
         tradeThread.has = buysAndSells.has;
-        if(tradeThread.steamProfileURL == "unknown"){
+        if (tradeThread.steamProfileURL == "unknown") {
           tradeThread.type = PostType.unknown;
         }
       }
@@ -129,7 +129,7 @@ export class ThreadinfoService {
   }
 
   getSteamProfileURL(authorFlairText: string) {
-    if(authorFlairText){
+    if (authorFlairText) {
       let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
       if (startOfProfileURL < 0)
         return "unknown";
@@ -139,10 +139,10 @@ export class ThreadinfoService {
     }
   }
 
-  checkIfAnyObjectPropertyIsUndefined(objectToCheck){
+  checkIfAnyObjectPropertyIsUndefined(objectToCheck) {
     let savedStateIsNotComplete: boolean = false;
     for (var property in objectToCheck) {
-      if(objectToCheck[property] === "undefined"){
+      if (objectToCheck[property] === "undefined") {
         savedStateIsNotComplete = true;
       }
     }

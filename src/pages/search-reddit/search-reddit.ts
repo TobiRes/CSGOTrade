@@ -6,8 +6,6 @@ import {ThreadinfoService} from "../../services/threadinfo.service";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {Storage} from "@ionic/storage";
 import {SearchedSavedState} from "../../models/searchSavedState.model";
-import {HomeSavedState} from "../../models/homeSavedState.model";
-import {createElementCssSelector} from "@angular/compiler";
 
 @IonicPage()
 @Component({
@@ -49,7 +47,7 @@ export class SearchRedditPage {
   initializeView() {
     this.storage.get("searchSavedState")
       .then((searchSavedState: SearchedSavedState) => {
-        if(!searchSavedState || this.threadInfoService.checkIfAnyObjectPropertyIsUndefined(searchSavedState)){
+        if (!searchSavedState || this.threadInfoService.checkIfAnyObjectPropertyIsUndefined(searchSavedState)) {
           this.resetViewAndData();
         }
         else {
@@ -62,33 +60,9 @@ export class SearchRedditPage {
       });
   }
 
-  private setData(savedState: SearchedSavedState){
-    this.backupPosts = savedState.allPosts;
-    this.redditPosts = savedState.visiblePosts;
-    this.sortBy = savedState.sortBy;
-    this.chosenTime = savedState.chosenTime;
-    this.searchbarInput = savedState.searchInput;
-    this.savedSearchTerm = savedState.searchTerm;
-    this.lastThreadName = savedState.lastThreadName;
-    this.threadCount = savedState.threadCount;
-    this.scrollLoadThreshold = savedState.loadThreshold;
-  }
-
-  private resetViewAndData(){
-    this.backupPosts = [];
-    this.redditPosts = [];
-    this.sortBy = "Relevance";
-    this.chosenTime = "Week";
-    this.searchbarInput = "";
-    this.savedSearchTerm = [];
-    this.lastThreadName = "";
-    this.threadCount = 0;
-    this.scrollLoadThreshold = "10%";
-  }
-
   refreshPosts(refresher: any) {
     setTimeout(() => {
-      if(this.savedSearchTerm){
+      if (this.savedSearchTerm) {
         this.redditService.searchSubreddit(this.savedSearchTerm, this.getCertainKindOfPostsString())
           .then(redditPostsData => {
             refresher.complete();
@@ -100,7 +74,7 @@ export class SearchRedditPage {
             }
           });
       }
-      else{
+      else {
         refresher.complete();
         //TODO: ALERT PLEASE ENTER SEARCH
       }
@@ -151,6 +125,30 @@ export class SearchRedditPage {
 
   filterPosts() {
     this.search();
+  }
+
+  private setData(savedState: SearchedSavedState) {
+    this.backupPosts = savedState.allPosts;
+    this.redditPosts = savedState.visiblePosts;
+    this.sortBy = savedState.sortBy;
+    this.chosenTime = savedState.chosenTime;
+    this.searchbarInput = savedState.searchInput;
+    this.savedSearchTerm = savedState.searchTerm;
+    this.lastThreadName = savedState.lastThreadName;
+    this.threadCount = savedState.threadCount;
+    this.scrollLoadThreshold = savedState.loadThreshold;
+  }
+
+  private resetViewAndData() {
+    this.backupPosts = [];
+    this.redditPosts = [];
+    this.sortBy = "Relevance";
+    this.chosenTime = "Week";
+    this.searchbarInput = "";
+    this.savedSearchTerm = [];
+    this.lastThreadName = "";
+    this.threadCount = 0;
+    this.scrollLoadThreshold = "10%";
   }
 
   private buildSearchString() {

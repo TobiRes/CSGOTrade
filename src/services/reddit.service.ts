@@ -59,7 +59,6 @@ export class RedditService {
         let searchSpecification = this.getSearchSpecification(searchTerm);
         this.http.get(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
           (redditPostData: any) => {
-            console.log(redditPostData.data)
             resolve(redditPostData.data);
           })
       } catch (error) {

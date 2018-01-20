@@ -48,7 +48,7 @@ export class HomePage {
   initializeView() {
     this.storage.get("savedState")
       .then((savedState: HomeSavedState) => {
-        if(!savedState || this.threadinfoService.checkIfAnyObjectPropertyIsUndefined(savedState)){
+        if (!savedState || this.threadinfoService.checkIfAnyObjectPropertyIsUndefined(savedState)) {
           this.resetViewAndData();
         }
         else {
@@ -61,7 +61,7 @@ export class HomePage {
       });
   }
 
-  getRedditThreads(){
+  getRedditThreads() {
     this.redditService.getRedditThreads(this.currentPage)
       .then(redditPostData => {
         this.backupPosts = [];
@@ -128,7 +128,7 @@ export class HomePage {
     this.navCtrl.push(TradeTheirItemsPage, {postData});
   }
 
-  private setData(savedState: HomeSavedState){
+  private setData(savedState: HomeSavedState) {
     this.backupPosts = savedState.allPosts;
     this.redditPosts = savedState.visiblePosts;
     this.currentPage = savedState.currentPage;
@@ -138,7 +138,7 @@ export class HomePage {
     this.scrollLoadThreshold = savedState.loadThreshold;
   }
 
-  private resetViewAndData(){
+  private resetViewAndData() {
     this.backupPosts = [];
     this.redditPosts = [];
     this.currentPage = "Hot";
