@@ -14,7 +14,7 @@
     <div class="container">
       <div class="csgoItem" *ngFor="let item of tradeableItems" [ngClass]="isSelected(item) ? 'selectedItem' : ''"
            [ngStyle]="setBorderColorIfNotNormalCategory(item)">
-        <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)"></skin-list-item>
+        <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)" ></skin-list-item>
       </div>
     </div>
   </div>
