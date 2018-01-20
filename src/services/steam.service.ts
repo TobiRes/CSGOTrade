@@ -15,7 +15,7 @@ export class SteamService {
       this.http.get(steamInventoryURL + "/inventory/json/730/2").subscribe(
         (csgoInventoryData: any) => {
           if (!csgoInventoryData.success) {
-            throw ("Error Loading Data Exception");
+            reject();
           }
           else {
             resolve(csgoInventoryData);

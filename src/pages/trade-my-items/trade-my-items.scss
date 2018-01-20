@@ -2,7 +2,10 @@ page-trade-my-items {
   ion-header {
     box-shadow: 0 1px 5px #999;
   }
-
+  ion-spinner {
+    display: block;
+    margin: auto;
+  }
   .tradeSummary {
     .item-inner {
       border-bottom: 0 !important;

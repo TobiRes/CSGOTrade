@@ -13,6 +13,7 @@ export class ItemModalPage {
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams) {
     this.csgoItem = this.navParams.get("csgoItem");
+    console.log(this.csgoItem)
   }
 
   closeModal() {

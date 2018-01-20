@@ -10,4 +10,26 @@ page-item-modal {
       background-color: white;
     }
   }
+
+  .infoItemIcon{
+    text-align: center;
+    background-color: gray;
+    border-bottom: 0.5px solid black;
+    img{
+      width: 50%;
+      heihg: 50%;
+    };
+  }
+
+  .infoItemDescription{
+
+
+  }
+  .title{
+    padding: 0;
+  }
+  .button {
+    margin: 0;
+    background-color: #FF7200;
+  }
 }

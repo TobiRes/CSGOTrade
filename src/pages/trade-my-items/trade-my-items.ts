@@ -21,6 +21,7 @@ export class TradeMyItemsPage {
 
   redditPost: RedditPost;
   tradeableItems: CSGOItem[] = [];
+  isLoading: boolean = true;
 
   private myItemsToTrade: CSGOItem[] = [];
   private theirItemsToTrade: CSGOItem[] = [];
@@ -44,6 +45,7 @@ export class TradeMyItemsPage {
         this.csgoItems = storageData[0];
         this.mySteamProfile = storageData[1];
         if (!this.csgoItems && this.mySteamProfile) {
+          this.csgoItems = [];
           this.loadMyCsgoInventory();
         } else {
           this.alertEnterSteamProfile();
@@ -89,20 +91,24 @@ export class TradeMyItemsPage {
   }
 
   private loadMyCsgoInventory() {
-    let loader = this.loadCtrl.create();
-    loader.present();
-    this.steamService.getCSGOInventory(this.mySteamProfile)
+    this.isLoading = true;
+    this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
       .then((csgoInventory: any) => {
-        let csgoItemData = csgoInventory.rgDescriptions;
-        Object.keys(csgoItemData).forEach(key => {
-          this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
-        });
-        this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
-        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
-        loader.dismissAll();
+        try {
+          let csgoItemData = csgoInventory.rgDescriptions;
+          Object.keys(csgoItemData).forEach(key => {
+            this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
+          });
+          this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+          this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+          this.isLoading = false;
+        } catch (error){
+          console.error(error)
+        }
       })
       .catch(error => {
-        loader.dismissAll();
+        console.error(error)
+        this.isLoading = false;
         this.alertLoadInventoryError(error);
       });
   }
