@@ -6,7 +6,7 @@ import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {PostViewPage} from "../post-view/post-view";
-import {SavedState} from "../../models/savedState.model";
+import {HomeSavedState} from "../../models/homeSavedState.model";
 
 @IonicPage()
 @Component({
@@ -33,7 +33,7 @@ export class HomePage {
   }
 
   ionViewWillLeave() {
-    let savedState: SavedState = {
+    let savedState: HomeSavedState = {
       visiblePosts: this.redditPosts,
       allPosts: this.backupPosts,
       currentPage: this.currentPage,
@@ -47,8 +47,8 @@ export class HomePage {
 
   initializeView() {
     this.storage.get("savedState")
-      .then((savedState: SavedState) => {
-        if(!savedState || this.anySavedStatePropertyIsUndefined(savedState)){
+      .then((savedState: HomeSavedState) => {
+        if(!savedState || this.threadinfoService.checkIfAnyObjectPropertyIsUndefined(savedState)){
           this.resetViewAndData();
         }
         else {
@@ -79,6 +79,7 @@ export class HomePage {
           refresher.complete();
         })
         .catch(error => {
+          refresher.complete();
           console.error(error);
         });
     }, 2000);
@@ -127,17 +128,7 @@ export class HomePage {
     this.navCtrl.push(TradeTheirItemsPage, {postData});
   }
 
-  private anySavedStatePropertyIsUndefined(savedState: SavedState): boolean {
-    let savedStateIsNotComplete: boolean = false;
-    for (var property in savedState) {
-      if(savedState[property] === "undefined"){
-        savedStateIsNotComplete = true;
-      }
-    }
-    return savedStateIsNotComplete;
-  }
-
-  private setData(savedState: SavedState){
+  private setData(savedState: HomeSavedState){
     this.backupPosts = savedState.allPosts;
     this.redditPosts = savedState.visiblePosts;
     this.currentPage = savedState.currentPage;
@@ -148,11 +139,14 @@ export class HomePage {
   }
 
   private resetViewAndData(){
+    this.backupPosts = [];
     this.redditPosts = [];
     this.currentPage = "Hot";
     this.postTypesToFilter = [];
     this.lastThreadName = "";
     this.scrollLoadThreshold = "10%";
+    this.threadCount = 0;
+    this.lastThreadName = ""
     this.getRedditThreads();
   }
 
@@ -163,6 +157,13 @@ export class HomePage {
     if (this.postTypesToFilter.length) {
       this.filterPosts();
     }
+  }
+
+  private setMetaData(redditPostData: any) {
+    this.redditPosts = this.backupPosts;
+    this.defineThresholdForLoadingMorePosts();
+    this.lastThreadName = redditPostData.after;
+    this.threadCount = this.threadCount + 25;
   }
 
   private defineThresholdForLoadingMorePosts() {
@@ -192,13 +193,6 @@ export class HomePage {
           break;
       }
     }
-  }
-
-  private setMetaData(redditPostData: any) {
-    this.redditPosts = this.backupPosts;
-    this.defineThresholdForLoadingMorePosts();
-    this.lastThreadName = redditPostData.after;
-    this.threadCount = this.threadCount + 25;
   }
 
   private checkIfPostIsFiltered(postType: PostType): boolean {

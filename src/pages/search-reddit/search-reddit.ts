@@ -5,6 +5,9 @@ import {RedditService} from "../../services/reddit.service";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {Storage} from "@ionic/storage";
+import {SearchedSavedState} from "../../models/searchSavedState.model";
+import {HomeSavedState} from "../../models/homeSavedState.model";
+import {createElementCssSelector} from "@angular/compiler";
 
 @IonicPage()
 @Component({
@@ -25,32 +28,82 @@ export class SearchRedditPage {
   private threadCount: number = 0;
 
   constructor(public navCtrl: NavController, private storage: Storage, private redditService: RedditService, private threadInfoService: ThreadinfoService) {
-    //TODO: ONLY SAVE POST AND LAST THREAD COUNT FOR A CERTAIN TIME
-    Promise.all([this.storage.get("searchedPosts"), this.storage.get("searchTerm"), this.storage.get("lastSearchThreadName"), this.storage.get("searchThreadCount"), this.storage.get("searchSortBy")])
-      .then(storageData => {
-        this.redditPosts = storageData[0];
-        this.getSearchTermFromSavedSearchTermArray(storageData[1]);
-        this.lastThreadName = storageData[2];
-        this.threadCount = storageData[3];
-        this.sortBy = storageData[4];
-        if (this.searchbarInput && !this.redditPosts || this.sortBy == "New") {
-          this.search();
+    this.initializeView();
+  }
+
+  ionViewWillLeave() {
+    let searchSavedState: SearchedSavedState = {
+      visiblePosts: this.redditPosts,
+      allPosts: this.backupPosts,
+      sortBy: this.sortBy,
+      chosenTime: this.chosenTime,
+      searchInput: this.searchbarInput,
+      searchTerm: this.savedSearchTerm,
+      lastThreadName: this.lastThreadName,
+      threadCount: this.threadCount,
+      loadThreshold: this.scrollLoadThreshold
+    }
+    this.storage.set("searchSavedState", searchSavedState);
+  }
+
+  initializeView() {
+    this.storage.get("searchSavedState")
+      .then((searchSavedState: SearchedSavedState) => {
+        if(!searchSavedState || this.threadInfoService.checkIfAnyObjectPropertyIsUndefined(searchSavedState)){
+          this.resetViewAndData();
+        }
+        else {
+          this.setData(searchSavedState);
         }
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        this.resetViewAndData();
+        console.error(error)
+      });
+  }
+
+  private setData(savedState: SearchedSavedState){
+    this.backupPosts = savedState.allPosts;
+    this.redditPosts = savedState.visiblePosts;
+    this.sortBy = savedState.sortBy;
+    this.chosenTime = savedState.chosenTime;
+    this.searchbarInput = savedState.searchInput;
+    this.savedSearchTerm = savedState.searchTerm;
+    this.lastThreadName = savedState.lastThreadName;
+    this.threadCount = savedState.threadCount;
+    this.scrollLoadThreshold = savedState.loadThreshold;
+  }
+
+  private resetViewAndData(){
+    this.backupPosts = [];
+    this.redditPosts = [];
+    this.sortBy = "Relevance";
+    this.chosenTime = "Week";
+    this.searchbarInput = "";
+    this.savedSearchTerm = [];
+    this.lastThreadName = "";
+    this.threadCount = 0;
+    this.scrollLoadThreshold = "10%";
   }
 
   refreshPosts(refresher: any) {
     setTimeout(() => {
-      this.redditService.searchSubreddit(this.savedSearchTerm, this.getCertainKindOfPostsString())
-        .then(redditPostsData => {
-          if (redditPostsData) {
-            this.backupPosts = [];
-            this.getTradeInfo(redditPostsData)
-          } else {
-            //TODO: ALERT NO FOUND!
-          }
-        });
+      if(this.savedSearchTerm){
+        this.redditService.searchSubreddit(this.savedSearchTerm, this.getCertainKindOfPostsString())
+          .then(redditPostsData => {
+            refresher.complete();
+            if (redditPostsData) {
+              this.backupPosts = [];
+              this.getTradeInfo(redditPostsData)
+            } else {
+              //TODO: ALERT NO FOUND!
+            }
+          });
+      }
+      else{
+        refresher.complete();
+        //TODO: ALERT PLEASE ENTER SEARCH
+      }
     }, 2000);
   }
 
@@ -172,13 +225,8 @@ export class SearchRedditPage {
   private setMetaData(redditPostData: any) {
     this.redditPosts = this.backupPosts;
     this.defineThresholdForLoadingMorePosts();
-    this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
+    this.lastThreadName = redditPostData.after;
     this.threadCount = this.threadCount + 25;
-    this.storage.set("searchedPosts", this.backupPosts);
-    this.storage.set("searchTerm", this.savedSearchTerm);
-    this.storage.set("lastSearchThreadName", this.lastThreadName);
-    this.storage.set("searchThreadCount", this.threadCount);
-    this.storage.set("searchSortBy", this.sortBy);
   }
 
   private defineThresholdForLoadingMorePosts() {
@@ -208,14 +256,6 @@ export class SearchRedditPage {
           break;
       }
     }
-  }
-
-  private getSearchTermFromSavedSearchTermArray(savedSearchTerm: string[]) {
-    this.searchbarInput = "";
-    savedSearchTerm.forEach(word => {
-      this.searchbarInput += " " + word;
-    })
-    this.searchbarInput.trim();
   }
 
 }

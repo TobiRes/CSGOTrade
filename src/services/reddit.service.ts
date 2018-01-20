@@ -19,7 +19,6 @@ export class RedditService {
       try {
         this.http.get(this.globalOffensiveAboutURL).subscribe(
           (redditPostData: any) => {
-            console.log(redditPostData)
             resolve(redditPostData.data.active_user_count);
           })
       } catch (error) {
@@ -33,7 +32,6 @@ export class RedditService {
       try {
         this.http.get(this.globalOffensiveTradeBaseURL + currentPage.toLowerCase() + ".json").subscribe(
           (redditPostData: any) => {
-            console.log(redditPostData)
             resolve(redditPostData.data);
           })
       } catch (error) {
@@ -47,7 +45,7 @@ export class RedditService {
       try {
         this.http.get(this.globalOffensiveTradeBaseURL + currentPage.toLowerCase() + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
           (redditPostData: any) => {
-            resolve(redditPostData.data.children);
+            resolve(redditPostData.data);
           })
       } catch (error) {
         reject(error);
@@ -61,7 +59,8 @@ export class RedditService {
         let searchSpecification = this.getSearchSpecification(searchTerm);
         this.http.get(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
           (redditPostData: any) => {
-            resolve(redditPostData.data.children);
+            console.log(redditPostData.data)
+            resolve(redditPostData.data);
           })
       } catch (error) {
         reject(error);
@@ -75,8 +74,7 @@ export class RedditService {
         let searchSpecification = this.getSearchSpecification(searchTerm);
         this.http.get(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails).subscribe(
           (redditPostData: any) => {
-            console.log(redditPostData)
-            resolve(redditPostData.data.children);
+            resolve(redditPostData.data);
           })
       } catch (error) {
         reject(error);

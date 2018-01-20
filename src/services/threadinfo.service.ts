@@ -119,6 +119,9 @@ export class ThreadinfoService {
         tradeThread.partnerId = this.getTradeParterId(tradeThread.steamProfileURL)
         tradeThread.wants = buysAndSells.wants;
         tradeThread.has = buysAndSells.has;
+        if(tradeThread.steamProfileURL == "unknown"){
+          tradeThread.type = PostType.unknown;
+        }
       }
       existingRedditPosts.push(tradeThread);
     });
@@ -126,9 +129,23 @@ export class ThreadinfoService {
   }
 
   getSteamProfileURL(authorFlairText: string) {
-    let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
-    if (startOfProfileURL < 0)
+    if(authorFlairText){
+      let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
+      if (startOfProfileURL < 0)
+        return "unknown";
+      return authorFlairText.substr(startOfProfileURL, authorFlairText.length);
+    } else {
       return "unknown";
-    return authorFlairText.substr(startOfProfileURL, authorFlairText.length);
+    }
+  }
+
+  checkIfAnyObjectPropertyIsUndefined(objectToCheck){
+    let savedStateIsNotComplete: boolean = false;
+    for (var property in objectToCheck) {
+      if(objectToCheck[property] === "undefined"){
+        savedStateIsNotComplete = true;
+      }
+    }
+    return savedStateIsNotComplete;
   }
 }

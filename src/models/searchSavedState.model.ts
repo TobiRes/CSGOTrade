@@ -1,10 +1,12 @@
 import {RedditPost} from "./redditpost.model";
 
-export interface SavedState {
+export interface SearchedSavedState {
   visiblePosts: RedditPost[];
   allPosts: RedditPost[];
-  currentPage: string;
-  postTypesToFilter: string[];
+  searchInput: string;
+  searchTerm: string[];
+  sortBy: string;
+  chosenTime: string;
   lastThreadName: string;
   threadCount: number;
   loadThreshold: string;
