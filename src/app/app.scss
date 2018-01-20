@@ -39,7 +39,7 @@ ion-header {
 }
 
 .scroll-content {
-  background-color: lightgray;
+  background-color: white !important;
 }
 
 //TRADING
@@ -54,6 +54,9 @@ ion-header {
   }
   .itemType {
     color: black;
+  }
+  .item-inner{
+    background-color: #FF7200 !important;
   }
 }
 
@@ -70,7 +73,7 @@ ion-header {
     flex-basis: 23%;
     flex-grow: 0;
     border: 1px solid gray;
-    background-color: white;
+    background-color: lightgray;
   }
 }
 
