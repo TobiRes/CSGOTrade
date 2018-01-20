@@ -31,6 +31,23 @@
         </ion-item>
       </div>
     </div>
+    <div class="filter">
+      <div class="filtercontent">
+        <ion-item>
+          <ion-label>Filter</ion-label>
+          <ion-select [(ngModel)]="postTypesToFilter" (ionChange)="filterPosts(event)" multiple="true">
+            <ion-option>Trade</ion-option>
+            <ion-option>Store</ion-option>
+            <ion-option>Pricecheck</ion-option>
+            <ion-option>Question</ion-option>
+            <ion-option>< 15 Keys</ion-option>
+            <ion-option>PSA</ion-option>
+            <ion-option>Free</ion-option>
+            <ion-option>Sticky</ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
   </ion-navbar>
   <ion-searchbar no-border [(ngModel)]="searchbarInput"
                  (search)="search()">
@@ -49,6 +66,6 @@
     </div>
   </ion-list>
   <ion-infinite-scroll [threshold]="scrollLoadThreshold" (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
-     <ion-infinite-scroll-content></ion-infinite-scroll-content>
-   </ion-infinite-scroll>
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

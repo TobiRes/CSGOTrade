@@ -34,7 +34,7 @@ export class RedditService {
         this.http.get(this.globalOffensiveTradeBaseURL + currentPage.toLowerCase() + ".json").subscribe(
           (redditPostData: any) => {
             console.log(redditPostData)
-            resolve(redditPostData.data.children);
+            resolve(redditPostData.data);
           })
       } catch (error) {
         reject(error);

@@ -64,7 +64,7 @@ export class ThreadinfoService {
   }
 
   getAdditionalTradeInformation(redditPost: any) {
-    let postTitle: string = redditPost.data.title;
+    let postTitle: string = redditPost.title;
     let wantsIndex: number = postTitle.toUpperCase().indexOf("[W]");
     return {
       has: postTitle.substring(3, wantsIndex).trim(),
@@ -100,21 +100,22 @@ export class ThreadinfoService {
     return Math.floor(seconds) + " seconds";
   }
 
-  getTradeInfo(existingRedditPosts: RedditPost[], redditPostData: any) {
-    redditPostData.forEach(redditPost => {
+  setRedditPostInfo(existingRedditPosts: RedditPost[], redditPostData: any) {
+    redditPostData.children.forEach(redditPost => {
+      let actualPostData = redditPost.data
       let tradeThread: RedditPost = {
-        title: redditPost.data.title,
-        author: redditPost.data.author,
-        redditURL: redditPost.data.url,
-        numberOfComments: redditPost.data.num_comments,
-        timeSinceCreation: this.timeSince(redditPost.data.created_utc),
-        content: redditPost.data.selftext,
-        type: this.getPostType(redditPost.data.title),
-        tradelink: this.getTradeUrl(redditPost.data.selftext),
-        steamProfileURL: this.getSteamProfileURL(redditPost.data.author_flair_text),
+        title: actualPostData.title,
+        author: actualPostData.author,
+        redditURL: actualPostData.url,
+        numberOfComments: actualPostData.num_comments,
+        timeSinceCreation: this.timeSince(actualPostData.created_utc),
+        content: actualPostData.selftext,
+        type: this.getPostType(actualPostData.title),
+        tradelink: this.getTradeUrl(actualPostData.selftext),
+        steamProfileURL: this.getSteamProfileURL(actualPostData.author_flair_text),
       };
       if (tradeThread.type == PostType.trade) {
-        let buysAndSells = this.getAdditionalTradeInformation(redditPost);
+        let buysAndSells = this.getAdditionalTradeInformation(actualPostData);
         tradeThread.partnerId = this.getTradeParterId(tradeThread.steamProfileURL)
         tradeThread.wants = buysAndSells.wants;
         tradeThread.has = buysAndSells.has;

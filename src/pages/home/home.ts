@@ -6,6 +6,7 @@ import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {PostViewPage} from "../post-view/post-view";
+import {SavedState} from "../../models/savedState.model";
 
 @IonicPage()
 @Component({
@@ -28,29 +29,45 @@ export class HomePage {
               private redditService: RedditService,
               private threadinfoService: ThreadinfoService,
               private storage: Storage) {
-    this.getAllThreads();
+    this.initializeView();
   }
 
-  getAllThreads() {
-    this.backupPosts = [];
-    Promise.all([this.storage.get("redditPosts"), this.storage.get("lastThreadName"), this.storage.get("threadCount")])
-      .then(storageData => {
-        if (storageData[0] && storageData[1] && storageData[2] && this.currentPage == "Hot") {
-          this.backupPosts = storageData[0];
-          this.redditPosts = storageData[0];
-          this.lastThreadName = storageData[1];
-          this.threadCount = storageData[2]
-        } else {
-          this.scrollLoadThreshold = "10%";
-          this.redditService.getRedditThreads(this.currentPage)
-            .then(redditPostData => {
-              this.backupPosts = [];
-              this.getTradeInfo(redditPostData)
-            })
-            .catch(error => console.error(error));
+  ionViewWillLeave() {
+    let savedState: SavedState = {
+      visiblePosts: this.redditPosts,
+      allPosts: this.backupPosts,
+      currentPage: this.currentPage,
+      postTypesToFilter: this.postTypesToFilter,
+      lastThreadName: this.lastThreadName,
+      threadCount: this.threadCount,
+      loadThreshold: this.scrollLoadThreshold
+    }
+    this.storage.set("savedState", savedState);
+  }
+
+  initializeView() {
+    this.storage.get("savedState")
+      .then((savedState: SavedState) => {
+        if(!savedState || this.anySavedStatePropertyIsUndefined(savedState)){
+          this.resetViewAndData();
+        }
+        else {
+          this.setData(savedState);
         }
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        this.resetViewAndData();
+        console.error(error)
+      });
+  }
+
+  getRedditThreads(){
+    this.redditService.getRedditThreads(this.currentPage)
+      .then(redditPostData => {
+        this.backupPosts = [];
+        this.getTradeInfo(redditPostData)
+      })
+      .catch(error => console.error(error));
   }
 
   refreshPosts(refresher: any) {
@@ -110,8 +127,38 @@ export class HomePage {
     this.navCtrl.push(TradeTheirItemsPage, {postData});
   }
 
+  private anySavedStatePropertyIsUndefined(savedState: SavedState): boolean {
+    let savedStateIsNotComplete: boolean = false;
+    for (var property in savedState) {
+      if(savedState[property] === "undefined"){
+        savedStateIsNotComplete = true;
+      }
+    }
+    return savedStateIsNotComplete;
+  }
+
+  private setData(savedState: SavedState){
+    this.backupPosts = savedState.allPosts;
+    this.redditPosts = savedState.visiblePosts;
+    this.currentPage = savedState.currentPage;
+    this.postTypesToFilter = savedState.postTypesToFilter;
+    this.lastThreadName = savedState.lastThreadName;
+    this.threadCount = savedState.threadCount;
+    this.scrollLoadThreshold = savedState.loadThreshold;
+  }
+
+  private resetViewAndData(){
+    this.redditPosts = [];
+    this.currentPage = "Hot";
+    this.postTypesToFilter = [];
+    this.lastThreadName = "";
+    this.scrollLoadThreshold = "10%";
+    this.getRedditThreads();
+  }
+
   private getTradeInfo(redditPostData: any) {
-    this.backupPosts = this.threadinfoService.getTradeInfo(this.backupPosts, redditPostData)
+    this.backupPosts = this.threadinfoService.setRedditPostInfo(this.backupPosts, redditPostData);
+
     this.setMetaData(redditPostData);
     if (this.postTypesToFilter.length) {
       this.filterPosts();
@@ -150,13 +197,8 @@ export class HomePage {
   private setMetaData(redditPostData: any) {
     this.redditPosts = this.backupPosts;
     this.defineThresholdForLoadingMorePosts();
-    this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
+    this.lastThreadName = redditPostData.after;
     this.threadCount = this.threadCount + 25;
-    if (this.currentPage == "Hot") {
-      this.storage.set("redditPosts", this.backupPosts);
-      this.storage.set("lastThreadName", this.lastThreadName);
-      this.storage.set("threadCount", this.threadCount);
-    }
   }
 
   private checkIfPostIsFiltered(postType: PostType): boolean {
