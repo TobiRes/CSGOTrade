@@ -16,15 +16,14 @@ export class CSGOItemService {
       name: csgoInventoryItem.name,
       skinCategory: this.getSkinCategory(itemFullName),
       type: this.getItemType(itemFullName),
-      exterior: this.getSkinExterior(itemFullName),
       grade: this.getSkinGrade(csgoInventoryItem),
       iconUrl: csgoInventoryItem.icon_url,
       inspectLink: csgoInventoryItem.market_actions ? csgoInventoryItem.market_actions[0].link : "unknown",
       classId: csgoInventoryItem.classid,
       tradable: this.getTradeableStatus(csgoInventoryItem.tradable)
     }
+    csgoItem = this.getSkinExterior(csgoItem);
     csgoItem = this.fillAdditionalInformation(csgoInventoryItem, csgoItem);
-    console.log(csgoItem)
     return csgoItem;
   }
 
@@ -257,19 +256,33 @@ export class CSGOItemService {
     }
   }
 
-  private getSkinExterior(itemFullName: string): Exterior {
-    if (itemFullName.indexOf("Factory New") >= 0)
-      return Exterior.fn
-    if (itemFullName.indexOf("Minimal Wear") >= 0)
-      return Exterior.mw;
-    if (itemFullName.indexOf("Field-Tested") >= 0)
-      return Exterior.ft
-    if (itemFullName.indexOf("Well-Worn") >= 0)
-      return Exterior.ww
-    if (itemFullName.indexOf("Battle-Scarred") >= 0)
-      return Exterior.bs
-    else
-      return Exterior.notPainted
+  private getSkinExterior(item: CSGOItem): CSGOItem {
+    let csgoItem: CSGOItem = item;
+    if (csgoItem.fullName.indexOf("Factory New") >= 0){
+      csgoItem.shortExterior = Exterior.fn;
+      csgoItem.longExterior = "Factory New";
+    }
+    if (csgoItem.fullName.indexOf("Minimal Wear") >= 0){
+      csgoItem.shortExterior = Exterior.mw;
+      csgoItem.longExterior = "Minimal Wear";
+    }
+    if (csgoItem.fullName.indexOf("Field-Tested") >= 0) {
+      csgoItem.shortExterior = Exterior.ft;
+      csgoItem.longExterior = "Field-Tested";
+    }
+    if (csgoItem.fullName.indexOf("Well-Worn") >= 0){
+      csgoItem.shortExterior = Exterior.ww;
+      csgoItem.longExterior = "Well-Worn";
+    }
+    if (csgoItem.fullName.indexOf("Battle-Scarred") >= 0){
+      csgoItem.shortExterior = Exterior.bs;
+      csgoItem.longExterior = "Battle-Scarred";
+    }
+    else{
+      csgoItem.shortExterior = Exterior.notPainted;
+      csgoItem.longExterior = "Not Painted";
+    }
+    return csgoItem;
   }
 
   private getSkinRarity(csgoItemTags): string {
@@ -298,7 +311,7 @@ export class CSGOItemService {
       csgoItem.statTrakCount = this.getStatTrackCount(csgoInventoryItem.descriptions);
     }
     if(csgoInventoryItem.fraudwarnings){
-      csgoItem.nameTag = this.getNameTag(csgoInventoryItem.fraudwarnings);
+      csgoItem.nameTag = this.getNameTag(csgoInventoryItem.fraudwarnings[0]);
     }
     if(collection.length){
       csgoItem.collection = collection;
@@ -326,7 +339,6 @@ export class CSGOItemService {
       stickerUrls[i] = stickerUrls[i].replace('"', "");
       stickerUrls[i] = stickerUrls[i].replace('"', "");
     }
-    console.log(stickerUrls)
     return stickerUrls;
   }
 
@@ -340,10 +352,11 @@ export class CSGOItemService {
     return statTrackCount;
   }
 
-  private getNameTag(csgoItemFraudWarnings: any[]){
-    let startIndexOfNameTag = csgoItemFraudWarnings.indexOf("''");
+  private getNameTag(csgoItemFraudWarnings: string){
+    let startIndexOfNameTag = csgoItemFraudWarnings.indexOf("''") + 2;
     let lastIndexOfNameTag = csgoItemFraudWarnings.lastIndexOf("''");
-    return csgoItemFraudWarnings[0].substring(startIndexOfNameTag + 2, lastIndexOfNameTag);
+    console.log(csgoItemFraudWarnings.substring(startIndexOfNameTag, lastIndexOfNameTag))
+    return csgoItemFraudWarnings.substring(startIndexOfNameTag, lastIndexOfNameTag);
   }
 
   private getCollection(csgoItemTags: any[]){
@@ -355,5 +368,4 @@ export class CSGOItemService {
     })
     return collection;
   }
-
 }

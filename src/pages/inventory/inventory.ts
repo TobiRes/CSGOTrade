@@ -59,7 +59,7 @@ export class InventoryPage {
     }
     if (this.selectedExteriors.length) {
       let exteriors: string[] = this.itemService.mapExterior(this.selectedExteriors);
-      this.filterItems("exterior", exteriors);
+      this.filterItems("shortExterior", exteriors);
     }
   }
 

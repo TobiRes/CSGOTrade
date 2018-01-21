@@ -4,7 +4,8 @@ export interface CSGOItem {
   name?: string,
   skinCategory?: SkinCategory,
   grade?: Grade,
-  exterior?: Exterior,
+  shortExterior?: Exterior,
+  longExterior?: string;
   iconUrl?: string,
   inspectLink?: string,
   classId?: number,

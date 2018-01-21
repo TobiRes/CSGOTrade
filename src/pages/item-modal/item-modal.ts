@@ -49,7 +49,7 @@ export class ItemModalPage implements OnDestroy{
   }
 
   getExteriorString() {
-    switch (this.csgoItem.exterior) {
+    switch (this.csgoItem.shortExterior) {
       case Exterior.fn:
         return "Factory New";
       case Exterior.mw:
