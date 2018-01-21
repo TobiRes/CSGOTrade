@@ -31,6 +31,13 @@ page-item-modal {
     color: orangered;
   }
 
+  #collection{
+    margin: 0;
+    padding: 0 0 0 7px;
+    font-size: 1.1em;
+    color: dimgray;
+  }
+
   .pictureContainer {
     border-top: 0.5px solid gray;
     border-bottom: 0.5px solid gray;
@@ -55,14 +62,19 @@ page-item-modal {
     }
   }
 
-  .collection {
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-    p{
-      text-align: center;
-      margin: 0;
+  .additionalInfoContainer {
+    display: flex;
+    padding-top: 7px;
+    .itemInfo {
+      margin: 1%;
+      flex-basis: 63%;
+      flex-grow: 0;
+    }
+    .metjmButton{
+      margin: 1%;
+      flex-basis: 33%;
+      flex-grow: 0;
+      margin: auto;
     }
   }
 

@@ -1,9 +1,6 @@
 <ion-content padding>
   <div class="itemText">
     <p id="fullName">{{csgoItem.fullName}}</p>
-    <p id="exterior">{{csgoItem.longExterior}}</p>
-    <p *ngIf="csgoItem.nameTag" id="nameTag">Name Tag: &quot;{{csgoItem.nameTag}}&quot;</p>
-    <p *ngIf="csgoItem.statTrakCount" id="stKills">StatTrak&trade; Kills: {{csgoItem.statTrakCount}}</p>
   </div>
   <div class="pictureContainer">
     <div class="skinIcon">
@@ -17,8 +14,18 @@
       </div>
     </div>
   </div>
+  <div class="additionalInfoContainer">
+    <div class="itemInfo">
+      <p id="exterior">{{csgoItem.longExterior}}</p>
+      <p *ngIf="csgoItem.nameTag" id="nameTag">Name Tag: &quot;{{csgoItem.nameTag}}&quot;</p>
+      <p *ngIf="csgoItem.statTrakCount" id="stKills">StatTrak&trade; Kills: {{csgoItem.statTrakCount}}</p>
+      <p id="collection">{{csgoItem.collection}}</p>
+    </div>
+    <div class="metjmButton">
+      <button ion-button><ion-icon name="camera-outline"></ion-icon> Metjm</button>
+    </div>
+  </div>
     <div class="collection">
-      <p>{{csgoItem.collection}}</p>
     </div>
 </ion-content>
 <ion-footer>
