@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {CSGOItem, Exterior, Grade, ItemType, SkinCategory} from "../models/csgoItem.model";
+import {CSGOKey} from "../models/csgoKey.model";
 
 
 @Injectable()
@@ -87,51 +88,84 @@ export class CSGOItemService {
   }
 
   sortByKeyAndGrade(csgoItems: CSGOItem[]){
-    console.log(csgoItems)
-    let sortedItems: CSGOItem[] = []
-    for(let i = csgoItems.length-1; i >= 0; i--){
-      if(csgoItems[i].type == ItemType.key){
-        sortedItems.push(csgoItems[i]);
-        csgoItems.splice(i, 1);
+    let itemsToSort: CSGOItem[] = csgoItems.slice();
+    let sortedItems: CSGOItem[] = [];
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].type == ItemType.key){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = csgoItems.length-1; i >= 0; i--){
-      if(csgoItems[i].grade == Grade.covert
-        || csgoItems[i].grade == Grade.contraband
-        || csgoItems[i].grade == Grade.extraoridinary){
-        sortedItems.push(csgoItems[i]);
-        csgoItems.splice(i, 1);
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].grade == Grade.covert
+        || itemsToSort[i].grade == Grade.contraband
+        || itemsToSort[i].grade == Grade.extraoridinary){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = csgoItems.length-1; i >= 0; i--){
-      if(csgoItems[i].grade == Grade.classified
-        || csgoItems[i].grade == Grade.remarkable
-        || csgoItems[i].grade == Grade.exotic){
-        sortedItems.push(csgoItems[i]);
-        csgoItems.splice(i, 1);
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].grade == Grade.classified
+        || itemsToSort[i].grade == Grade.remarkable
+        || itemsToSort[i].grade == Grade.exotic){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = csgoItems.length-1; i >= 0; i--){
-      if(csgoItems[i].grade != Grade.base
-        || csgoItems[i].grade != Grade.industrial
-        || csgoItems[i].grade != Grade.consumer ){
-        sortedItems.push(csgoItems[i]);
-        csgoItems.splice(i, 1);
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].grade != Grade.base
+        || itemsToSort[i].grade != Grade.industrial
+        || itemsToSort[i].grade != Grade.consumer ){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = csgoItems.length -1; i >= 0; i--){
-      sortedItems.push(csgoItems[i]);
-      csgoItems.splice(i, 1);
+    for(let i = itemsToSort.length -1; i >= 0; i--){
+      sortedItems.push(itemsToSort[i]);
+      itemsToSort.splice(i, 1);
     }
-
 
     return sortedItems;
   }
 
+  splitIntoItemsAndKeys(csgoItems: CSGOItem[]){
+    //TODO: FIX ONLY ONE TYPE KEY BEING SHOWN
+    //TODO: DEEP COPY ALL ARRAYS
+    let allKeys: CSGOKey[] = [];
+    let csgoKeys: CSGOKey = { keys: [], count: 0};
+    let stillKeysLeft: boolean = true;
+    let currentKeyTypeToSearchFor: string = "";
+    let copyOfCsgoItems = csgoItems.slice();
+
+    while(stillKeysLeft){
+      for(let i = copyOfCsgoItems.length-1; i >= 0; i--) {
+        if(copyOfCsgoItems[i].type == ItemType.key){
+          currentKeyTypeToSearchFor = copyOfCsgoItems[i].fullName;
+          break;
+        }
+      }
+      if(!currentKeyTypeToSearchFor) {
+        stillKeysLeft = false;
+        break;
+      }
+      for(let i = copyOfCsgoItems.length-1; i >= 0; i--) {
+        if(copyOfCsgoItems[i].fullName == currentKeyTypeToSearchFor){
+          csgoKeys.keys.push(copyOfCsgoItems[i]);
+          csgoKeys.count++;
+          copyOfCsgoItems.splice(i, 1);
+          console.log(csgoKeys);
+        }
+      }
+      allKeys.push(csgoKeys);
+      csgoKeys = { keys: [], count: 0};
+      currentKeyTypeToSearchFor = "";
+    }
+    return allKeys;
+  }
 
   private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
     let assetId: number = 0;
