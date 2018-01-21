@@ -70,6 +70,7 @@ export class TradeTheirItemsPage {
         });
         this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
         this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+        this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
         this.isLoading = false;
       })
       .catch(error => {

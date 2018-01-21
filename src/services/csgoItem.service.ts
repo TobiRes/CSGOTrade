@@ -86,6 +86,53 @@ export class CSGOItemService {
     return tradeableItems;
   }
 
+  sortByKeyAndGrade(csgoItems: CSGOItem[]){
+    console.log(csgoItems)
+    let sortedItems: CSGOItem[] = []
+    for(let i = csgoItems.length-1; i >= 0; i--){
+      if(csgoItems[i].type == ItemType.key){
+        sortedItems.push(csgoItems[i]);
+        csgoItems.splice(i, 1);
+      }
+    }
+
+    for(let i = csgoItems.length-1; i >= 0; i--){
+      if(csgoItems[i].grade == Grade.covert
+        || csgoItems[i].grade == Grade.contraband
+        || csgoItems[i].grade == Grade.extraoridinary){
+        sortedItems.push(csgoItems[i]);
+        csgoItems.splice(i, 1);
+      }
+    }
+
+    for(let i = csgoItems.length-1; i >= 0; i--){
+      if(csgoItems[i].grade == Grade.classified
+        || csgoItems[i].grade == Grade.remarkable
+        || csgoItems[i].grade == Grade.exotic){
+        sortedItems.push(csgoItems[i]);
+        csgoItems.splice(i, 1);
+      }
+    }
+
+    for(let i = csgoItems.length-1; i >= 0; i--){
+      if(csgoItems[i].grade != Grade.base
+        || csgoItems[i].grade != Grade.industrial
+        || csgoItems[i].grade != Grade.consumer ){
+        sortedItems.push(csgoItems[i]);
+        csgoItems.splice(i, 1);
+      }
+    }
+
+    for(let i = csgoItems.length -1; i >= 0; i--){
+      sortedItems.push(csgoItems[i]);
+      csgoItems.splice(i, 1);
+    }
+
+
+    return sortedItems;
+  }
+
+
   private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
     let assetId: number = 0;
     Object.keys(inventoryIds).forEach((csgoItemData: any) => {
@@ -158,43 +205,47 @@ export class CSGOItemService {
         itemType = ItemType.knife;
         break;
       default:
-        if (itemPrefix.indexOf("case") > -1) {
-          itemType = ItemType.container;
-          break;
-        }
-        if (itemPrefix.indexOf("glove") > -1) {
-          itemType = ItemType.gloves;
-          break;
-        }
-        if (itemPrefix.indexOf("swap") > -1) {
-          itemType = ItemType.tool;
-          break;
-        }
-        if (itemPrefix.indexOf("stickerUrl") > -1) {
-          itemType = ItemType.sticker;
-          break;
-        }
-        if (itemPrefix.indexOf("graffiti") > -1) {
-          itemType = ItemType.graffiti;
-          break;
-        }
-        if (itemPrefix.indexOf("music") > -1) {
-          itemType = ItemType.gift;
-          break;
-        }
         if (itemPrefix.indexOf("key") > -1) {
           itemType = ItemType.key;
           break;
         }
-        if (itemPrefix.indexOf("pass") > -1) {
-          itemType = ItemType.pass;
+        else if (itemPrefix.indexOf("case") > -1) {
+          itemType = ItemType.container;
           break;
         }
-        if (itemPrefix.indexOf("gift") > -1) {
+        else if (itemPrefix.indexOf("glove") > -1) {
+          itemType = ItemType.gloves;
+          break;
+        }
+        else if (itemPrefix.indexOf("swap") > -1) {
+          itemType = ItemType.tool;
+          break;
+        }
+        else if (itemPrefix.indexOf("stickerUrl") > -1) {
+          itemType = ItemType.sticker;
+          break;
+        }
+        else if (itemPrefix.indexOf("graffiti") > -1) {
+          itemType = ItemType.graffiti;
+          break;
+        }
+        else if (itemPrefix.indexOf("music") > -1) {
           itemType = ItemType.gift;
           break;
         }
-        if (itemPrefix.indexOf("tag") > -1) {
+        else if (itemPrefix.indexOf("key") > -1) {
+          itemType = ItemType.key;
+          break;
+        }
+        else if (itemPrefix.indexOf("pass") > -1) {
+          itemType = ItemType.pass;
+          break;
+        }
+        else if (itemPrefix.indexOf("gift") > -1) {
+          itemType = ItemType.gift;
+          break;
+        }
+        else if (itemPrefix.indexOf("tag") > -1) {
           itemType = ItemType.tag;
           break;
         }
@@ -262,19 +313,19 @@ export class CSGOItemService {
       csgoItem.shortExterior = Exterior.fn;
       csgoItem.longExterior = "Factory New";
     }
-    if (csgoItem.fullName.indexOf("Minimal Wear") >= 0){
+    else if (csgoItem.fullName.indexOf("Minimal Wear") >= 0){
       csgoItem.shortExterior = Exterior.mw;
       csgoItem.longExterior = "Minimal Wear";
     }
-    if (csgoItem.fullName.indexOf("Field-Tested") >= 0) {
+    else if (csgoItem.fullName.indexOf("Field-Tested") >= 0) {
       csgoItem.shortExterior = Exterior.ft;
       csgoItem.longExterior = "Field-Tested";
     }
-    if (csgoItem.fullName.indexOf("Well-Worn") >= 0){
+    else if (csgoItem.fullName.indexOf("Well-Worn") >= 0){
       csgoItem.shortExterior = Exterior.ww;
       csgoItem.longExterior = "Well-Worn";
     }
-    if (csgoItem.fullName.indexOf("Battle-Scarred") >= 0){
+    else if (csgoItem.fullName.indexOf("Battle-Scarred") >= 0){
       csgoItem.shortExterior = Exterior.bs;
       csgoItem.longExterior = "Battle-Scarred";
     }
@@ -282,6 +333,7 @@ export class CSGOItemService {
       csgoItem.shortExterior = Exterior.notPainted;
       csgoItem.longExterior = "Not Painted";
     }
+
     return csgoItem;
   }
 
