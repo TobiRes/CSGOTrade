@@ -1,5 +1,9 @@
 page-item-modal {
 
+  .scrollContent{
+    position: relative;
+  }
+
   #fullName{
     margin: 0;
     padding: 5px 0 2px 7px;
@@ -27,31 +31,41 @@ page-item-modal {
     color: orangered;
   }
 
-  .container {
+  .pictureContainer {
+    border-top: 0.5px solid gray;
+    border-bottom: 0.5px solid gray;
+    background-color: lightgray;
     display: flex;
-    flex-wrap: wrap;
-
-    .infoItem {
-      margin: 2%;
-      flex-basis: 46%;
-      flex-grow: 0;
+    margin-top: 15px;
+    .skinIcon {
+      flex: 1;
+      padding: 2px;
+    }
+    .sticker {
+      flex: 1;
+      .stickerContainer{
+        display: flex;
+        flex-wrap: wrap;
+        .stickerIcon{
+          margin: 1%;
+          flex-basis: 48%;
+          flex-grow: 0;
+        }
+      }
     }
   }
 
-  .infoItemIcon{
-    text-align: center;
-    background-color: gray;
-    border-bottom: 0.5px solid black;
-    img{
-      width: 50%;
-      heihg: 50%;
-    };
+  .collection {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    p{
+      text-align: center;
+      margin: 0;
+    }
   }
 
-  .infoItemDescription{
-
-
-  }
   .title{
     padding: 0;
   }

@@ -355,7 +355,6 @@ export class CSGOItemService {
   private getNameTag(csgoItemFraudWarnings: string){
     let startIndexOfNameTag = csgoItemFraudWarnings.indexOf("''") + 2;
     let lastIndexOfNameTag = csgoItemFraudWarnings.lastIndexOf("''");
-    console.log(csgoItemFraudWarnings.substring(startIndexOfNameTag, lastIndexOfNameTag))
     return csgoItemFraudWarnings.substring(startIndexOfNameTag, lastIndexOfNameTag);
   }
 
