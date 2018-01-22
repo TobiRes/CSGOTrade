@@ -59,7 +59,7 @@ export class InventoryPage {
     }
     if (this.selectedExteriors.length) {
       let exteriors: string[] = this.itemService.mapExterior(this.selectedExteriors);
-      this.filterItems("exterior", exteriors);
+      this.filterItems("shortExterior", exteriors);
     }
   }
 
@@ -74,7 +74,8 @@ export class InventoryPage {
           Object.keys(this.csgoInventoryData).forEach(key => {
             this.csgoItems.push(this.itemService.fillItemMetaData(this.csgoInventoryData[key]));
           });
-          this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory)
+          this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+          this.csgoItems = this.itemService.sortByKeyAndGrade(this.csgoItems);
           this.isLoading = false;
           this.storage.set("csgoItems", this.csgoItems)
             .then(() => {

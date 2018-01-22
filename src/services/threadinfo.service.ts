@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {PostType} from "../models/redditpost.model";
+import {PostType, RedditPost} from "../models/redditpost.model";
 
 @Injectable()
 export class ThreadinfoService {
@@ -64,7 +64,7 @@ export class ThreadinfoService {
   }
 
   getAdditionalTradeInformation(redditPost: any) {
-    let postTitle: string = redditPost.data.title;
+    let postTitle: string = redditPost.title;
     let wantsIndex: number = postTitle.toUpperCase().indexOf("[W]");
     return {
       has: postTitle.substring(3, wantsIndex).trim(),
@@ -100,10 +100,52 @@ export class ThreadinfoService {
     return Math.floor(seconds) + " seconds";
   }
 
+  setRedditPostInfo(existingRedditPosts: RedditPost[], redditPostData: any) {
+    redditPostData.children.forEach(redditPost => {
+      let actualPostData = redditPost.data
+      let tradeThread: RedditPost = {
+        title: actualPostData.title,
+        author: actualPostData.author,
+        redditURL: actualPostData.url,
+        numberOfComments: actualPostData.num_comments,
+        timeSinceCreation: this.timeSince(actualPostData.created_utc),
+        content: actualPostData.selftext,
+        type: this.getPostType(actualPostData.title),
+        tradelink: this.getTradeUrl(actualPostData.selftext),
+        steamProfileURL: this.getSteamProfileURL(actualPostData.author_flair_text),
+      };
+      if (tradeThread.type == PostType.trade) {
+        let buysAndSells = this.getAdditionalTradeInformation(actualPostData);
+        tradeThread.partnerId = this.getTradeParterId(tradeThread.steamProfileURL)
+        tradeThread.wants = buysAndSells.wants;
+        tradeThread.has = buysAndSells.has;
+        if (tradeThread.steamProfileURL == "unknown") {
+          tradeThread.type = PostType.unknown;
+        }
+      }
+      existingRedditPosts.push(tradeThread);
+    });
+    return existingRedditPosts;
+  }
+
   getSteamProfileURL(authorFlairText: string) {
-    let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
-    if (startOfProfileURL < 0)
+    if (authorFlairText) {
+      let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
+      if (startOfProfileURL < 0)
+        return "unknown";
+      return authorFlairText.substr(startOfProfileURL, authorFlairText.length);
+    } else {
       return "unknown";
-    return authorFlairText.substr(startOfProfileURL, authorFlairText.length);
+    }
+  }
+
+  checkIfAnyObjectPropertyIsUndefined(objectToCheck) {
+    let savedStateIsNotComplete: boolean = false;
+    for (var property in objectToCheck) {
+      if (objectToCheck[property] === "undefined") {
+        savedStateIsNotComplete = true;
+      }
+    }
+    return savedStateIsNotComplete;
   }
 }

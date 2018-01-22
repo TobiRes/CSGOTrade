@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {
-  AlertController, IonicPage, LoadingController, Modal, ModalController, ModalOptions, NavController,
+  AlertController, IonicPage, LoadingController, NavController,
   NavParams
 } from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
@@ -21,6 +21,7 @@ export class TradeMyItemsPage {
 
   redditPost: RedditPost;
   tradeableItems: CSGOItem[] = [];
+  isLoading: boolean = true;
 
   private myItemsToTrade: CSGOItem[] = [];
   private theirItemsToTrade: CSGOItem[] = [];
@@ -34,7 +35,6 @@ export class TradeMyItemsPage {
               private loadCtrl: LoadingController,
               private itemService: CSGOItemService,
               private alertCtrl: AlertController,
-              private modal: ModalController,
               private dynStyleService: DynamicStyleService) {
 
     this.redditPost = this.navParams.get("redditPost");
@@ -43,16 +43,23 @@ export class TradeMyItemsPage {
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
       .then(storageData => {
         this.csgoItems = storageData[0];
-        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.mySteamProfile = storageData[1];
-        console.log(this.csgoItems);
         if (!this.csgoItems && this.mySteamProfile) {
+          this.csgoItems = [];
           this.loadMyCsgoInventory();
-        } else {
+        } else if(!this.mySteamProfile) {
           this.alertEnterSteamProfile();
+        } else {
+          this.isLoading = false;
+          this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         }
       })
       .catch(error => console.error(error));
+  }
+
+  ionViewWillLeave(){
+    this.storage.set("csgoItems", this.csgoItems);
+    this.storage.set("steamProfileURL", this.mySteamProfile);
   }
 
   addItemToTrade(csgoItem) {
@@ -62,18 +69,6 @@ export class TradeMyItemsPage {
     } else {
       this.myItemsToTrade.push(csgoItem);
     }
-  }
-
-  openModal(csgoItem: CSGOItem){
-    const csgoItemModalOptions: ModalOptions = {
-      cssClass: "csgoItemModal",
-      showBackdrop: true
-    }
-    const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: csgoItem}, csgoItemModalOptions);
-    itemModal.present();
-    itemModal.onWillDismiss((data)=> {
-
-    });
   }
 
   isSelected(item: CSGOItem) {
@@ -99,22 +94,21 @@ export class TradeMyItemsPage {
   }
 
   private loadMyCsgoInventory() {
-    let loader = this.loadCtrl.create();
-    loader.present();
-    this.steamService.getCSGOInventory(this.mySteamProfile)
+    this.isLoading = true;
+    this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
       .then((csgoInventory: any) => {
-        let csgoItemData = csgoInventory.rgDescriptions;
-        Object.keys(csgoItemData).forEach(key => {
-          this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
-        });
-        this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
-        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
-        this.storage.set("csgoItems", this.csgoItems);
-        this.storage.set("steamProfileURL", this.mySteamProfile);
-        loader.dismissAll();
+          let csgoItemData = csgoInventory.rgDescriptions;
+          Object.keys(csgoItemData).forEach(key => {
+            this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
+          });
+          this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+          this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+          this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
+          this.isLoading = false;
       })
       .catch(error => {
-        loader.dismissAll();
+        console.error(error)
+        this.isLoading = false;
         this.alertLoadInventoryError(error);
       });
   }
@@ -122,13 +116,13 @@ export class TradeMyItemsPage {
   private alertLoadInventoryError(error: any) {
     this.alertCtrl.create({
       title: "Error!",
-      subTitle: error.message,
+      subTitle: "Something went wrong.",
       buttons: ['Dismiss']
     }).present();
   }
 
   private alertEnterSteamProfile() {
-    return this.alertCtrl.create({
+    this.alertCtrl.create({
       title: 'Please enter your Steamprofile URL',
       inputs: [
         {
@@ -157,6 +151,6 @@ export class TradeMyItemsPage {
           }
         }
       ]
-    });
+    }).present();
   }
 }

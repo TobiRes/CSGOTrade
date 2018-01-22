@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
+import {ThreadinfoService} from "./threadinfo.service";
 
 @Injectable()
 export class RedditService {
@@ -7,9 +8,10 @@ export class RedditService {
   //Comment URL = POSTURL /.json
 
   private globalOffensiveAboutURL: string = "http://www.reddit.com/r/Globaloffensivetrade/about.json"
-  private globalOffensiveTradeBaseUrl: string = "https://www.reddit.com/r/globaloffensivetrade/";
+  private globalOffensiveTradeBaseURL: string = "https://www.reddit.com/r/globaloffensivetrade/";
+  private globalOffensiveSearchBaseURL: string = "https://www.reddit.com/r/GlobalOffensiveTrade/search.json?q="
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private threadInfoService: ThreadinfoService) {
   }
 
   getActiveUserCount() {
@@ -17,7 +19,6 @@ export class RedditService {
       try {
         this.http.get(this.globalOffensiveAboutURL).subscribe(
           (redditPostData: any) => {
-            console.log(redditPostData)
             resolve(redditPostData.data.active_user_count);
           })
       } catch (error) {
@@ -29,9 +30,9 @@ export class RedditService {
   getRedditThreads(currentPage: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.http.get(this.globalOffensiveTradeBaseUrl + currentPage.toLowerCase() + ".json").subscribe(
+        this.http.get(this.globalOffensiveTradeBaseURL + currentPage.toLowerCase() + ".json").subscribe(
           (redditPostData: any) => {
-            resolve(redditPostData.data.children);
+            resolve(redditPostData.data);
           })
       } catch (error) {
         reject(error);
@@ -42,13 +43,49 @@ export class RedditService {
   getNextRedditThreads(threadCount: number, lastThreadName: string, currentPage: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.http.get(this.globalOffensiveTradeBaseUrl + currentPage.toLowerCase() + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
+        this.http.get(this.globalOffensiveTradeBaseURL + currentPage.toLowerCase() + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
           (redditPostData: any) => {
-            resolve(redditPostData.data.children);
+            resolve(redditPostData.data);
           })
       } catch (error) {
         reject(error);
       }
     });
+  }
+
+  getNextSearchThreads(threadCount: number, lastThreadName: string, searchTerm: string[], additionalDetails: string) {
+    return new Promise((resolve, reject) => {
+      try {
+        let searchSpecification = this.getSearchSpecification(searchTerm);
+        this.http.get(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails + "/.json?count=" + threadCount + "&after=" + lastThreadName).subscribe(
+          (redditPostData: any) => {
+            resolve(redditPostData.data);
+          })
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  searchSubreddit(searchTerm: string[], additionalDetails: string) {
+    return new Promise((resolve, reject) => {
+      try {
+        let searchSpecification = this.getSearchSpecification(searchTerm);
+        this.http.get(this.globalOffensiveSearchBaseURL + searchSpecification + additionalDetails).subscribe(
+          (redditPostData: any) => {
+            resolve(redditPostData.data);
+          })
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  private getSearchSpecification(searchTerm: string[]) {
+    let searchSpecification = searchTerm[0];
+    for (let i = 1; i < searchTerm.length; i++) {
+      searchSpecification += "+" + searchTerm[i];
+    }
+    return searchSpecification;
   }
 }

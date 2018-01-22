@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {CSGOItem, Exterior, Grade, ItemType, SkinCategory} from "../models/csgoItem.model";
+import {CSGOKey} from "../models/csgoKey.model";
 
 
 @Injectable()
@@ -11,18 +12,20 @@ export class CSGOItemService {
   fillItemMetaData(csgoInventoryItem: any): CSGOItem {
     //e.g. "StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
     let itemFullName = csgoInventoryItem.market_hash_name;
-    return {
+    let csgoItem: CSGOItem = {
       fullName: itemFullName,
       name: csgoInventoryItem.name,
       skinCategory: this.getSkinCategory(itemFullName),
       type: this.getItemType(itemFullName),
-      exterior: this.getSkinExterior(itemFullName),
       grade: this.getSkinGrade(csgoInventoryItem),
       iconUrl: csgoInventoryItem.icon_url,
       inspectLink: csgoInventoryItem.market_actions ? csgoInventoryItem.market_actions[0].link : "unknown",
       classId: csgoInventoryItem.classid,
       tradable: this.getTradeableStatus(csgoInventoryItem.tradable)
     }
+    csgoItem = this.getSkinExterior(csgoItem);
+    csgoItem = this.fillAdditionalInformation(csgoInventoryItem, csgoItem);
+    return csgoItem;
   }
 
   addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
@@ -75,13 +78,93 @@ export class CSGOItemService {
     return categories;
   }
 
-  getTradeableItems(csgoItems: CSGOItem[]): CSGOItem[]{
+  getTradeableItems(csgoItems: CSGOItem[]): CSGOItem[] {
     let tradeableItems: CSGOItem[] = [];
     csgoItems.forEach(csgoItem => {
-      if(csgoItem.tradable)
+      if (csgoItem.tradable)
         tradeableItems.push(csgoItem)
     });
     return tradeableItems;
+  }
+
+  sortByKeyAndGrade(csgoItems: CSGOItem[]){
+    let itemsToSort: CSGOItem[] = csgoItems.slice();
+    let sortedItems: CSGOItem[] = [];
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].type == ItemType.key){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
+      }
+    }
+
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].grade == Grade.covert
+        || itemsToSort[i].grade == Grade.contraband
+        || itemsToSort[i].grade == Grade.extraoridinary){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
+      }
+    }
+
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].grade == Grade.classified
+        || itemsToSort[i].grade == Grade.remarkable
+        || itemsToSort[i].grade == Grade.exotic){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
+      }
+    }
+
+    for(let i = itemsToSort.length-1; i >= 0; i--){
+      if(itemsToSort[i].grade != Grade.base
+        || itemsToSort[i].grade != Grade.industrial
+        || itemsToSort[i].grade != Grade.consumer ){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
+      }
+    }
+
+    for(let i = itemsToSort.length -1; i >= 0; i--){
+      sortedItems.push(itemsToSort[i]);
+      itemsToSort.splice(i, 1);
+    }
+
+    return sortedItems;
+  }
+
+  splitIntoItemsAndKeys(csgoItems: CSGOItem[]){
+    //TODO: FIX ONLY ONE TYPE KEY BEING SHOWN
+    //TODO: DEEP COPY ALL ARRAYS
+    let allKeys: CSGOKey[] = [];
+    let csgoKeys: CSGOKey = { keys: [], count: 0};
+    let stillKeysLeft: boolean = true;
+    let currentKeyTypeToSearchFor: string = "";
+    let copyOfCsgoItems = csgoItems.slice();
+
+    while(stillKeysLeft){
+      for(let i = copyOfCsgoItems.length-1; i >= 0; i--) {
+        if(copyOfCsgoItems[i].type == ItemType.key){
+          currentKeyTypeToSearchFor = copyOfCsgoItems[i].fullName;
+          break;
+        }
+      }
+      if(!currentKeyTypeToSearchFor) {
+        stillKeysLeft = false;
+        break;
+      }
+      for(let i = copyOfCsgoItems.length-1; i >= 0; i--) {
+        if(copyOfCsgoItems[i].fullName == currentKeyTypeToSearchFor){
+          csgoKeys.keys.push(copyOfCsgoItems[i]);
+          csgoKeys.count++;
+          copyOfCsgoItems.splice(i, 1);
+          console.log(csgoKeys);
+        }
+      }
+      allKeys.push(csgoKeys);
+      csgoKeys = { keys: [], count: 0};
+      currentKeyTypeToSearchFor = "";
+    }
+    return allKeys;
   }
 
   private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
@@ -156,43 +239,47 @@ export class CSGOItemService {
         itemType = ItemType.knife;
         break;
       default:
-        if (itemPrefix.indexOf("case") > -1) {
-          itemType = ItemType.container;
-          break;
-        }
-        if (itemPrefix.indexOf("glove") > -1) {
-          itemType = ItemType.gloves;
-          break;
-        }
-        if (itemPrefix.indexOf("swap") > -1) {
-          itemType = ItemType.tool;
-          break;
-        }
-        if (itemPrefix.indexOf("sticker") > -1) {
-          itemType = ItemType.sticker;
-          break;
-        }
-        if (itemPrefix.indexOf("graffiti") > -1) {
-          itemType = ItemType.graffiti;
-          break;
-        }
-        if (itemPrefix.indexOf("music") > -1) {
-          itemType = ItemType.gift;
-          break;
-        }
         if (itemPrefix.indexOf("key") > -1) {
           itemType = ItemType.key;
           break;
         }
-        if (itemPrefix.indexOf("pass") > -1) {
-          itemType = ItemType.pass;
+        else if (itemPrefix.indexOf("case") > -1) {
+          itemType = ItemType.container;
           break;
         }
-        if (itemPrefix.indexOf("gift") > -1) {
+        else if (itemPrefix.indexOf("glove") > -1) {
+          itemType = ItemType.gloves;
+          break;
+        }
+        else if (itemPrefix.indexOf("swap") > -1) {
+          itemType = ItemType.tool;
+          break;
+        }
+        else if (itemPrefix.indexOf("stickerUrl") > -1) {
+          itemType = ItemType.sticker;
+          break;
+        }
+        else if (itemPrefix.indexOf("graffiti") > -1) {
+          itemType = ItemType.graffiti;
+          break;
+        }
+        else if (itemPrefix.indexOf("music") > -1) {
           itemType = ItemType.gift;
           break;
         }
-        if (itemPrefix.indexOf("tag") > -1) {
+        else if (itemPrefix.indexOf("key") > -1) {
+          itemType = ItemType.key;
+          break;
+        }
+        else if (itemPrefix.indexOf("pass") > -1) {
+          itemType = ItemType.pass;
+          break;
+        }
+        else if (itemPrefix.indexOf("gift") > -1) {
+          itemType = ItemType.gift;
+          break;
+        }
+        else if (itemPrefix.indexOf("tag") > -1) {
           itemType = ItemType.tag;
           break;
         }
@@ -254,19 +341,34 @@ export class CSGOItemService {
     }
   }
 
-  private getSkinExterior(itemFullName: string): Exterior {
-    if (itemFullName.indexOf("Factory New") >= 0)
-      return Exterior.fn
-    if (itemFullName.indexOf("Minimal Wear") >= 0)
-      return Exterior.mw;
-    if (itemFullName.indexOf("Field-Tested") >= 0)
-      return Exterior.ft
-    if (itemFullName.indexOf("Well-Worn") >= 0)
-      return Exterior.ww
-    if (itemFullName.indexOf("Battle-Scarred") >= 0)
-      return Exterior.bs
-    else
-      return Exterior.notPainted
+  private getSkinExterior(item: CSGOItem): CSGOItem {
+    let csgoItem: CSGOItem = item;
+    if (csgoItem.fullName.indexOf("Factory New") >= 0){
+      csgoItem.shortExterior = Exterior.fn;
+      csgoItem.longExterior = "Factory New";
+    }
+    else if (csgoItem.fullName.indexOf("Minimal Wear") >= 0){
+      csgoItem.shortExterior = Exterior.mw;
+      csgoItem.longExterior = "Minimal Wear";
+    }
+    else if (csgoItem.fullName.indexOf("Field-Tested") >= 0) {
+      csgoItem.shortExterior = Exterior.ft;
+      csgoItem.longExterior = "Field-Tested";
+    }
+    else if (csgoItem.fullName.indexOf("Well-Worn") >= 0){
+      csgoItem.shortExterior = Exterior.ww;
+      csgoItem.longExterior = "Well-Worn";
+    }
+    else if (csgoItem.fullName.indexOf("Battle-Scarred") >= 0){
+      csgoItem.shortExterior = Exterior.bs;
+      csgoItem.longExterior = "Battle-Scarred";
+    }
+    else{
+      csgoItem.shortExterior = Exterior.notPainted;
+      csgoItem.longExterior = "Not Painted";
+    }
+
+    return csgoItem;
   }
 
   private getSkinRarity(csgoItemTags): string {
@@ -282,9 +384,73 @@ export class CSGOItemService {
   }
 
   private getTradeableStatus(tradable: number) {
-    if(tradable == 1)
+    if (tradable == 1)
       return true;
     else
       return false;
+  }
+
+  private fillAdditionalInformation(csgoInventoryItem: any, csgoItem: CSGOItem) {
+    let collection: string = this.getCollection(csgoInventoryItem.tags);
+    let stickerUrls: string[] = this.getStickers(csgoInventoryItem.descriptions);
+    if(csgoItem.skinCategory == SkinCategory.statTrak){
+      csgoItem.statTrakCount = this.getStatTrackCount(csgoInventoryItem.descriptions);
+    }
+    if(csgoInventoryItem.fraudwarnings){
+      csgoItem.nameTag = this.getNameTag(csgoInventoryItem.fraudwarnings[0]);
+    }
+    if(collection.length){
+      csgoItem.collection = collection;
+    }
+    if(stickerUrls.length){
+      csgoItem.stickerUrl = stickerUrls;
+    }
+    return csgoItem;
+  }
+
+  private getStickers(csgoDescriptions: any[]){
+    let stickerUrls: string[] = [];
+    csgoDescriptions.forEach(description => {
+      if(description.value.indexOf("<br>") == 0){
+        stickerUrls = this.getStickerUrlsFromHTMLString(description.value);
+      }
+    });
+    return stickerUrls;
+  }
+
+  private getStickerUrlsFromHTMLString(htmlString: string) {
+    let stickerUrls = htmlString.match(/src="([^"]+)"/g)
+    for(let i = 0; i < stickerUrls.length; i++){
+      stickerUrls[i] = stickerUrls[i].replace("src=", "");
+      stickerUrls[i] = stickerUrls[i].replace('"', "");
+      stickerUrls[i] = stickerUrls[i].replace('"', "");
+    }
+    return stickerUrls;
+  }
+
+  private getStatTrackCount(csgoDescription: any[]){
+    let statTrackCount: string = "";
+    csgoDescription.forEach(csgoDescription => {
+      if(csgoDescription.value.indexOf("StatTrak") == 0){
+        statTrackCount = csgoDescription.value.replace( /^\D+/g, '');
+      }
+    })
+    return statTrackCount;
+  }
+
+  private getNameTag(csgoItemFraudWarnings: string){
+    let startIndexOfNameTag = csgoItemFraudWarnings.indexOf("''") + 2;
+    let lastIndexOfNameTag = csgoItemFraudWarnings.lastIndexOf("''");
+    return csgoItemFraudWarnings.substring(startIndexOfNameTag, lastIndexOfNameTag);
+  }
+
+  private getCollection(csgoItemTags: any[]){
+    let collection: string = "";
+    csgoItemTags.forEach(tag => {
+      if(tag.internal_name.indexOf("set") == 0){
+        collection = tag.name;
+      }
+    })
+    return collection;
   }
 }

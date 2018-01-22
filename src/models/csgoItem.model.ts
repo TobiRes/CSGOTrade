@@ -4,12 +4,17 @@ export interface CSGOItem {
   name?: string,
   skinCategory?: SkinCategory,
   grade?: Grade,
-  exterior?: Exterior,
+  shortExterior?: Exterior,
+  longExterior?: string;
   iconUrl?: string,
   inspectLink?: string,
   classId?: number,
   assetId?: number,
   tradable?: boolean,
+  stickerUrl?: string[];
+  statTrakCount?: string;
+  nameTag?: string;
+  collection?: string;
 }
 
 export enum ItemType {

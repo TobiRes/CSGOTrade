@@ -28,8 +28,8 @@ import { SettingsPageModule } from "../pages/settings/settings.module";
 import { SettingsService } from "../services/settings.service";
 import {DirectivesModule} from "../directives/directives.module";
 import {ItemModalPageModule} from "../pages/item-modal/item-modal.module";
-import {PostViewPage} from "../pages/post-view/post-view";
 import {PostViewPageModule} from "../pages/post-view/post-view.module";
+import {SearchRedditPageModule} from "../pages/search-reddit/search-reddit.module";
 
 @NgModule({
   declarations: [
@@ -41,6 +41,7 @@ import {PostViewPageModule} from "../pages/post-view/post-view.module";
     IonicStorageModule.forRoot(),
     HttpClientModule,
     ComponentsModule,
+    DirectivesModule,
     HomePageModule,
     InventoryPageModule,
     SteamLoginPageModule,
@@ -51,7 +52,7 @@ import {PostViewPageModule} from "../pages/post-view/post-view.module";
     SettingsPageModule,
     ItemModalPageModule,
     PostViewPageModule,
-    DirectivesModule
+    SearchRedditPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,13 +1,92 @@
 page-item-modal {
-  .container {
-    display: flex;
-    flex-wrap: wrap;
 
-    .infoItem {
-      margin: 2%;
-      flex-basis: 46%;
-      flex-grow: 0;
-      background-color: white;
+  .scrollContent{
+    position: relative;
+  }
+
+  #fullName{
+    margin: 0;
+    padding: 5px 0 2px 7px;
+    font-size: 1.3em;
+    color: orangered;
+  }
+
+  #exterior{
+    margin: 0;
+    padding: 0 0 0 7px;
+    font-size: 1.1em;
+    color: dimgray;
+  }
+
+  #nameTag{
+    margin: 0;
+    padding: 0 0 0 7px;
+    font-size: 1.1em;
+    color: darkred;
+  }
+  #stKills{
+    margin: 0;
+    padding: 0 0 0 7px;
+    font-size: 1.1em;
+    color: orangered;
+  }
+
+  #collection{
+    margin: 0;
+    padding: 0 0 0 7px;
+    font-size: 1.1em;
+    color: dimgray;
+  }
+
+  .pictureContainer {
+    border-top: 0.5px solid gray;
+    border-bottom: 0.5px solid gray;
+    background-color: lightgray;
+    display: flex;
+    margin-top: 15px;
+    .skinIcon {
+      flex: 1;
+      padding: 2px;
     }
+    .sticker {
+      flex: 1;
+      .stickerContainer{
+        display: flex;
+        flex-wrap: wrap;
+        .stickerIcon{
+          margin: 1%;
+          flex-basis: 48%;
+          flex-grow: 0;
+        }
+      }
+    }
+  }
+
+  .additionalInfoContainer {
+    display: flex;
+    padding-top: 7px;
+    .itemInfo {
+      margin: 1%;
+      flex-basis: 63%;
+      flex-grow: 0;
+    }
+    .metjmButton{
+      margin: 1%;
+      flex-basis: 33%;
+      flex-grow: 0;
+      margin: auto;
+    }
+  }
+
+  .icon{
+    padding-right: 2px;
+  }
+
+  .title{
+    padding: 0;
+  }
+  .button {
+    margin: 0;
+    background-color: #FF7200;
   }
 }

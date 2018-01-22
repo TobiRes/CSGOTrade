@@ -4,9 +4,9 @@ import {RedditService} from "../../services/reddit.service";
 import {PostType, RedditPost} from "../../models/redditpost.model";
 import {ThreadinfoService} from "../../services/threadinfo.service";
 import {Storage} from "@ionic/storage";
-import {SearchUtil} from "../../utils/search-util";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {PostViewPage} from "../post-view/post-view";
+import {HomeSavedState} from "../../models/homeSavedState.model";
 
 @IonicPage()
 @Component({
@@ -20,55 +20,54 @@ export class HomePage {
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
   currentPage: string = "Hot";
-  activeUserCount: number = 0;
 
   private backupPosts: RedditPost[] = [];
   private lastThreadName: string;
   private threadCount: number = 0;
-  private alreadyFound: boolean = false;
 
   constructor(public navCtrl: NavController,
               private redditService: RedditService,
               private threadinfoService: ThreadinfoService,
               private storage: Storage) {
-    this.getAllThreads();
+    this.initializeView();
   }
 
-  buildSearchString(event: any) {
-    let searchTerm: string;
-    if (event.target) {
-      searchTerm = event.target.value ? event.target.value.trim() : "";
-    } else {
-      searchTerm = event;
+  ionViewWillLeave() {
+    let savedState: HomeSavedState = {
+      visiblePosts: this.redditPosts,
+      allPosts: this.backupPosts,
+      currentPage: this.currentPage,
+      postTypesToFilter: this.postTypesToFilter,
+      lastThreadName: this.lastThreadName,
+      threadCount: this.threadCount,
+      loadThreshold: this.scrollLoadThreshold
     }
-    if (!searchTerm.length) {
-      this.redditPosts = this.backupPosts;
-    } else {
-      searchTerm = searchTerm.toLowerCase();
-      this.search(searchTerm);
-    }
+    this.storage.set("savedState", savedState);
   }
 
-  getAllThreads() {
-    this.backupPosts = [];
-    this.storage.get("redditPosts")
-      .then(redditPosts => {
-        console.log(redditPosts);
-        if (redditPosts && this.currentPage == "Hot") {
-          this.backupPosts = redditPosts;
-          this.redditPosts = redditPosts;
-        } else {
-          this.scrollLoadThreshold = "10%";
-          this.redditService.getRedditThreads(this.currentPage)
-            .then(redditPostData => {
-              this.backupPosts = [];
-              this.getTradeInfo(redditPostData)
-            })
-            .catch(error => console.error(error));
+  initializeView() {
+    this.storage.get("savedState")
+      .then((savedState: HomeSavedState) => {
+        if (!savedState || this.threadinfoService.checkIfAnyObjectPropertyIsUndefined(savedState)) {
+          this.resetViewAndData();
+        }
+        else {
+          this.setData(savedState);
         }
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        this.resetViewAndData();
+        console.error(error)
+      });
+  }
 
+  getRedditThreads() {
+    this.redditService.getRedditThreads(this.currentPage)
+      .then(redditPostData => {
+        this.backupPosts = [];
+        this.getTradeInfo(redditPostData)
+      })
+      .catch(error => console.error(error));
   }
 
   refreshPosts(refresher: any) {
@@ -80,6 +79,7 @@ export class HomePage {
           refresher.complete();
         })
         .catch(error => {
+          refresher.complete();
           console.error(error);
         });
     }, 2000);
@@ -128,48 +128,42 @@ export class HomePage {
     this.navCtrl.push(TradeTheirItemsPage, {postData});
   }
 
-  private search(searchTerm) {
-    let allPosts: RedditPost[] = this.backupPosts;
-    let searchedPosts: RedditPost[] = [];
-    for (let n = 0; n < allPosts.length; n++) {
-      Object.keys(allPosts[n]).forEach(key => {
-        this.alreadyFound = false;
-        if (allPosts[n][key].toString().toLowerCase().indexOf(searchTerm) > -1
-          && !this.alreadyFound) {
-          searchedPosts.push(allPosts[n]);
-          this.alreadyFound = true;
-        }
-      })
-    }
-    searchedPosts = SearchUtil.removeDuplicatePostObjectsFromArray(searchedPosts);
-    this.redditPosts = searchedPosts;
+  private setData(savedState: HomeSavedState) {
+    this.backupPosts = savedState.allPosts;
+    this.redditPosts = savedState.visiblePosts;
+    this.currentPage = savedState.currentPage;
+    this.postTypesToFilter = savedState.postTypesToFilter;
+    this.lastThreadName = savedState.lastThreadName;
+    this.threadCount = savedState.threadCount;
+    this.scrollLoadThreshold = savedState.loadThreshold;
+  }
+
+  private resetViewAndData() {
+    this.backupPosts = [];
+    this.redditPosts = [];
+    this.currentPage = "Hot";
+    this.postTypesToFilter = [];
+    this.lastThreadName = "";
+    this.scrollLoadThreshold = "10%";
+    this.threadCount = 0;
+    this.lastThreadName = ""
+    this.getRedditThreads();
   }
 
   private getTradeInfo(redditPostData: any) {
-    redditPostData.forEach(redditPost => {
-      let tradeThread: RedditPost = {
-        title: redditPost.data.title,
-        author: redditPost.data.author,
-        redditURL: redditPost.data.url,
-        numberOfComments: redditPost.data.num_comments,
-        timeSinceCreation: this.threadinfoService.timeSince(redditPost.data.created_utc),
-        content: redditPost.data.selftext,
-        type: this.threadinfoService.getPostType(redditPost.data.title),
-        tradelink: this.threadinfoService.getTradeUrl(redditPost.data.selftext),
-        steamProfileURL: this.threadinfoService.getSteamProfileURL(redditPost.data.author_flair_text),
-      };
-      if (tradeThread.type == PostType.trade) {
-        let buysAndSells = this.threadinfoService.getAdditionalTradeInformation(redditPost);
-        tradeThread.partnerId = this.threadinfoService.getTradeParterId(tradeThread.steamProfileURL)
-        tradeThread.wants = buysAndSells.wants;
-        tradeThread.has = buysAndSells.has;
-      }
-      this.backupPosts.push(tradeThread);
-    });
+    this.backupPosts = this.threadinfoService.setRedditPostInfo(this.backupPosts, redditPostData);
+
     this.setMetaData(redditPostData);
     if (this.postTypesToFilter.length) {
       this.filterPosts();
     }
+  }
+
+  private setMetaData(redditPostData: any) {
+    this.redditPosts = this.backupPosts;
+    this.defineThresholdForLoadingMorePosts();
+    this.lastThreadName = redditPostData.after;
+    this.threadCount = this.threadCount + 25;
   }
 
   private defineThresholdForLoadingMorePosts() {
@@ -198,16 +192,6 @@ export class HomePage {
           this.scrollLoadThreshold = "10%";
           break;
       }
-    }
-  }
-
-  private setMetaData(redditPostData: any) {
-    this.redditPosts = this.backupPosts;
-    this.defineThresholdForLoadingMorePosts();
-    this.lastThreadName = redditPostData[redditPostData.length - 1].data.name;
-    this.threadCount = this.threadCount + 25;
-    if (this.currentPage == "Hot") {
-      this.storage.set("redditPosts", this.backupPosts);
     }
   }
 

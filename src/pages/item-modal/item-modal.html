@@ -1,26 +1,33 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>{{csgoItem.name}}</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="closeModal()">Close</button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
-
-
 <ion-content padding>
-  <div class="container">
-    <div class="infoItem">
-      <img src="http://cdn.steamcommunity.com/economy/image/{{csgoItem.iconUrl}}">
+  <div class="itemText">
+    <p id="fullName">{{csgoItem.fullName}}</p>
+  </div>
+  <div class="pictureContainer">
+    <div class="skinIcon">
+      <img id="fullIcon" src="http://cdn.steamcommunity.com/economy/image/{{csgoItem.iconUrl}}">
     </div>
-    <div class="infoItem">
-      <p>{{csgoItem.fullName}}</p>
-      <p>{{getExteriorString()}}</p>
-      <p>{{csgoItem.skinCategory}}</p>
-      <button ion-button> Show Metjim</button>
+    <div class="sticker">
+      <div class="stickerContainer">
+        <div class="stickerIcon" *ngFor="let sticker of csgoItem.stickerUrl">
+          <img id="sticker" src="{{sticker}}">
+        </div>
+      </div>
     </div>
   </div>
-  <ion-footer>
-    <button ion-button full>Add to Trade</button>
-  </ion-footer>
+  <div class="additionalInfoContainer">
+    <div class="itemInfo">
+      <p id="exterior">{{csgoItem.longExterior}}</p>
+      <p *ngIf="csgoItem.nameTag" id="nameTag">Name Tag: &quot;{{csgoItem.nameTag}}&quot;</p>
+      <p *ngIf="csgoItem.statTrakCount" id="stKills">StatTrak&trade; Kills: {{csgoItem.statTrakCount}}</p>
+      <p id="collection">{{csgoItem.collection}}</p>
+    </div>
+    <div class="metjmButton">
+      <button ion-button><ion-icon name="camera-outline"></ion-icon><p>Metjm</p></button>
+    </div>
+  </div>
+    <div class="collection">
+    </div>
 </ion-content>
+<ion-footer>
+  <button ion-button full>Add to Trade</button>
+</ion-footer>

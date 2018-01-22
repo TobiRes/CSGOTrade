@@ -7,6 +7,7 @@ import {Storage} from "@ionic/storage";
 import {CSGOItemService} from "../../services/csgoItem.service";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
 import {TradeMyItemsPage} from "../trade-my-items/trade-my-items";
+import {CSGOKey} from "../../models/csgoKey.model";
 
 @IonicPage()
 @Component({
@@ -70,6 +71,9 @@ export class TradeTheirItemsPage {
         });
         this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
         this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+        this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
+        let allKeys: CSGOKey[] = this.itemService.splitIntoItemsAndKeys(this.tradeableItems);
+        console.log(allKeys);
         this.isLoading = false;
       })
       .catch(error => {

@@ -2,10 +2,6 @@ page-inventory {
   ion-header {
     box-shadow: 0 3px 3px #999;
 
-    ion-icon {
-      color: white;
-    }
-
     ion-title {
       padding: 0 !important;
     }
@@ -13,7 +9,6 @@ page-inventory {
     .pageToolbar, .toolbar-background {
       height: auto;
       min-height: auto;
-      background-color: #ff5400;
       border: 0 !important;
 
       .filter {
