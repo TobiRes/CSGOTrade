@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+      <ion-title>Settings</ion-title>
+    </button>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="steamLinkInputField">
+    <p>You can save your Steam trade link in order to directly trade with players. See your tradelink below:</p>
+    <a href="http://steamcommunity.com/my/tradeoffers/privacy"></a>
+    <ion-item>
+      <input type="text" placeholder="Steam Trade Link" [(ngModel)]="steamTradeLink">
+    </ion-item>
+    <button full ion-button (click)="saveTradeLink()">Save Trade Link</button>
+  </div>
+</ion-content>

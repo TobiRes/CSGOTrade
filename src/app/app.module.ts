@@ -23,7 +23,9 @@ import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-
 import {TradeReviewPageModule} from "../pages/trade-review/trade-review.module";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {DynamicStyleService} from "../services/dynamic-style.service";
-import {AboutPageModule} from "../pages/about/about.module";
+import { AboutPageModule } from "../pages/about/about.module";
+import { SettingsPageModule } from "../pages/settings/settings.module";
+import { SettingsService } from "../services/settings.service";
 import {DirectivesModule} from "../directives/directives.module";
 import {ItemModalPageModule} from "../pages/item-modal/item-modal.module";
 import {PostViewPageModule} from "../pages/post-view/post-view.module";
@@ -47,6 +49,7 @@ import {SearchRedditPageModule} from "../pages/search-reddit/search-reddit.modul
     TradeTheirItemsPageModule,
     TradeReviewPageModule,
     AboutPageModule,
+    SettingsPageModule,
     ItemModalPageModule,
     PostViewPageModule,
     SearchRedditPageModule
@@ -65,6 +68,7 @@ import {SearchRedditPageModule} from "../pages/search-reddit/search-reddit.modul
     SteamService,
     CSGOItemService,
     SteamLoginService,
+    SettingsService,
     TradeofferService,
     InAppBrowser,
     DynamicStyleService
