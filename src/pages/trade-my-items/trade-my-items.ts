@@ -101,7 +101,7 @@ export class TradeMyItemsPage {
           Object.keys(csgoItemData).forEach(key => {
             this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
           });
-          this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+          this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
           this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
           this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
           this.isLoading = false;

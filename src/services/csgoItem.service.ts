@@ -21,6 +21,7 @@ export class CSGOItemService {
       iconUrl: csgoInventoryItem.icon_url,
       inspectLink: csgoInventoryItem.market_actions ? csgoInventoryItem.market_actions[0].link : "unknown",
       classId: csgoInventoryItem.classid,
+      instanceId: csgoInventoryItem.instanceid,
       tradable: this.getTradeableStatus(csgoInventoryItem.tradable)
     }
     csgoItem = this.getSkinExterior(csgoItem);
@@ -28,12 +29,32 @@ export class CSGOItemService {
     return csgoItem;
   }
 
-  addAssetIds(csgoInventoryData: CSGOItem[], inventoryIds: any) {
+
+  addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]){
     let csgoItems: CSGOItem[] = csgoInventoryData;
-    csgoItems.forEach((csgoItem: CSGOItem) => {
-      csgoItem.assetId = this.getMatchingAssetId(csgoItem.classId, inventoryIds)
+    let copyOfRawData: any[] =  [];
+    let missingCsItems: CSGOItem[] = [];
+    let test = csgoItems.length;
+    Object.keys(inventoryIds).map(key => {
+      copyOfRawData.push(inventoryIds[key]);
     })
-    return csgoItems;
+    for(let i = csgoItems.length - 1; i >= 0; i--){
+      //New Array of all items that match the instance and class id of the csgo item
+      let matchingItems: any[] = copyOfRawData.filter( dataItem => {
+        return dataItem.classid == csgoItems[i].classId && dataItem.instanceid == csgoItems[i].instanceId
+      })
+      //Create new CSGOItems with the missing items and push them on the missing items
+      matchingItems.forEach(itemData => {
+        let newCsgoItem: CSGOItem = Object.assign({}, csgoItems[i]);
+        newCsgoItem.assetId = itemData.id;
+        missingCsItems.push(newCsgoItem);
+      });
+      //Remove the matched item, since it´s now existing in the missing items array
+      csgoItems.splice(i, 1);
+    }
+
+    let allItems = csgoItems.concat(missingCsItems);
+    return allItems;
   }
 
   mapExterior(selectedExteriors: string[]) {
@@ -165,15 +186,6 @@ export class CSGOItemService {
       currentKeyTypeToSearchFor = "";
     }
     return allKeys;
-  }
-
-  private getMatchingAssetId(csgoItemClassId: number, inventoryIds: any) {
-    let assetId: number = 0;
-    Object.keys(inventoryIds).forEach((csgoItemData: any) => {
-      if (inventoryIds[csgoItemData].classid == csgoItemClassId)
-        assetId = inventoryIds[csgoItemData].id;
-    });
-    return assetId;
   }
 
   private getItemType(itemFullName: string): ItemType {
@@ -453,4 +465,5 @@ export class CSGOItemService {
     })
     return collection;
   }
+
 }

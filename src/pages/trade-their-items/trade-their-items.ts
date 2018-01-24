@@ -66,14 +66,13 @@ export class TradeTheirItemsPage {
     this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
       .then((csgoInventory: any) => {
         let csgoItemData = csgoInventory.rgDescriptions;
+          console.log(csgoInventory.rgDescriptions);
         Object.keys(csgoItemData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
         });
-        this.csgoItems = this.itemService.addAssetIds(this.csgoItems, csgoInventory.rgInventory);
+        this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
         this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
-        let allKeys: CSGOKey[] = this.itemService.splitIntoItemsAndKeys(this.tradeableItems);
-        console.log(allKeys);
         this.isLoading = false;
       })
       .catch(error => {

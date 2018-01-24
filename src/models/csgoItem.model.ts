@@ -9,6 +9,7 @@ export interface CSGOItem {
   iconUrl?: string,
   inspectLink?: string,
   classId?: number,
+  instanceId?: number,
   assetId?: number,
   tradable?: boolean,
   stickerUrl?: string[];
