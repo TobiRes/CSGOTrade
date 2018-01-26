@@ -6,17 +6,20 @@ import {PostContentComponent} from './post-content/post-content';
 import {PipesModule} from "../pipes/pipes.module";
 import {SkinListItemComponent} from './skin-list-item/skin-list-item';
 import {DirectivesModule} from "../directives/directives.module";
+import { KeyListItemComponent } from './key-list-item/key-list-item';
 
 @NgModule({
   declarations: [TradeListItemComponent,
     PostListItem,
     PostContentComponent,
-    SkinListItemComponent],
+    SkinListItemComponent,
+    KeyListItemComponent],
   imports: [IonicModule, PipesModule, DirectivesModule],
   exports: [TradeListItemComponent,
     PostListItem,
     PostContentComponent,
-    SkinListItemComponent]
+    SkinListItemComponent,
+    KeyListItemComponent]
 })
 export class ComponentsModule {
 }

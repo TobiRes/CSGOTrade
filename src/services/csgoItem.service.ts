@@ -182,7 +182,7 @@ export class CSGOItemService {
       csgoKeys = { keys: [], count: 0};
       currentKeyTypeToSearchFor = "";
     }
-    return {keys: allKeys, csgoItem: copyOfCsgoItems};
+    return {keys: allKeys, csgoItems: copyOfCsgoItems};
   }
 
   private getItemType(itemFullName: string): ItemType {

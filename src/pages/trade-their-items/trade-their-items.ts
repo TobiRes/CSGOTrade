@@ -19,6 +19,7 @@ export class TradeTheirItemsPage {
   redditPost: RedditPost;
   isLoading: boolean = true;
   tradeableItems: CSGOItem[] = [];
+  tradeAbleKeys: CSGOKey[] = [];
 
   private csgoItems: CSGOItem[] = [];
   private theirItemsToTrade: CSGOItem[] = [];
@@ -72,7 +73,7 @@ export class TradeTheirItemsPage {
         });
         this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
         this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
-        console.log(this.itemService.splitIntoItemsAndKeys(this.tradeableItems));
+        this.getKeysAndItemsSeperatly();
         this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
         this.isLoading = false;
       })
@@ -88,5 +89,11 @@ export class TradeTheirItemsPage {
       subTitle: "This might be caused by loading too many inventories in a short time, please try again later.",
       buttons: ['Dismiss']
     }).present();
+  }
+
+  private getKeysAndItemsSeperatly() {
+    let splitItems = this.itemService.splitIntoItemsAndKeys(this.tradeableItems);
+    this.tradeableItems = splitItems.csgoItems;
+    this.tradeAbleKeys = splitItems.keys;
   }
 }
