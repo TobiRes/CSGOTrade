@@ -17,9 +17,9 @@ import {CSGOKey} from "../../models/csgoKey.model";
 export class TradeTheirItemsPage {
 
   redditPost: RedditPost;
-  isLoading: boolean = true;
   tradeableItems: CSGOItem[] = [];
   tradeAbleKeys: CSGOKey[] = [];
+  isLoading: boolean = true;
 
   private csgoItems: CSGOItem[] = [];
   private theirItemsToTrade: CSGOItem[] = [];
