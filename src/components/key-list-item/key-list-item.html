@@ -2,6 +2,6 @@
   <img class="itemIcon" src="http://cdn.steamcommunity.com/economy/image/{{csgoKeys.keys[0].iconUrl}}">
   <p class="itemDescription">
     Key
-    <span>{{csgoKeys.count}}x</span>
+    <span class="totalAndSelectedCount"><span *ngIf="alreadySelectedKeys > 0">({{alreadySelectedKeys}})&nbsp;</span>{{csgoKeys.count}}x</span>
   </p>
 </button>

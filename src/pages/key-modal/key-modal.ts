@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavParams, ViewController} from 'ionic-angular';
-import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {CSGOKey} from "../../models/csgoKey.model";
 import {CSGOItem} from "../../models/csgoItem.model";
 
@@ -16,13 +15,19 @@ export class KeyModalPage {
   selectedKeysCount: number;
   selectedKeys: CSGOItem[] = [];
 
-  constructor(public viewCtrl: ViewController, public navParams: NavParams, private inAppBrowser: InAppBrowser) {
+  constructor(public viewCtrl: ViewController, public navParams: NavParams) {
     this.csgoKeys = this.navParams.get("csgoKeys");
+    this.selectedKeysCount = this.navParams.get("alreadySelectedKeys");
   }
 
   addKeys(){
     this.getSelectedKeys();
-    this.viewCtrl.dismiss(this.selectedKeys);
+    let keysAndKeyType = {
+      selectedKeys: this.selectedKeys,
+      keyType: this.csgoKeys.keys[0].fullName
+    }
+
+    this.viewCtrl.dismiss(keysAndKeyType);
   }
 
   private getSelectedKeys() {

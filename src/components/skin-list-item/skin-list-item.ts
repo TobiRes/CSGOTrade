@@ -8,7 +8,6 @@ import {Modal, ModalController, ModalOptions} from "ionic-angular";
 })
 export class SkinListItemComponent {
   checkType: SkinCategory = SkinCategory.statTrak;
-  itemSelected: boolean = false;
 
   @Input()
   csgoItem: CSGOItem;
@@ -22,7 +21,6 @@ export class SkinListItemComponent {
   }
 
   selectItem() {
-    this.itemSelected = !this.itemSelected;
     this.selected.emit(this.csgoItem);
   }
 

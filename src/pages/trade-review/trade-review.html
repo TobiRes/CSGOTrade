@@ -11,7 +11,7 @@
   </ion-item>
   <h2>My Items</h2>
   <div class="container">
-    <div class="csgoItem" *ngFor="let keys of myKeys" [ngClass]="isSelected(item) ? 'selectedItem' : ''">
+    <div class="csgoItem" *ngFor="let keys of myKeys">
       <key-list-item [csgoKeys]="keys" (selected)="addItemToTrade($event)"></key-list-item>
     </div>
     <div class="csgoItem" *ngFor="let item of myItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
@@ -20,7 +20,7 @@
   </div>
   <h2>Their Items</h2>
   <div class="container">
-    <div class="csgoItem" *ngFor="let keys of theirKeys" [ngClass]="isSelected(item) ? 'selectedItem' : ''">
+    <div class="csgoItem" *ngFor="let keys of theirKeys">
       <key-list-item [csgoKeys]="keys" (selected)="addItemToTrade($event)"></key-list-item>
     </div>
     <div class="csgoItem" *ngFor="let item of theirItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">

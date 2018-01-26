@@ -41,6 +41,36 @@ export class TradeTheirItemsPage {
     }
   }
 
+  addKeysToTrade(csgoKeysAndType){
+    //Splitting in to two function for performance reasons
+    for(let i = this.theirItemsToTrade.length -1; i >= 0; i--){
+      if(this.theirItemsToTrade[i].fullName == csgoKeysAndType.currentKeyType){
+        this.theirItemsToTrade.splice(i, 1);
+      }
+    }
+    this.theirItemsToTrade = this.theirItemsToTrade.concat(csgoKeysAndType.selectedKeys);
+  }
+
+  getSelectedKeysOfCertainType(csgoKey: CSGOItem){
+    let count: number = 0;
+    this.theirItemsToTrade.forEach( (item: CSGOItem) => {
+      if(item.fullName == csgoKey.fullName){
+        count++;
+      }
+    });
+    return count;
+  }
+
+  isKeySelected(keys: CSGOKey){
+    let selected = false;
+    this.theirItemsToTrade.forEach(theirItem => {
+      if (theirItem.fullName == keys.keys[0].fullName) {
+        selected = true;
+      }
+    });
+    return selected;
+  }
+
   isSelected(item: CSGOItem) {
     let selected = false;
     this.theirItemsToTrade.forEach(theirItem => {
@@ -52,6 +82,7 @@ export class TradeTheirItemsPage {
   }
 
   continueSelectingMyItems() {
+    console.log(this.theirItemsToTrade);
     this.navCtrl.push(TradeMyItemsPage, {
       theirItemsToTrade: this.theirItemsToTrade,
       redditPost: this.redditPost
