@@ -34,7 +34,6 @@ export class SkinListItemComponent {
     const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: this.csgoItem}, csgoItemModalOptions);
     itemModal.present();
     itemModal.onWillDismiss((data) => {
-
     });
   }
 }

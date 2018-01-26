@@ -1,0 +1,35 @@
+page-key-modal {
+
+  #fullName{
+    margin: 0;
+    padding: 5px 0 2px 7px;
+    font-size: 1.3em;
+    color: orangered;
+    text-align: center;
+  }
+
+  #keyModal{
+    .scroll-content{
+      background-color: lightgray !important;
+    }
+  }
+
+  .skinIcon{
+    padding: 10% 15% 0 15% !important;
+  }
+
+  .item-inner{
+    border-bottom: 0 !important;
+  }
+
+  .selectKeys {
+    ion-range{
+      padding: 0 !important;
+    }
+  }
+
+  .button {
+    margin: 0;
+    background-color: #FF7200;
+  }
+}

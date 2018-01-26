@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CSGOItem, SkinCategory} from "../../models/csgoItem.model";
+import {Component, Input} from '@angular/core';
 import {Modal, ModalController, ModalOptions} from "ionic-angular";
 import {CSGOKey} from "../../models/csgoKey.model";
+import {CSGOItem} from "../../models/csgoItem.model";
 
 @Component({
   selector: 'key-list-item',
@@ -13,17 +13,20 @@ export class KeyListItemComponent {
   @Input()
   csgoKeys: CSGOKey;
 
-  @Output()
-  selected = new EventEmitter();
-
-
   constructor(private modal: ModalController) {
 
   }
 
   selectItem() {
-    this.itemSelected = !this.itemSelected;
-    this.selected.emit(this.csgoKeys);
+    const csgoItemModalOptions: ModalOptions = {
+      cssClass: "csgoItemModal",
+      showBackdrop: true
+    }
+    const itemModal: Modal = this.modal.create("KeyModalPage", {csgoKeys: this.csgoKeys}, csgoItemModalOptions);
+    itemModal.present();
+    itemModal.onDidDismiss((selectedKeys: CSGOItem[]) => {
+      console.log(selectedKeys);
+    });
   }
 
   onLongPress() {
@@ -33,8 +36,8 @@ export class KeyListItemComponent {
     }
     const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: this.csgoKeys}, csgoItemModalOptions);
     itemModal.present();
-    itemModal.onWillDismiss((data) => {
-
+    itemModal.onDidDismiss((selectedKeys: CSGOItem[]) => {
+      console.log("test", selectedKeys);
     });
   }
 }

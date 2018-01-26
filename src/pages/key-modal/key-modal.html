@@ -1,0 +1,17 @@
+<ion-content padding id="keyModal">
+  <div class="itemText">
+    <p id="fullName">{{csgoKeys.keys[0].fullName}}</p>
+  </div>
+  <div class="skinIcon">
+    <img id="fullIcon" src="http://cdn.steamcommunity.com/economy/image/{{csgoKeys.keys[0].iconUrl}}">
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-item class="selectKeys">
+    <ion-range min="0" [max]="csgoKeys.count" [(ngModel)]="selectedKeysCount">
+      <ion-label range-left>0</ion-label>
+      <ion-label range-right>{{csgoKeys.count}}</ion-label>
+    </ion-range>
+  </ion-item>
+  <button ion-button full (click)="addKeys()">Add {{selectedKeysCount}} Keys</button>
+</ion-footer>
