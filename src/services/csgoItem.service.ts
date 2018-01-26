@@ -182,7 +182,12 @@ export class CSGOItemService {
       csgoKeys = { keys: [], count: 0};
       currentKeyTypeToSearchFor = "";
     }
+    allKeys = this.sortKeysByCount(allKeys);
     return {keys: allKeys, csgoItems: copyOfCsgoItems};
+  }
+
+  private sortKeysByCount(csgoKeys: CSGOKey[]){
+    return csgoKeys.sort( (keyA: CSGOKey, keyB: CSGOKey) => keyB.count - keyA.count)
   }
 
   private getItemType(itemFullName: string): ItemType {
