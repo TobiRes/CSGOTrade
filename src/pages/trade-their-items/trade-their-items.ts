@@ -72,6 +72,7 @@ export class TradeTheirItemsPage {
         });
         this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
         this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+        console.log(this.itemService.splitIntoItemsAndKeys(this.tradeableItems));
         this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
         this.isLoading = false;
       })

@@ -154,8 +154,6 @@ export class CSGOItemService {
   }
 
   splitIntoItemsAndKeys(csgoItems: CSGOItem[]){
-    //TODO: FIX ONLY ONE TYPE KEY BEING SHOWN
-    //TODO: DEEP COPY ALL ARRAYS
     let allKeys: CSGOKey[] = [];
     let csgoKeys: CSGOKey = { keys: [], count: 0};
     let stillKeysLeft: boolean = true;
@@ -178,14 +176,13 @@ export class CSGOItemService {
           csgoKeys.keys.push(copyOfCsgoItems[i]);
           csgoKeys.count++;
           copyOfCsgoItems.splice(i, 1);
-          console.log(csgoKeys);
         }
       }
       allKeys.push(csgoKeys);
       csgoKeys = { keys: [], count: 0};
       currentKeyTypeToSearchFor = "";
     }
-    return allKeys;
+    return {keys: allKeys, csgoItem: copyOfCsgoItems};
   }
 
   private getItemType(itemFullName: string): ItemType {
