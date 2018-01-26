@@ -82,7 +82,6 @@ export class TradeTheirItemsPage {
   }
 
   continueSelectingMyItems() {
-    console.log(this.theirItemsToTrade);
     this.navCtrl.push(TradeMyItemsPage, {
       theirItemsToTrade: this.theirItemsToTrade,
       redditPost: this.redditPost
@@ -104,6 +103,7 @@ export class TradeTheirItemsPage {
         });
         this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
         this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+        this.tradeableItems = this.itemService.getInspectLink(this.redditPost.steamProfileURL, this.tradeableItems);
         this.getKeysAndItemsSeperatly();
         this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
         this.isLoading = false;

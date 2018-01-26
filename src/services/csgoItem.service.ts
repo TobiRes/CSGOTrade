@@ -29,12 +29,10 @@ export class CSGOItemService {
     return csgoItem;
   }
 
-
   addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]){
     let csgoItems: CSGOItem[] = csgoInventoryData;
     let copyOfRawData: any[] =  [];
     let missingCsItems: CSGOItem[] = [];
-    let test = csgoItems.length;
     Object.keys(inventoryIds).map(key => {
       copyOfRawData.push(inventoryIds[key]);
     })
@@ -339,6 +337,18 @@ export class CSGOItemService {
       default:
         return Grade.unknown;
     }
+  }
+
+  getInspectLink(steamProfileURL: string, csgoItems: CSGOItem[]){
+    //http://steamcommunity.com/profiles/76561202255233023
+    let steamProfileID = steamProfileURL.match(/\w\d+\w/g)
+    for(let i = 0; i < csgoItems.length; i++){
+      if(csgoItems[i].inspectLink != "unknown"){
+        let initialLinkSubstring = csgoItems[i].inspectLink.substring(0, 62);
+        csgoItems[i].inspectLink = initialLinkSubstring + "%20S" + steamProfileID + "A" + csgoItems[i].assetId.toString() + "D11559658745094158318"
+      }
+    }
+    return csgoItems;
   }
 
   private getSkinCategory(itemFullName: string): SkinCategory {

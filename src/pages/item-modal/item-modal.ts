@@ -23,7 +23,6 @@ export class ItemModalPage implements OnDestroy{
   }
 
   showMetjm(){
-    //csgo.addItemManually()
     const browser = this.inAppBrowser.create("https://metjm.net/csgo/");
     let tradeScript = this.buildScreenshotScript();
     console.log(tradeScript);

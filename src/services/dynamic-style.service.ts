@@ -12,7 +12,7 @@ export class DynamicStyleService {
     if (csgoItem.skinCategory == SkinCategory.normal)
       return "";
     if (csgoItem.skinCategory == SkinCategory.statTrak)
-      return {"border": "1px solid orangered"};
+      return {"border": "1px solid #FF7200"};
     else
       return {"border": "1px solid yellow"};
   }

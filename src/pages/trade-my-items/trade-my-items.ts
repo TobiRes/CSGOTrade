@@ -130,13 +130,14 @@ export class TradeMyItemsPage {
     this.isLoading = true;
     this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
       .then((csgoInventory: any) => {
-          let csgoItemData = csgoInventory.rgDescriptions;
-          Object.keys(csgoItemData).forEach(key => {
-            this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
-          });
-          this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
-          this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
-          this.getKeysAndItemsSeperatly();
+        let csgoItemData = csgoInventory.rgDescriptions;
+        Object.keys(csgoItemData).forEach(key => {
+          this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
+        });
+        this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
+        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+        this.tradeableItems = this.itemService.getInspectLink(this.mySteamProfile, this.tradeableItems);
+        this.getKeysAndItemsSeperatly();
           this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
           this.isLoading = false;
       })
