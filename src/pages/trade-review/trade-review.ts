@@ -4,6 +4,8 @@ import {CSGOItem} from "../../models/csgoItem.model";
 import {RedditPost} from "../../models/redditpost.model";
 import {TradeofferService} from "../../services/tradeoffer.service";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
+import {CSGOKey} from "../../models/csgoKey.model";
+import {CSGOItemService} from "../../services/csgoItem.service";
 
 @IonicPage()
 @Component({
@@ -13,18 +15,22 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
 export class TradeReviewPage {
 
   redditPost: RedditPost;
-  csgoItems: CSGOItem[] = [];
 
-  private myItemsToTrade: CSGOItem[] = []
-  private theirItemsToTrade: CSGOItem[] = [];
+  myItemsToTrade: CSGOItem[] = [];
+  myKeys: CSGOKey[] = [];
+
+  theirItemsToTrade: CSGOItem[] = [];
+  theirKeys: CSGOKey[] = [];
 
   constructor(public navParams: NavParams,
               private tradeOfferService: TradeofferService,
               private dynStyleService: DynamicStyleService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private itemService: CSGOItemService) {
     this.redditPost = this.navParams.get("redditPost");
     this.myItemsToTrade = this.navParams.get("myItemsToTrade");
     this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
+    this.getKeysAndItemsSeperatly();
   }
 
   sendTradeOffer() {
@@ -37,6 +43,15 @@ export class TradeReviewPage {
 
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
+  }
+
+  private getKeysAndItemsSeperatly() {
+    let mySplitItems = this.itemService.splitIntoItemsAndKeys(this.myItemsToTrade);
+    this.myItemsToTrade = mySplitItems.csgoItems;
+    this.myKeys = mySplitItems.keys;
+    let theirSplitItems = this.itemService.splitIntoItemsAndKeys(this.theirItemsToTrade);
+    this.theirItemsToTrade = theirSplitItems.csgoItems;
+    this.theirKeys = theirSplitItems.keys;
   }
 
   private alertUserHasNotSetAnyItemsForTradePartner() {

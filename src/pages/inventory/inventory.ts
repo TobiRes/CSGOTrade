@@ -5,6 +5,7 @@ import {CSGOItemService} from "../../services/csgoItem.service";
 import {CSGOItem} from "../../models/csgoItem.model";
 import {Storage} from "@ionic/storage";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
+import {CSGOKey} from "../../models/csgoKey.model";
 
 @IonicPage()
 @Component({
@@ -14,6 +15,7 @@ import {DynamicStyleService} from "../../services/dynamic-style.service";
 export class InventoryPage {
 
   csgoItems: CSGOItem[] = [];
+  myKeys: CSGOKey[] = [];
   steamProfileURL: string;
   selectedSkinTypes: string[] = [];
   selectedCategories: string[] = [];
@@ -76,6 +78,7 @@ export class InventoryPage {
           });
           this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
           this.csgoItems = this.itemService.sortByKeyAndGrade(this.csgoItems);
+          this.getKeysAndItemsSeperatly();
           this.isLoading = false;
           this.storage.set("csgoItems", this.csgoItems)
             .then(() => {
@@ -94,6 +97,12 @@ export class InventoryPage {
 
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
+  }
+
+  private getKeysAndItemsSeperatly() {
+    let splitItems = this.itemService.splitIntoItemsAndKeys(this.csgoItems);
+    this.csgoItems = splitItems.csgoItems;
+    this.myKeys = splitItems.keys;
   }
 
   private filterItems(propertyToCompare: any, selectedFilter: any[]) {

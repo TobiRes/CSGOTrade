@@ -10,6 +10,7 @@ import {Storage} from "@ionic/storage";
 import {RedditPost} from "../../models/redditpost.model";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
 import {TradeReviewPage} from "../trade-review/trade-review";
+import {CSGOKey} from "../../models/csgoKey.model";
 
 
 @IonicPage()
@@ -21,6 +22,7 @@ export class TradeMyItemsPage {
 
   redditPost: RedditPost;
   tradeableItems: CSGOItem[] = [];
+  tradeableKeys: CSGOKey[] = [];
   isLoading: boolean = true;
 
   private myItemsToTrade: CSGOItem[] = [];
@@ -103,6 +105,7 @@ export class TradeMyItemsPage {
           });
           this.csgoItems = this.itemService.addAssetIdsAndAddAllMissingDuplicates(this.csgoItems, csgoInventory.rgInventory);
           this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+          this.getKeysAndItemsSeperatly();
           this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
           this.isLoading = false;
       })
@@ -111,6 +114,12 @@ export class TradeMyItemsPage {
         this.isLoading = false;
         this.alertLoadInventoryError(error);
       });
+  }
+
+  private getKeysAndItemsSeperatly() {
+    let splitItems = this.itemService.splitIntoItemsAndKeys(this.tradeableItems);
+    this.tradeableItems = splitItems.csgoItems;
+    this.tradeableKeys = splitItems.keys;
   }
 
   private alertLoadInventoryError(error: any) {
