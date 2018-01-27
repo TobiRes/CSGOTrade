@@ -34,6 +34,17 @@ ion-header {
   background-color: #FF7200 !important;
 }
 
+.toolbar {
+  min-height: 0;
+}
+
+.searchbar {
+  padding-top: 0;
+  .searchbar-input{
+    box-shadow: none !important;
+  }
+}
+
 .toolbar-background {
   background-color: #FF7200 !important;
 }

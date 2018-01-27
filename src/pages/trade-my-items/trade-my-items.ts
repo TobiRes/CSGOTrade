@@ -125,9 +125,10 @@ export class TradeMyItemsPage {
 
   private loadMyCsgoInventory() {
     this.isLoading = true;
-    this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
+    this.steamService.getCSGOInventory(this.mySteamProfile)
       .then((csgoInventory: any) => {
         let csgoItemData = csgoInventory.rgDescriptions;
+        this.csgoItems = [];
         Object.keys(csgoItemData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
         });
@@ -154,7 +155,7 @@ export class TradeMyItemsPage {
   private alertLoadInventoryError(error: any) {
     this.alertCtrl.create({
       title: "Error!",
-      subTitle: "Something went wrong.",
+      subTitle: "This might be caused by loading too many inventories in a short time, please try again later.",
       buttons: ['Dismiss']
     }).present();
   }
