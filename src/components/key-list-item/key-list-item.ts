@@ -32,7 +32,9 @@ export class KeyListItemComponent {
     }, csgoItemModalOptions);
     itemModal.present();
     itemModal.onDidDismiss(keysAndKeyType => {
-      this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});
+      if(keysAndKeyType){
+        this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});
+      }
     });
   }
 }
