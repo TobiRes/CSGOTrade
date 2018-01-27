@@ -31,13 +31,18 @@ ion-header {
 }
 
 .activated {
-  background-color: #FF7200 !important;
+  background-color: transparent !important;
 }
 
 .toolbar {
   min-height: 0;
 }
 
+.openPageButton {
+  .activated {
+    background-color: transparent !important;
+  }
+}
 
 .searchbar {
   padding-top: 0;
@@ -63,6 +68,13 @@ ion-header {
   }
 }
 
+//ALERTS
+.alert-button {
+  .button-inner{
+    color: #FF7200;
+  }
+}
+
 //TRADING
 .selectedItem {
   background-color: #FF7200 !important;
@@ -82,7 +94,7 @@ ion-header {
 }
 
 .continueButton {
-  box-shadow: none;
+  box-shadow: none !important;
   background-color: #FF7200 !important;
 }
 

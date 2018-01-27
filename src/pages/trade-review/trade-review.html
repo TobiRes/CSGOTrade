@@ -9,28 +9,39 @@
     <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b>
     <p>
   </ion-item>
-  <h2>My Items</h2>
-  <div class="container">
-    <div class="csgoItem" *ngFor="let keys of myKeys">
-      <key-list-item [csgoKeys]="keys" (selected)="addItemToTrade($event)"></key-list-item>
+  <div padding *ngIf="myItemsToTrade.length || theirItemsToTrade.length || myKeys.length || theirKeys.length">
+    <h2>My Items</h2>
+    <div class="container" *ngIf="myItemsToTrade.length || myKeys.length">
+      <div class="csgoItem" *ngFor="let keys of myKeys">
+        <key-list-item [csgoKeys]="keys" (selected)="addItemToTrade($event)"></key-list-item>
+      </div>
+      <div class="csgoItem" *ngFor="let item of myItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
+        <skin-list-item [csgoItem]="item"></skin-list-item>
+      </div>
     </div>
-    <div class="csgoItem" *ngFor="let item of myItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
-      <skin-list-item [csgoItem]="item"></skin-list-item>
+    <div padding *ngIf="!(myItemsToTrade.length || myKeys.length)">
+      <p class="tradeWarning">You have not selected any of your items to offer {{redditPost.author}} in exchange for theirs.</p>
+    </div>
+    <h2>Their Items</h2>
+    <div class="container" *ngIf="theirItemsToTrade.length || theirKeys.length">
+      <div class="csgoItem" *ngFor="let keys of theirKeys">
+        <key-list-item [csgoKeys]="keys" (selected)="addItemToTrade($event)"></key-list-item>
+      </div>
+      <div class="csgoItem" *ngFor="let item of theirItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
+        <skin-list-item [csgoItem]="item"></skin-list-item>
+      </div>
+    </div>
+    <div padding *ngIf="!(theirItemsToTrade.length || theirKeys.length)">
+      <p class="tradeWarning">You have not selected any items for {{redditPost.author}} to offer in exchange for yours. You will not be getting any items in return.</p>
     </div>
   </div>
-  <h2>Their Items</h2>
-  <div class="container">
-    <div class="csgoItem" *ngFor="let keys of theirKeys">
-      <key-list-item [csgoKeys]="keys" (selected)="addItemToTrade($event)"></key-list-item>
-    </div>
-    <div class="csgoItem" *ngFor="let item of theirItemsToTrade" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
-      <skin-list-item [csgoItem]="item"></skin-list-item>
-    </div>
+  <div padding *ngIf="buttonIsDisabled">
+    <p class="tradeWarning">Please select what you want to trade before sending a tradeoffer</p>
   </div>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <button class="continueButton" ion-button full (click)="sendTradeOffer()">Send Trade Offer</button>
+    <button class="continueButton" ion-button full (click)="sendTradeOffer()" [disabled]="buttonIsDisabled">Send Trade Offer</button>
   </ion-toolbar>
 </ion-footer>

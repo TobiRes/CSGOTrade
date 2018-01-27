@@ -15,6 +15,7 @@ import {CSGOItemService} from "../../services/csgoItem.service";
 export class TradeReviewPage {
 
   redditPost: RedditPost;
+  buttonIsDisabled: boolean = true;
 
   myItemsToTrade: CSGOItem[] = [];
   myKeys: CSGOKey[] = [];
@@ -30,11 +31,14 @@ export class TradeReviewPage {
     this.redditPost = this.navParams.get("redditPost");
     this.myItemsToTrade = this.navParams.get("myItemsToTrade");
     this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
+    if(this.myItemsToTrade.length || this.theirItemsToTrade.length){
+      this.buttonIsDisabled = false;
+    }
     this.getKeysAndItemsSeperatly();
   }
 
   sendTradeOffer() {
-    if (!this.theirItemsToTrade.length) {
+    if (!this.theirItemsToTrade.length && !this.theirKeys.length) {
       this.alertUserHasNotSetAnyItemsForTradePartner();
     } else {
       this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
