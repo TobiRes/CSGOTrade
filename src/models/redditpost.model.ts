@@ -14,6 +14,14 @@ export interface RedditPost {
   wants?: string;
 }
 
+export interface RedditComment {
+  author: string;
+  body?: string;
+  ups?: number;
+  downs?: number;
+  replies?: RedditComment[];
+}
+
 export enum PostType {
   trade = <any> "trade",
   store = <any> "store",

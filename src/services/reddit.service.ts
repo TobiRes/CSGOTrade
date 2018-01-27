@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {ThreadinfoService} from "./threadinfo.service";
+import {RedditComment, RedditPost} from "../models/redditpost.model";
 
 @Injectable()
 export class RedditService {
@@ -32,12 +33,46 @@ export class RedditService {
       try {
         this.http.get(this.globalOffensiveTradeBaseURL + currentPage.toLowerCase() + ".json").subscribe(
           (redditPostData: any) => {
+            console.log(redditPostData.data)
             resolve(redditPostData.data);
           })
       } catch (error) {
         reject(error);
       }
     });
+  }
+
+  getComments(redditPost: RedditPost) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.http.get(redditPost.redditURL + ".json").subscribe(
+          (redditCommentData: any) => {
+            let test = this.getCommentData(redditCommentData[1].data.children);
+            console.log(test);
+            resolve(redditCommentData.data);
+          })
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  private getCommentData(commentData: any[]){
+    let postComments: RedditComment[] = [];
+    commentData.forEach( comment => {
+      postComments.push(this.getWholeCommentTree(comment.data))
+    })
+   return postComments;
+  }
+
+  private getWholeCommentTree(comment){
+   return {
+      author: comment.author,
+      body: comment.body,
+      ups: comment.ups,
+      downs: comment.downs,
+      replies: comment.replies.data ? this.getCommentData(comment.replies.data.children) : []
+    };
   }
 
   getNextRedditThreads(threadCount: number, lastThreadName: string, currentPage: string) {

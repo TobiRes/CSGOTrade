@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {PostType, RedditPost} from "../../models/redditpost.model";
+import {RedditService} from "../../services/reddit.service";
 
 
 @IonicPage()
@@ -14,8 +15,9 @@ export class PostViewPage {
   postTypeTrade: PostType = PostType.trade;
   title: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private redditService: RedditService) {
     this.currentPost = this.navParams.get("postData");
+    this.redditService.getComments(this.currentPost);
     this.getTitle()
   }
 
