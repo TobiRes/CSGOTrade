@@ -87,17 +87,10 @@
 
   <div class="container" padding>
     <div class="csgoItem" *ngFor="let keys of myKeys" [ngClass]="isSelected(item) ? 'selectedItem' : ''">
-      <key-list-item [csgoKeys]="keys" (selected)="addItemToTrade($event)"></key-list-item>
+      <key-list-item [csgoKeys]="keys"></key-list-item>
     </div>
     <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
       <skin-list-item [csgoItem]="item"></skin-list-item>
     </div>
   </div>
-
-
-  <!-- <ion-list>
-    <div *ngFor="let item of csgoItems">
-      <skin-list-item [csgoItem]="item"></skin-list-item>
-    </div>
-  </ion-list> -->
 </ion-content>

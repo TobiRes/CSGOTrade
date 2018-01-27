@@ -22,19 +22,21 @@ export class KeyListItemComponent {
   }
 
   selectItem() {
-    const csgoItemModalOptions: ModalOptions = {
-      cssClass: "csgoItemModal",
-      showBackdrop: true
-    }
-    const itemModal: Modal = this.modal.create("KeyModalPage", {
-      csgoKeys: this.csgoKeys,
-      alreadySelectedKeys: this.alreadySelectedKeys
-    }, csgoItemModalOptions);
-    itemModal.present();
-    itemModal.onDidDismiss(keysAndKeyType => {
-      if(keysAndKeyType){
-        this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});
+    if(this.alreadySelectedKeys >= 0){
+      const csgoItemModalOptions: ModalOptions = {
+        cssClass: "csgoItemModal",
+        showBackdrop: true
       }
-    });
+      const itemModal: Modal = this.modal.create("KeyModalPage", {
+        csgoKeys: this.csgoKeys,
+        alreadySelectedKeys: this.alreadySelectedKeys
+      }, csgoItemModalOptions);
+      itemModal.present();
+      itemModal.onDidDismiss(keysAndKeyType => {
+        if(keysAndKeyType){
+          this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});
+        }
+      });
+    }
   }
 }

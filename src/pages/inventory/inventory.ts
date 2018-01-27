@@ -38,7 +38,7 @@ export class InventoryPage {
         this.csgoItems = storageData[0];
         this.backupCsgoItems = this.csgoItems;
         this.steamProfileURL = storageData[1];
-        if (!this.csgoItems) {
+        if (!this.csgoItems && this.steamProfileURL) {
           this.getCSGOInventory();
         } else {
           this.isLoading = false;
