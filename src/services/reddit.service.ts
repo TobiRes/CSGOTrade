@@ -6,13 +6,12 @@ import {RedditComment, RedditPost} from "../models/redditpost.model";
 @Injectable()
 export class RedditService {
 
-  //Comment URL = POSTURL /.json
 
   private globalOffensiveAboutURL: string = "http://www.reddit.com/r/Globaloffensivetrade/about.json"
   private globalOffensiveTradeBaseURL: string = "https://www.reddit.com/r/globaloffensivetrade/";
   private globalOffensiveSearchBaseURL: string = "https://www.reddit.com/r/GlobalOffensiveTrade/search.json?q="
 
-  constructor(private http: HttpClient, private threadInfoService: ThreadinfoService) {
+  constructor(private http: HttpClient) {
   }
 
   getActiveUserCount() {
@@ -33,7 +32,6 @@ export class RedditService {
       try {
         this.http.get(this.globalOffensiveTradeBaseURL + currentPage.toLowerCase() + ".json").subscribe(
           (redditPostData: any) => {
-            console.log(redditPostData.data)
             resolve(redditPostData.data);
           })
       } catch (error) {
@@ -47,32 +45,14 @@ export class RedditService {
       try {
         this.http.get(redditPost.redditURL + ".json").subscribe(
           (redditCommentData: any) => {
-            let test = this.getCommentData(redditCommentData[1].data.children);
-            console.log(test);
-            resolve(redditCommentData.data);
+            console.log(redditCommentData[1].data.children)
+            let allPostComments: RedditComment[] = this.getCommentData(redditCommentData[1].data.children);
+            resolve(allPostComments);
           })
       } catch (error) {
         reject(error);
       }
     });
-  }
-
-  private getCommentData(commentData: any[]){
-    let postComments: RedditComment[] = [];
-    commentData.forEach( comment => {
-      postComments.push(this.getWholeCommentTree(comment.data))
-    })
-   return postComments;
-  }
-
-  private getWholeCommentTree(comment){
-   return {
-      author: comment.author,
-      body: comment.body,
-      ups: comment.ups,
-      downs: comment.downs,
-      replies: comment.replies.data ? this.getCommentData(comment.replies.data.children) : []
-    };
   }
 
   getNextRedditThreads(threadCount: number, lastThreadName: string, currentPage: string) {
@@ -114,6 +94,23 @@ export class RedditService {
         reject(error);
       }
     });
+  }
+
+  private getCommentData(commentData: any[]){
+    let postComments: RedditComment[] = [];
+    commentData.forEach( comment => {
+      postComments.push(this.getWholeCommentTree(comment.data))
+    })
+    return postComments;
+  }
+
+  private getWholeCommentTree(comment): RedditComment{
+    return {
+      author: comment.author,
+      body: comment.body,
+      score: comment.score,
+      replies: comment.replies ? this.getCommentData(comment.replies.data.children) : []
+    };
   }
 
   private getSearchSpecification(searchTerm: string[]) {

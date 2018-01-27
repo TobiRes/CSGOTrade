@@ -1,0 +1,11 @@
+<ion-list class="commentList">
+  <div *ngFor="let comment of redditComments" class="comment">
+    <div class="commentTitle">
+      <p>{{comment.author}}<span id="commentScore">&nbsp;&nbsp;{{comment.score}}</span></p>
+    </div>
+    <div class="commentBody">
+      <p>{{comment.body}}</p>
+    </div>
+    <comment-tree-view [redditComments]="comment.replies"></comment-tree-view>
+  </div>
+</ion-list>

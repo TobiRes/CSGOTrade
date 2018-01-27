@@ -7,19 +7,22 @@ import {PipesModule} from "../pipes/pipes.module";
 import {SkinListItemComponent} from './skin-list-item/skin-list-item';
 import {DirectivesModule} from "../directives/directives.module";
 import {KeyListItemComponent} from './key-list-item/key-list-item';
+import { CommentTreeViewComponent } from './comment-tree-view/comment-tree-view';
 
 @NgModule({
   declarations: [TradeListItemComponent,
     PostListItem,
     PostContentComponent,
     SkinListItemComponent,
-    KeyListItemComponent],
+    KeyListItemComponent,
+    CommentTreeViewComponent],
   imports: [IonicModule, PipesModule, DirectivesModule],
   exports: [TradeListItemComponent,
     PostListItem,
     PostContentComponent,
     SkinListItemComponent,
-    KeyListItemComponent]
+    KeyListItemComponent,
+    CommentTreeViewComponent]
 })
 export class ComponentsModule {
 }

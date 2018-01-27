@@ -1,0 +1,30 @@
+comment-tree-view {
+  .commentList{
+    margin-left: 0;
+    margin-bottom: 0;
+    .comment{
+      padding-left: 15px;
+      border-top: 0.5px solid gray;
+
+      .commentTitle{
+        padding: 7px 0 5px 0;
+        p{
+          margin: 0;
+          font-weight: bold;
+        }
+        #commentScore{
+          font-weight: normal;
+          color: gray;
+        }
+      }
+
+      .commentBody{
+        padding-bottom: 7px;
+        p{
+          margin: 0;
+        }
+      }
+    }
+
+  }
+}

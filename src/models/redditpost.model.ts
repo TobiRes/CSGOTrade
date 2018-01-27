@@ -17,8 +17,9 @@ export interface RedditPost {
 export interface RedditComment {
   author: string;
   body?: string;
-  ups?: number;
-  downs?: number;
+  score?: number,
+  timeSinceCreation?: string,
+  steamProfile?: string,
   replies?: RedditComment[];
 }
 
