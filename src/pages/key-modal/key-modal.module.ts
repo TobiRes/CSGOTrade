@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { KeyModalPage } from './key-modal';
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {KeyModalPage} from './key-modal';
 
 @NgModule({
   declarations: [
@@ -10,4 +10,5 @@ import { KeyModalPage } from './key-modal';
     IonicPageModule.forChild(KeyModalPage),
   ],
 })
-export class KeyModalPageModule {}
+export class KeyModalPageModule {
+}

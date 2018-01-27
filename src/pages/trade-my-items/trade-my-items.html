@@ -13,11 +13,12 @@
     <h2>Select Your Items</h2>
     <div class="container">
       <div class="csgoItem" *ngFor="let keys of tradeAbleKeys" [ngClass]="isKeySelected(keys) ? 'selectedItem' : ''">
-        <key-list-item [csgoKeys]="keys" [alreadySelectedKeys]="getSelectedKeysOfCertainType(keys.keys[0])" (selected)="addKeysToTrade($event)"></key-list-item>
+        <key-list-item [csgoKeys]="keys" [alreadySelectedKeys]="getSelectedKeysOfCertainType(keys.keys[0])"
+                       (selected)="addKeysToTrade($event)"></key-list-item>
       </div>
       <div class="csgoItem" *ngFor="let item of tradeableItems" [ngClass]="isSelected(item) ? 'selectedItem' : ''"
            [ngStyle]="setBorderColorIfNotNormalCategory(item)">
-        <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)" ></skin-list-item>
+        <skin-list-item [csgoItem]="item" (selected)="addItemToTrade($event)"></skin-list-item>
       </div>
     </div>
   </div>

@@ -20,7 +20,7 @@ export class KeyModalPage {
     this.selectedKeysCount = this.navParams.get("alreadySelectedKeys");
   }
 
-  addKeys(){
+  addKeys() {
     this.getSelectedKeys();
     let keysAndKeyType = {
       selectedKeys: this.selectedKeys,
@@ -31,7 +31,7 @@ export class KeyModalPage {
   }
 
   private getSelectedKeys() {
-    for(let i = 0; i < this.selectedKeysCount; i++){
+    for (let i = 0; i < this.selectedKeysCount; i++) {
       this.selectedKeys.push(this.csgoKeys.keys[i]);
     }
   }

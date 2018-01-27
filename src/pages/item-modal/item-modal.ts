@@ -11,7 +11,7 @@ import {Subject} from "rxjs/Subject";
   selector: 'page-item-modal',
   templateUrl: 'item-modal.html',
 })
-export class ItemModalPage implements OnDestroy{
+export class ItemModalPage implements OnDestroy {
 
   csgoItem: CSGOItem;
   private destroyed$ = new Subject<void>();
@@ -22,7 +22,7 @@ export class ItemModalPage implements OnDestroy{
     console.log(this.csgoItem)
   }
 
-  showMetjm(){
+  showMetjm() {
     const browser = this.inAppBrowser.create("https://metjm.net/csgo/");
     let tradeScript = this.buildScreenshotScript();
     console.log(tradeScript);
@@ -43,10 +43,6 @@ export class ItemModalPage implements OnDestroy{
     this.destroyed$.complete();
   }
 
-  private buildScreenshotScript(){
-    return "(function() { csgo.addItemManually('" + this.csgoItem.inspectLink + "')})()";
-  }
-
   getExteriorString() {
     switch (this.csgoItem.shortExterior) {
       case Exterior.fn:
@@ -62,6 +58,10 @@ export class ItemModalPage implements OnDestroy{
       default:
         return "";
     }
+  }
+
+  private buildScreenshotScript() {
+    return "(function() { csgo.addItemManually('" + this.csgoItem.inspectLink + "')})()";
   }
 
 }

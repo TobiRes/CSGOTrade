@@ -29,16 +29,16 @@ export class CSGOItemService {
     return csgoItem;
   }
 
-  addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]){
+  addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]) {
     let csgoItems: CSGOItem[] = csgoInventoryData;
-    let copyOfRawData: any[] =  [];
+    let copyOfRawData: any[] = [];
     let missingCsItems: CSGOItem[] = [];
     Object.keys(inventoryIds).map(key => {
       copyOfRawData.push(inventoryIds[key]);
     })
-    for(let i = csgoItems.length - 1; i >= 0; i--){
+    for (let i = csgoItems.length - 1; i >= 0; i--) {
       //New Array of all items that match the instance and class id of the csgo item
-      let matchingItems: any[] = copyOfRawData.filter( dataItem => {
+      let matchingItems: any[] = copyOfRawData.filter(dataItem => {
         return dataItem.classid == csgoItems[i].classId && dataItem.instanceid == csgoItems[i].instanceId
       })
       //Create new CSGOItems with the missing items and push them on the missing items
@@ -106,44 +106,44 @@ export class CSGOItemService {
     return tradeableItems;
   }
 
-  sortByKeyAndGrade(csgoItems: CSGOItem[]){
+  sortByKeyAndGrade(csgoItems: CSGOItem[]) {
     let itemsToSort: CSGOItem[] = csgoItems.slice();
     let sortedItems: CSGOItem[] = [];
-    for(let i = itemsToSort.length-1; i >= 0; i--){
-      if(itemsToSort[i].type == ItemType.key){
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
+      if (itemsToSort[i].type == ItemType.key) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = itemsToSort.length-1; i >= 0; i--){
-      if(itemsToSort[i].grade == Grade.covert
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
+      if (itemsToSort[i].grade == Grade.covert
         || itemsToSort[i].grade == Grade.contraband
-        || itemsToSort[i].grade == Grade.extraoridinary){
+        || itemsToSort[i].grade == Grade.extraoridinary) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = itemsToSort.length-1; i >= 0; i--){
-      if(itemsToSort[i].grade == Grade.classified
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
+      if (itemsToSort[i].grade == Grade.classified
         || itemsToSort[i].grade == Grade.remarkable
-        || itemsToSort[i].grade == Grade.exotic){
+        || itemsToSort[i].grade == Grade.exotic) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = itemsToSort.length-1; i >= 0; i--){
-      if(itemsToSort[i].grade != Grade.base
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
+      if (itemsToSort[i].grade != Grade.base
         || itemsToSort[i].grade != Grade.industrial
-        || itemsToSort[i].grade != Grade.consumer ){
+        || itemsToSort[i].grade != Grade.consumer) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
     }
 
-    for(let i = itemsToSort.length -1; i >= 0; i--){
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
       sortedItems.push(itemsToSort[i]);
       itemsToSort.splice(i, 1);
     }
@@ -151,41 +151,53 @@ export class CSGOItemService {
     return sortedItems;
   }
 
-  splitIntoItemsAndKeys(csgoItems: CSGOItem[]){
+  splitIntoItemsAndKeys(csgoItems: CSGOItem[]) {
     let allKeys: CSGOKey[] = [];
-    let csgoKeys: CSGOKey = { keys: [], count: 0};
+    let csgoKeys: CSGOKey = {keys: [], count: 0};
     let stillKeysLeft: boolean = true;
     let currentKeyTypeToSearchFor: string = "";
     let copyOfCsgoItems = csgoItems.slice();
 
-    while(stillKeysLeft){
-      for(let i = copyOfCsgoItems.length-1; i >= 0; i--) {
-        if(copyOfCsgoItems[i].type == ItemType.key){
+    while (stillKeysLeft) {
+      for (let i = copyOfCsgoItems.length - 1; i >= 0; i--) {
+        if (copyOfCsgoItems[i].type == ItemType.key) {
           currentKeyTypeToSearchFor = copyOfCsgoItems[i].fullName;
           break;
         }
       }
-      if(!currentKeyTypeToSearchFor) {
+      if (!currentKeyTypeToSearchFor) {
         stillKeysLeft = false;
         break;
       }
-      for(let i = copyOfCsgoItems.length-1; i >= 0; i--) {
-        if(copyOfCsgoItems[i].fullName == currentKeyTypeToSearchFor){
+      for (let i = copyOfCsgoItems.length - 1; i >= 0; i--) {
+        if (copyOfCsgoItems[i].fullName == currentKeyTypeToSearchFor) {
           csgoKeys.keys.push(copyOfCsgoItems[i]);
           csgoKeys.count++;
           copyOfCsgoItems.splice(i, 1);
         }
       }
       allKeys.push(csgoKeys);
-      csgoKeys = { keys: [], count: 0};
+      csgoKeys = {keys: [], count: 0};
       currentKeyTypeToSearchFor = "";
     }
     allKeys = this.sortKeysByCount(allKeys);
     return {keys: allKeys, csgoItems: copyOfCsgoItems};
   }
 
-  private sortKeysByCount(csgoKeys: CSGOKey[]){
-    return csgoKeys.sort( (keyA: CSGOKey, keyB: CSGOKey) => keyB.count - keyA.count)
+  getInspectLink(steamProfileURL: string, csgoItems: CSGOItem[]) {
+    //http://steamcommunity.com/profiles/76561202255233023
+    let steamProfileID = steamProfileURL.match(/\w\d+\w/g)
+    for (let i = 0; i < csgoItems.length; i++) {
+      if (csgoItems[i].inspectLink != "unknown") {
+        let initialLinkSubstring = csgoItems[i].inspectLink.substring(0, 62);
+        csgoItems[i].inspectLink = initialLinkSubstring + "%20S" + steamProfileID + "A" + csgoItems[i].assetId.toString() + "D11559658745094158318"
+      }
+    }
+    return csgoItems;
+  }
+
+  private sortKeysByCount(csgoKeys: CSGOKey[]) {
+    return csgoKeys.sort((keyA: CSGOKey, keyB: CSGOKey) => keyB.count - keyA.count)
   }
 
   private getItemType(itemFullName: string): ItemType {
@@ -339,18 +351,6 @@ export class CSGOItemService {
     }
   }
 
-  getInspectLink(steamProfileURL: string, csgoItems: CSGOItem[]){
-    //http://steamcommunity.com/profiles/76561202255233023
-    let steamProfileID = steamProfileURL.match(/\w\d+\w/g)
-    for(let i = 0; i < csgoItems.length; i++){
-      if(csgoItems[i].inspectLink != "unknown"){
-        let initialLinkSubstring = csgoItems[i].inspectLink.substring(0, 62);
-        csgoItems[i].inspectLink = initialLinkSubstring + "%20S" + steamProfileID + "A" + csgoItems[i].assetId.toString() + "D11559658745094158318"
-      }
-    }
-    return csgoItems;
-  }
-
   private getSkinCategory(itemFullName: string): SkinCategory {
     if (itemFullName.indexOf("StatTrak") < 0) {
       if (itemFullName.indexOf("Souvenir") < 0) {
@@ -367,11 +367,11 @@ export class CSGOItemService {
 
   private getSkinExterior(item: CSGOItem): CSGOItem {
     let csgoItem: CSGOItem = item;
-    if (csgoItem.fullName.indexOf("Factory New") >= 0){
+    if (csgoItem.fullName.indexOf("Factory New") >= 0) {
       csgoItem.shortExterior = Exterior.fn;
       csgoItem.longExterior = "Factory New";
     }
-    else if (csgoItem.fullName.indexOf("Minimal Wear") >= 0){
+    else if (csgoItem.fullName.indexOf("Minimal Wear") >= 0) {
       csgoItem.shortExterior = Exterior.mw;
       csgoItem.longExterior = "Minimal Wear";
     }
@@ -379,15 +379,15 @@ export class CSGOItemService {
       csgoItem.shortExterior = Exterior.ft;
       csgoItem.longExterior = "Field-Tested";
     }
-    else if (csgoItem.fullName.indexOf("Well-Worn") >= 0){
+    else if (csgoItem.fullName.indexOf("Well-Worn") >= 0) {
       csgoItem.shortExterior = Exterior.ww;
       csgoItem.longExterior = "Well-Worn";
     }
-    else if (csgoItem.fullName.indexOf("Battle-Scarred") >= 0){
+    else if (csgoItem.fullName.indexOf("Battle-Scarred") >= 0) {
       csgoItem.shortExterior = Exterior.bs;
       csgoItem.longExterior = "Battle-Scarred";
     }
-    else{
+    else {
       csgoItem.shortExterior = Exterior.notPainted;
       csgoItem.longExterior = "Not Painted";
     }
@@ -417,25 +417,25 @@ export class CSGOItemService {
   private fillAdditionalInformation(csgoInventoryItem: any, csgoItem: CSGOItem) {
     let collection: string = this.getCollection(csgoInventoryItem.tags);
     let stickerUrls: string[] = this.getStickers(csgoInventoryItem.descriptions);
-    if(csgoItem.skinCategory == SkinCategory.statTrak){
+    if (csgoItem.skinCategory == SkinCategory.statTrak) {
       csgoItem.statTrakCount = this.getStatTrackCount(csgoInventoryItem.descriptions);
     }
-    if(csgoInventoryItem.fraudwarnings){
+    if (csgoInventoryItem.fraudwarnings) {
       csgoItem.nameTag = this.getNameTag(csgoInventoryItem.fraudwarnings[0]);
     }
-    if(collection.length){
+    if (collection.length) {
       csgoItem.collection = collection;
     }
-    if(stickerUrls.length){
+    if (stickerUrls.length) {
       csgoItem.stickerUrl = stickerUrls;
     }
     return csgoItem;
   }
 
-  private getStickers(csgoDescriptions: any[]){
+  private getStickers(csgoDescriptions: any[]) {
     let stickerUrls: string[] = [];
     csgoDescriptions.forEach(description => {
-      if(description.value.indexOf("<br>") == 0){
+      if (description.value.indexOf("<br>") == 0) {
         stickerUrls = this.getStickerUrlsFromHTMLString(description.value);
       }
     });
@@ -444,7 +444,7 @@ export class CSGOItemService {
 
   private getStickerUrlsFromHTMLString(htmlString: string) {
     let stickerUrls = htmlString.match(/src="([^"]+)"/g)
-    for(let i = 0; i < stickerUrls.length; i++){
+    for (let i = 0; i < stickerUrls.length; i++) {
       stickerUrls[i] = stickerUrls[i].replace("src=", "");
       stickerUrls[i] = stickerUrls[i].replace('"', "");
       stickerUrls[i] = stickerUrls[i].replace('"', "");
@@ -452,26 +452,26 @@ export class CSGOItemService {
     return stickerUrls;
   }
 
-  private getStatTrackCount(csgoDescription: any[]){
+  private getStatTrackCount(csgoDescription: any[]) {
     let statTrackCount: string = "";
     csgoDescription.forEach(csgoDescription => {
-      if(csgoDescription.value.indexOf("StatTrak") == 0){
-        statTrackCount = csgoDescription.value.replace( /^\D+/g, '');
+      if (csgoDescription.value.indexOf("StatTrak") == 0) {
+        statTrackCount = csgoDescription.value.replace(/^\D+/g, '');
       }
     })
     return statTrackCount;
   }
 
-  private getNameTag(csgoItemFraudWarnings: string){
+  private getNameTag(csgoItemFraudWarnings: string) {
     let startIndexOfNameTag = csgoItemFraudWarnings.indexOf("''") + 2;
     let lastIndexOfNameTag = csgoItemFraudWarnings.lastIndexOf("''");
     return csgoItemFraudWarnings.substring(startIndexOfNameTag, lastIndexOfNameTag);
   }
 
-  private getCollection(csgoItemTags: any[]){
+  private getCollection(csgoItemTags: any[]) {
     let collection: string = "";
     csgoItemTags.forEach(tag => {
-      if(tag.internal_name.indexOf("set") == 0){
+      if (tag.internal_name.indexOf("set") == 0) {
         collection = tag.name;
       }
     })

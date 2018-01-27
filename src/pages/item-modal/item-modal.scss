@@ -1,37 +1,37 @@
 page-item-modal {
 
-  .scrollContent{
+  .scrollContent {
     position: relative;
   }
 
-  #fullName{
+  #fullName {
     margin: 0;
     padding: 5px 0 2px 7px;
     font-size: 1.3em;
     color: #FF7200;
   }
 
-  #exterior{
+  #exterior {
     margin: 0;
     padding: 0 0 0 7px;
     font-size: 1.1em;
     color: dimgray;
   }
 
-  #nameTag{
+  #nameTag {
     margin: 0;
     padding: 0 0 0 7px;
     font-size: 1.1em;
     color: darkred;
   }
-  #stKills{
+  #stKills {
     margin: 0;
     padding: 0 0 0 7px;
     font-size: 1.1em;
     color: #FF7200;
   }
 
-  #collection{
+  #collection {
     margin: 0;
     padding: 0 0 0 7px;
     font-size: 1.1em;
@@ -50,10 +50,10 @@ page-item-modal {
     }
     .sticker {
       flex: 1;
-      .stickerContainer{
+      .stickerContainer {
         display: flex;
         flex-wrap: wrap;
-        .stickerIcon{
+        .stickerIcon {
           margin: 1%;
           flex-basis: 48%;
           flex-grow: 0;
@@ -70,7 +70,7 @@ page-item-modal {
       flex-basis: 63%;
       flex-grow: 0;
     }
-    .metjmButton{
+    .metjmButton {
       margin: 1%;
       flex-basis: 33%;
       flex-grow: 0;
@@ -78,11 +78,11 @@ page-item-modal {
     }
   }
 
-  .icon{
+  .icon {
     padding-right: 2px;
   }
 
-  .title{
+  .title {
     padding: 0;
   }
   .button {

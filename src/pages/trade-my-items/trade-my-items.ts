@@ -1,8 +1,5 @@
 import {Component} from '@angular/core';
-import {
-  AlertController, IonicPage, LoadingController, NavController,
-  NavParams
-} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {CSGOItemService} from "../../services/csgoItem.service";
 import {CSGOItem} from "../../models/csgoItem.model";
@@ -49,7 +46,7 @@ export class TradeMyItemsPage {
         if (!this.csgoItems && this.mySteamProfile) {
           this.csgoItems = [];
           this.loadMyCsgoInventory();
-        } else if(!this.mySteamProfile) {
+        } else if (!this.mySteamProfile) {
           this.alertEnterSteamProfile();
         } else {
           this.isLoading = false;
@@ -59,7 +56,7 @@ export class TradeMyItemsPage {
       .catch(error => console.error(error));
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.storage.set("csgoItems", this.csgoItems);
     this.storage.set("steamProfileURL", this.mySteamProfile);
   }
@@ -91,27 +88,27 @@ export class TradeMyItemsPage {
     })
   }
 
-  addKeysToTrade(csgoKeysAndType){
+  addKeysToTrade(csgoKeysAndType) {
     //Splitting in to two function for performance reasons
-    for(let i = this.theirItemsToTrade.length -1; i >= 0; i--){
-      if(this.theirItemsToTrade[i].fullName == csgoKeysAndType.currentKeyType){
+    for (let i = this.theirItemsToTrade.length - 1; i >= 0; i--) {
+      if (this.theirItemsToTrade[i].fullName == csgoKeysAndType.currentKeyType) {
         this.theirItemsToTrade.splice(i, 1);
       }
     }
     this.theirItemsToTrade = this.theirItemsToTrade.concat(csgoKeysAndType.selectedKeys);
   }
 
-  getSelectedKeysOfCertainType(csgoKey: CSGOItem){
+  getSelectedKeysOfCertainType(csgoKey: CSGOItem) {
     let count: number = 0;
-    this.theirItemsToTrade.forEach( (item: CSGOItem) => {
-      if(item.fullName == csgoKey.fullName){
+    this.theirItemsToTrade.forEach((item: CSGOItem) => {
+      if (item.fullName == csgoKey.fullName) {
         count++;
       }
     });
     return count;
   }
 
-  isKeySelected(keys: CSGOKey){
+  isKeySelected(keys: CSGOKey) {
     let selected = false;
     this.theirItemsToTrade.forEach(theirItem => {
       if (theirItem.fullName == keys.keys[0].fullName) {
@@ -138,8 +135,8 @@ export class TradeMyItemsPage {
         this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
         this.tradeableItems = this.itemService.getInspectLink(this.mySteamProfile, this.tradeableItems);
         this.getKeysAndItemsSeperatly();
-          this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
-          this.isLoading = false;
+        this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
+        this.isLoading = false;
       })
       .catch(error => {
         console.error(error)

@@ -1,6 +1,6 @@
 page-key-modal {
 
-  #fullName{
+  #fullName {
     margin: 0;
     padding: 5px 0 2px 7px;
     font-size: 1.3em;
@@ -8,22 +8,22 @@ page-key-modal {
     text-align: center;
   }
 
-  #keyModal{
-    .scroll-content{
+  #keyModal {
+    .scroll-content {
       background-color: lightgray !important;
     }
   }
 
-  .skinIcon{
+  .skinIcon {
     padding: 10% 15% 0 15% !important;
   }
 
-  .item-inner{
+  .item-inner {
     border-bottom: 0 !important;
   }
 
   .selectKeys {
-    ion-range{
+    ion-range {
       padding: 0 !important;
     }
   }

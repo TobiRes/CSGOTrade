@@ -26,7 +26,10 @@ export class KeyListItemComponent {
       cssClass: "csgoItemModal",
       showBackdrop: true
     }
-    const itemModal: Modal = this.modal.create("KeyModalPage", {csgoKeys: this.csgoKeys, alreadySelectedKeys: this.alreadySelectedKeys}, csgoItemModalOptions);
+    const itemModal: Modal = this.modal.create("KeyModalPage", {
+      csgoKeys: this.csgoKeys,
+      alreadySelectedKeys: this.alreadySelectedKeys
+    }, csgoItemModalOptions);
     itemModal.present();
     itemModal.onDidDismiss(keysAndKeyType => {
       this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});

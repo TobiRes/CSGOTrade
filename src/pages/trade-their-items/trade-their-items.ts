@@ -41,27 +41,27 @@ export class TradeTheirItemsPage {
     }
   }
 
-  addKeysToTrade(csgoKeysAndType){
+  addKeysToTrade(csgoKeysAndType) {
     //Splitting in to two function for performance reasons
-    for(let i = this.theirItemsToTrade.length -1; i >= 0; i--){
-      if(this.theirItemsToTrade[i].fullName == csgoKeysAndType.currentKeyType){
+    for (let i = this.theirItemsToTrade.length - 1; i >= 0; i--) {
+      if (this.theirItemsToTrade[i].fullName == csgoKeysAndType.currentKeyType) {
         this.theirItemsToTrade.splice(i, 1);
       }
     }
     this.theirItemsToTrade = this.theirItemsToTrade.concat(csgoKeysAndType.selectedKeys);
   }
 
-  getSelectedKeysOfCertainType(csgoKey: CSGOItem){
+  getSelectedKeysOfCertainType(csgoKey: CSGOItem) {
     let count: number = 0;
-    this.theirItemsToTrade.forEach( (item: CSGOItem) => {
-      if(item.fullName == csgoKey.fullName){
+    this.theirItemsToTrade.forEach((item: CSGOItem) => {
+      if (item.fullName == csgoKey.fullName) {
         count++;
       }
     });
     return count;
   }
 
-  isKeySelected(keys: CSGOKey){
+  isKeySelected(keys: CSGOKey) {
     let selected = false;
     this.theirItemsToTrade.forEach(theirItem => {
       if (theirItem.fullName == keys.keys[0].fullName) {
@@ -97,7 +97,7 @@ export class TradeTheirItemsPage {
     this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
       .then((csgoInventory: any) => {
         let csgoItemData = csgoInventory.rgDescriptions;
-          console.log(csgoInventory.rgDescriptions);
+        console.log(csgoInventory.rgDescriptions);
         Object.keys(csgoItemData).forEach(key => {
           this.csgoItems.push(this.itemService.fillItemMetaData(csgoItemData[key]));
         });
