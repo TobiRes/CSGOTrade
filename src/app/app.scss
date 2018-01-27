@@ -45,6 +45,11 @@ ion-header {
 .scroll-content {
   background-color: white !important;
 }
+.filtercontent {
+  .label {
+    color: white;
+  }
+}
 
 //TRADING
 .selectedItem {
@@ -65,6 +70,7 @@ ion-header {
 }
 
 .continueButton {
+  box-shadow: none;
   background-color: #FF7200 !important;
 }
 
