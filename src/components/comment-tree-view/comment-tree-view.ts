@@ -12,8 +12,10 @@ export class CommentTreeViewComponent {
   @Input()
   redditComments: RedditComment[];
 
+  @Input()
+  author: string;
+
 
   constructor() {
-
   }
 }

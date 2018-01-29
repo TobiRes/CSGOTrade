@@ -16,5 +16,5 @@
       <p>B/O: {{currentPost.wants ? currentPost.wants : "N/A"}}</p>
     </ion-item>
   </ion-card>
-  <comment-tree-view [redditComments]="postComments"></comment-tree-view>
+  <comment-tree-view  [author]="currentPost.author" [redditComments]="postComments"></comment-tree-view>
 </ion-content>
