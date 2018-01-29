@@ -12,12 +12,13 @@ import {RedditService} from "../../services/reddit.service";
 export class PostViewPage {
 
   currentPost: RedditPost;
-  postComments: RedditComment[];
+  postComments: RedditComment[] = [];
   postTypeTrade: PostType = PostType.trade;
   title: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private redditService: RedditService) {
     this.currentPost = this.navParams.get("postData");
+    console.log(this.currentPost)
     this.redditService.getComments(this.currentPost)
       .then((comments: RedditComment[]) => {
         this.postComments = comments;

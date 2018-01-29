@@ -108,6 +108,9 @@ export class ThreadinfoService {
         author: actualPostData.author,
         redditURL: actualPostData.url,
         numberOfComments: actualPostData.num_comments,
+        ups: actualPostData.ups,
+        downs: actualPostData.downs,
+        likedIt: this.getPercentageOfPeopleWhoLikedThePost(actualPostData.ups, actualPostData.downs),
         timeSinceCreation: this.timeSince(actualPostData.created_utc),
         content: actualPostData.selftext,
         type: this.getPostType(actualPostData.title),
@@ -147,5 +150,17 @@ export class ThreadinfoService {
       }
     }
     return savedStateIsNotComplete;
+  }
+
+
+  getPercentageOfPeopleWhoLikedThePost(upvotes: number, downvotes: number){
+    if(upvotes != 0 && downvotes != 0)
+      return upvotes /downvotes * 100;
+    else{
+      if(downvotes == 0){
+        return 100;
+      }
+      return 0;
+    }
   }
 }

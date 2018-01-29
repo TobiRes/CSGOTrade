@@ -1,6 +1,12 @@
 page-post-view {
   ion-content {
 
+    #nothingHere{
+      margin-top: 30px;
+      text-align: center;
+      color: rgba(0,0,0,0.8);
+      font-size: 18px;
+    }
     .card {
       margin: 0 !important;
       width: 100%;
@@ -21,6 +27,7 @@ page-post-view {
       }
     }
     .postHeader {
+      color: rgba(0,0,0,0.8);
       white-space: normal;
     }
   }

@@ -16,5 +16,15 @@
       <p>B/O: {{currentPost.wants ? currentPost.wants : "N/A"}}</p>
     </ion-item>
   </ion-card>
-  <comment-tree-view  [author]="currentPost.author" [redditComments]="postComments"></comment-tree-view>
+  <div *ngIf="!postComments.length">
+    <p id="nothingHere">No comments.</p>
+  </div>
+  <div class="postInfo">
+    <p>{{redditPost?.author}}</p>
+    <p>{{redditPost?.likedIt}}</p>
+    <p>{{redditPost?.timeSinceCreation}}</p>
+  </div>
+  <div *ngIf="postComments">
+    <comment-tree-view  [author]="currentPost.author" [redditComments]="postComments"></comment-tree-view>
+  </div>
 </ion-content>

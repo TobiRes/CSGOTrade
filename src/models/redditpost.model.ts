@@ -12,14 +12,20 @@ export interface RedditPost {
   screenshotUrl?: string[];
   has?: string;
   wants?: string;
+  ups?: number;
+  downs?: number;
+  likedIt?: number;
 }
 
 export interface RedditComment {
   author: string;
   body?: string;
-  score?: number,
-  timeSinceCreation?: string,
-  steamProfile?: string,
+  score?: number;
+  ups?: number;
+  downs?: number;
+  likedIt?: number;
+  timeSinceCreation?: string;
+  steamProfile?: string;
   replies?: RedditComment[];
 }
 

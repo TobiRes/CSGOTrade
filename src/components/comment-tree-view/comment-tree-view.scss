@@ -1,15 +1,19 @@
 comment-tree-view {
   .commentList{
-    margin-left: 0;
     margin-bottom: 0;
     .comment{
       padding-left: 15px;
       border-top: 0.5px solid gray;
-
+      border-left: 0.5px dotted rgba(255,114,0, 0.3);
       .commentTitle{
         padding: 7px 0 5px 0;
+        ion-icon{
+          font-weight: lighter;
+          font-size: 12px;
+        }
         p{
           margin: 0;
+          color: rgba(0,0,0,0.8);
           font-weight: bold;
         }
         #commentScore{
@@ -19,8 +23,7 @@ comment-tree-view {
       }
 
       .commentBody{
-        padding-bottom: 7px;
-        p{
+        p {
           margin: 0;
         }
       }

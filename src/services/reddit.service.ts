@@ -11,7 +11,7 @@ export class RedditService {
   private globalOffensiveTradeBaseURL: string = "https://www.reddit.com/r/globaloffensivetrade/";
   private globalOffensiveSearchBaseURL: string = "https://www.reddit.com/r/GlobalOffensiveTrade/search.json?q="
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private threadInfoService: ThreadinfoService) {
   }
 
   getActiveUserCount() {
@@ -109,6 +109,9 @@ export class RedditService {
       author: comment.author,
       body: comment.body,
       score: comment.score,
+      ups: comment.ups,
+      downs: comment.downs,
+      likedIt: this.threadInfoService.getPercentageOfPeopleWhoLikedThePost(comment.ups, comment.downs),
       replies: comment.replies ? this.getCommentData(comment.replies.data.children) : []
     };
   }
