@@ -22,6 +22,7 @@ export class TradeofferService implements OnDestroy {
       browser.on("loadstop")
         .pipe(takeUntil(this.destroyed$))
         .subscribe(() => {
+          console.log(tradeScript);
           browser.executeScript({code: tradeScript});
         })
     } catch (e) {

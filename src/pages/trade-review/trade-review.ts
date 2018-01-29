@@ -23,6 +23,10 @@ export class TradeReviewPage {
   theirItemsToTrade: CSGOItem[] = [];
   theirKeys: CSGOKey[] = [];
 
+
+  private backupTheirItems: CSGOItem[] = [];
+  private backupMyItems: CSGOItem[] = [];
+
   constructor(public navParams: NavParams,
               private tradeOfferService: TradeofferService,
               private dynStyleService: DynamicStyleService,
@@ -31,6 +35,8 @@ export class TradeReviewPage {
     this.redditPost = this.navParams.get("redditPost");
     this.myItemsToTrade = this.navParams.get("myItemsToTrade");
     this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
+    this.backupMyItems = this.myItemsToTrade;
+    this.backupTheirItems = this.theirItemsToTrade;
     if(this.myItemsToTrade.length || this.theirItemsToTrade.length){
       this.buttonIsDisabled = false;
     }
@@ -41,7 +47,7 @@ export class TradeReviewPage {
     if (!this.theirItemsToTrade.length && !this.theirKeys.length) {
       this.alertUserHasNotSetAnyItemsForTradePartner();
     } else {
-      this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
+      this.tradeOfferService.sendTradeOffer(this.backupMyItems, this.backupTheirItems, this.redditPost);
     }
   }
 
