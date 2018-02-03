@@ -9,6 +9,19 @@ export class CSGOItemService {
   constructor() {
   }
 
+  buildItemsAndFillWitData(csgoInventory, steamProfileURL: string): CSGOItem[] {
+    let csgoInventoryData = csgoInventory.rgDescriptions;
+    let csgoItems: CSGOItem[] = [];
+    Object.keys(csgoInventoryData).forEach(key => {
+      csgoItems.push(this.fillItemMetaData(csgoInventoryData[key]));
+    });
+    csgoItems = this.addAssetIdsAndAddAllMissingDuplicates(csgoItems, csgoInventory.rgInventory);
+    csgoItems = this.getInspectLink(steamProfileURL, csgoItems);
+    csgoItems = this.sortByKeyAndGrade(csgoItems);
+
+    return csgoItems;
+  }
+
   fillItemMetaData(csgoInventoryItem: any): CSGOItem {
     //e.g. "StatTrak™ Galil AR | Crimson Tsunami (Minimal Wear)"
     let itemFullName = csgoInventoryItem.market_hash_name;
@@ -27,32 +40,6 @@ export class CSGOItemService {
     csgoItem = this.getSkinExterior(csgoItem);
     csgoItem = this.fillAdditionalInformation(csgoInventoryItem, csgoItem);
     return csgoItem;
-  }
-
-  addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]) {
-    let csgoItems: CSGOItem[] = csgoInventoryData;
-    let copyOfRawData: any[] = [];
-    let missingCsItems: CSGOItem[] = [];
-    Object.keys(inventoryIds).map(key => {
-      copyOfRawData.push(inventoryIds[key]);
-    })
-    for (let i = csgoItems.length - 1; i >= 0; i--) {
-      //New Array of all items that match the instance and class id of the csgo item
-      let matchingItems: any[] = copyOfRawData.filter(dataItem => {
-        return dataItem.classid == csgoItems[i].classId && dataItem.instanceid == csgoItems[i].instanceId
-      })
-      //Create new CSGOItems with the missing items and push them on the missing items
-      matchingItems.forEach(itemData => {
-        let newCsgoItem: CSGOItem = Object.assign({}, csgoItems[i]);
-        newCsgoItem.assetId = itemData.id;
-        missingCsItems.push(newCsgoItem);
-      });
-      //Remove the matched item, since it´s now existing in the missing items array
-      csgoItems.splice(i, 1);
-    }
-
-    let allItems = csgoItems.concat(missingCsItems);
-    return allItems;
   }
 
   mapExterior(selectedExteriors: string[]) {
@@ -106,7 +93,66 @@ export class CSGOItemService {
     return tradeableItems;
   }
 
-  sortByKeyAndGrade(csgoItems: CSGOItem[]) {
+  splitIntoItemsAndKeys(csgoItems: CSGOItem[]) {
+    let allKeys: CSGOKey[] = [];
+    let csgoKeys: CSGOKey = {keys: [], count: 0};
+    let stillKeysLeft: boolean = true;
+    let currentKeyTypeToSearchFor: string = "";
+    let copyOfCsgoItems = csgoItems.slice();
+
+    while (stillKeysLeft) {
+      for (let i = copyOfCsgoItems.length - 1; i >= 0; i--) {
+        if (copyOfCsgoItems[i].type == ItemType.key) {
+          currentKeyTypeToSearchFor = copyOfCsgoItems[i].fullName;
+          break;
+        }
+      }
+      if (!currentKeyTypeToSearchFor) {
+        stillKeysLeft = false;
+        break;
+      }
+      for (let i = copyOfCsgoItems.length - 1; i >= 0; i--) {
+        if (copyOfCsgoItems[i].fullName == currentKeyTypeToSearchFor) {
+          csgoKeys.keys.push(copyOfCsgoItems[i]);
+          csgoKeys.count++;
+          copyOfCsgoItems.splice(i, 1);
+        }
+      }
+      allKeys.push(csgoKeys);
+      csgoKeys = {keys: [], count: 0};
+      currentKeyTypeToSearchFor = "";
+    }
+    allKeys = this.sortKeysByCount(allKeys);
+    return {keys: allKeys, csgoItems: copyOfCsgoItems};
+  }
+
+  private addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]) {
+    let csgoItems: CSGOItem[] = csgoInventoryData;
+    let copyOfRawData: any[] = [];
+    let missingCsItems: CSGOItem[] = [];
+    Object.keys(inventoryIds).map(key => {
+      copyOfRawData.push(inventoryIds[key]);
+    })
+    for (let i = csgoItems.length - 1; i >= 0; i--) {
+      //New Array of all items that match the instance and class id of the csgo item
+      let matchingItems: any[] = copyOfRawData.filter(dataItem => {
+        return dataItem.classid == csgoItems[i].classId && dataItem.instanceid == csgoItems[i].instanceId
+      })
+      //Create new CSGOItems with the missing items and push them on the missing items
+      matchingItems.forEach(itemData => {
+        let newCsgoItem: CSGOItem = Object.assign({}, csgoItems[i]);
+        newCsgoItem.assetId = itemData.id;
+        missingCsItems.push(newCsgoItem);
+      });
+      //Remove the matched item, since it´s now existing in the missing items array
+      csgoItems.splice(i, 1);
+    }
+
+    let allItems = csgoItems.concat(missingCsItems);
+    return allItems;
+  }
+
+  private sortByKeyAndGrade(csgoItems: CSGOItem[]) {
     let itemsToSort: CSGOItem[] = csgoItems.slice();
     let sortedItems: CSGOItem[] = [];
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
@@ -147,60 +193,27 @@ export class CSGOItemService {
 
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
       //Extraordinary in this case are only coins
-      if(itemsToSort[i].grade != Grade.extraoridinary
-        && itemsToSort[i].fullName.indexOf("Graffiti") == -1){
+      if (itemsToSort[i].grade != Grade.extraoridinary
+        && itemsToSort[i].fullName.indexOf("Graffiti") == -1) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
     }
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
-      if(itemsToSort[i].grade != Grade.extraoridinary) {
+      if (itemsToSort[i].grade != Grade.extraoridinary) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
     }
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
-        sortedItems.push(itemsToSort[i]);
-        itemsToSort.splice(i, 1);
+      sortedItems.push(itemsToSort[i]);
+      itemsToSort.splice(i, 1);
     }
 
     return sortedItems;
   }
 
-  splitIntoItemsAndKeys(csgoItems: CSGOItem[]) {
-    let allKeys: CSGOKey[] = [];
-    let csgoKeys: CSGOKey = {keys: [], count: 0};
-    let stillKeysLeft: boolean = true;
-    let currentKeyTypeToSearchFor: string = "";
-    let copyOfCsgoItems = csgoItems.slice();
-
-    while (stillKeysLeft) {
-      for (let i = copyOfCsgoItems.length - 1; i >= 0; i--) {
-        if (copyOfCsgoItems[i].type == ItemType.key) {
-          currentKeyTypeToSearchFor = copyOfCsgoItems[i].fullName;
-          break;
-        }
-      }
-      if (!currentKeyTypeToSearchFor) {
-        stillKeysLeft = false;
-        break;
-      }
-      for (let i = copyOfCsgoItems.length - 1; i >= 0; i--) {
-        if (copyOfCsgoItems[i].fullName == currentKeyTypeToSearchFor) {
-          csgoKeys.keys.push(copyOfCsgoItems[i]);
-          csgoKeys.count++;
-          copyOfCsgoItems.splice(i, 1);
-        }
-      }
-      allKeys.push(csgoKeys);
-      csgoKeys = {keys: [], count: 0};
-      currentKeyTypeToSearchFor = "";
-    }
-    allKeys = this.sortKeysByCount(allKeys);
-    return {keys: allKeys, csgoItems: copyOfCsgoItems};
-  }
-
-  getInspectLink(steamProfileURL: string, csgoItems: CSGOItem[]) {
+  private getInspectLink(steamProfileURL: string, csgoItems: CSGOItem[]) {
     //http://steamcommunity.com/profiles/76561202255233023
     let steamProfileID = steamProfileURL.match(/\w\d+\w/g)
     for (let i = 0; i < csgoItems.length; i++) {
