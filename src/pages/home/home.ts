@@ -33,6 +33,7 @@ export class HomePage {
   }
 
   ionViewWillLeave() {
+    this.backupPosts = this.backupPosts.slice(0, 25);
     let savedState: HomeSavedState = {
       visiblePosts: this.redditPosts,
       allPosts: this.backupPosts,
