@@ -1,6 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CSGOItem, SkinCategory} from "../../models/csgoItem.model";
-import {Modal, ModalController, ModalOptions} from "ionic-angular";
+import {Component, Input} from '@angular/core';
 import {RedditComment} from "../../models/redditpost.model";
 
 @Component({

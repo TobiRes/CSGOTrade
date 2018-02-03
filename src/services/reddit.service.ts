@@ -96,15 +96,15 @@ export class RedditService {
     });
   }
 
-  private getCommentData(commentData: any[]){
+  private getCommentData(commentData: any[]) {
     let postComments: RedditComment[] = [];
-    commentData.forEach( comment => {
+    commentData.forEach(comment => {
       postComments.push(this.getWholeCommentTree(comment.data))
     })
     return postComments;
   }
 
-  private getWholeCommentTree(comment): RedditComment{
+  private getWholeCommentTree(comment): RedditComment {
     return {
       author: comment.author,
       body: comment.body,

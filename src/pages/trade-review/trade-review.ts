@@ -37,7 +37,7 @@ export class TradeReviewPage {
     this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
     this.backupMyItems = this.myItemsToTrade;
     this.backupTheirItems = this.theirItemsToTrade;
-    if(this.myItemsToTrade.length || this.theirItemsToTrade.length){
+    if (this.myItemsToTrade.length || this.theirItemsToTrade.length) {
       this.buttonIsDisabled = false;
     }
     this.getKeysAndItemsSeperatly();

@@ -25,8 +25,8 @@ export class KeyListItemComponent {
   }
 
   selectItem() {
-    if(this.currentPage != "inventory"){
-      if(this.alreadySelectedKeys >= 0){
+    if (this.currentPage != "inventory") {
+      if (this.alreadySelectedKeys >= 0) {
         const csgoItemModalOptions: ModalOptions = {
           cssClass: "csgoItemModal",
           showBackdrop: true
@@ -37,7 +37,7 @@ export class KeyListItemComponent {
         }, csgoItemModalOptions);
         itemModal.present();
         itemModal.onDidDismiss(keysAndKeyType => {
-          if(keysAndKeyType){
+          if (keysAndKeyType) {
             this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});
           }
         });

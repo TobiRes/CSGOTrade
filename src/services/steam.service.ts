@@ -35,25 +35,25 @@ export class SteamService {
   }
 
   private checkForWholeURL(steamInventoryURL: string) {
-    if(steamInventoryURL.length <= 17){
-      if(steamInventoryURL.indexOf("/") > -1){
+    if (steamInventoryURL.length <= 17) {
+      if (steamInventoryURL.indexOf("/") > -1) {
         steamInventoryURL = steamInventoryURL.replace("/", "")
       }
-      if(steamInventoryURL.match(/^[0-9]+$/) != null){
+      if (steamInventoryURL.match(/^[0-9]+$/) != null) {
         steamInventoryURL = "https://steamcommunity.com/profiles/" + steamInventoryURL;
       } else {
-        steamInventoryURL =  "https://steamcommunity.com/id/" + steamInventoryURL;
+        steamInventoryURL = "https://steamcommunity.com/id/" + steamInventoryURL;
       }
     }
-    if(steamInventoryURL.lastIndexOf("/") == steamInventoryURL.length -1){
-      steamInventoryURL = steamInventoryURL.substr(0, steamInventoryURL.length -1)
+    if (steamInventoryURL.lastIndexOf("/") == steamInventoryURL.length - 1) {
+      steamInventoryURL = steamInventoryURL.substr(0, steamInventoryURL.length - 1)
     }
     return steamInventoryURL;
   }
 
   private checkForHTTP(steamInventoryURL: string) {
-    if(steamInventoryURL.indexOf("http") != 0){
-      if(steamInventoryURL.indexOf("/") == 0){
+    if (steamInventoryURL.indexOf("http") != 0) {
+      if (steamInventoryURL.indexOf("/") == 0) {
         steamInventoryURL = steamInventoryURL.substr(1, steamInventoryURL.length)
       }
       steamInventoryURL = "https://" + steamInventoryURL;

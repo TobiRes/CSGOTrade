@@ -24,21 +24,24 @@ export class SkinListItemComponent {
   }
 
   selectItem() {
-    if(this.currentPage != "inventory")
+    if (this.currentPage != "inventory")
       this.selected.emit(this.csgoItem);
   }
 
   onLongPress() {
-      const csgoItemModalOptions: ModalOptions = {
-        cssClass: "csgoItemModal",
-        showBackdrop: true
+    const csgoItemModalOptions: ModalOptions = {
+      cssClass: "csgoItemModal",
+      showBackdrop: true
+    }
+    const itemModal: Modal = this.modal.create("ItemModalPage", {
+      csgoItem: this.csgoItem,
+      currentPage: this.currentPage
+    }, csgoItemModalOptions);
+    itemModal.present();
+    itemModal.onWillDismiss((item) => {
+      if (item.csgoItem) {
+        this.selectItem()
       }
-      const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: this.csgoItem, currentPage: this.currentPage}, csgoItemModalOptions);
-      itemModal.present();
-      itemModal.onWillDismiss((item) => {
-        if(item.csgoItem){
-          this.selectItem()
-        }
-      });
+    });
   }
 }

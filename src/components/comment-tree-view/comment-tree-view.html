@@ -1,10 +1,13 @@
 <ion-list class="commentList">
   <div *ngFor="let comment of redditComments" class="comment">
     <div class="commentTitle">
-     <p [ngStyle]="author == comment.author ? {'color' : 'blue'} :  ''">
-       {{comment.author}}
-       <span id="commentScore">&nbsp;&nbsp;<ion-icon outline name="arrow-round-up"></ion-icon>&nbsp;{{comment.score}}</span>
-     </p>
+      <p [ngStyle]="author == comment.author ? {'color' : 'blue'} :  ''">
+        {{comment.author}}
+        <span id="commentScore">&nbsp;&nbsp;
+          <ion-icon outline name="arrow-round-up"></ion-icon>
+          &nbsp;{{comment.score}}
+        </span>
+      </p>
     </div>
     <post-content [postContent]="comment.body"></post-content>
     <comment-tree-view [redditComments]="comment.replies"></comment-tree-view>

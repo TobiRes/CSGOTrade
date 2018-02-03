@@ -153,11 +153,11 @@ export class ThreadinfoService {
   }
 
 
-  getPercentageOfPeopleWhoLikedThePost(upvotes: number, downvotes: number){
-    if(upvotes != 0 && downvotes != 0)
-      return upvotes /downvotes * 100;
-    else{
-      if(downvotes == 0){
+  getPercentageOfPeopleWhoLikedThePost(upvotes: number, downvotes: number) {
+    if (upvotes != 0 && downvotes != 0)
+      return upvotes / downvotes * 100;
+    else {
+      if (downvotes == 0) {
         return 100;
       }
       return 0;

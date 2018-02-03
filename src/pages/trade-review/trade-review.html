@@ -20,7 +20,8 @@
       </div>
     </div>
     <div padding *ngIf="!(myItemsToTrade.length || myKeys.length)">
-      <p class="tradeWarning">You have not selected any of your items to offer {{redditPost.author}} in exchange for theirs.</p>
+      <p class="tradeWarning">You have not selected any of your items to offer {{redditPost.author}} in exchange for
+        theirs.</p>
     </div>
     <h2>Their Items</h2>
     <div class="container" *ngIf="theirItemsToTrade.length || theirKeys.length">
@@ -32,7 +33,8 @@
       </div>
     </div>
     <div padding *ngIf="!(theirItemsToTrade.length || theirKeys.length)">
-      <p class="tradeWarning">You have not selected any items for {{redditPost.author}} to offer in exchange for yours. You will not be getting any items in return.</p>
+      <p class="tradeWarning">You have not selected any items for {{redditPost.author}} to offer in exchange for yours.
+        You will not be getting any items in return.</p>
     </div>
   </div>
   <div padding *ngIf="buttonIsDisabled">
@@ -42,6 +44,8 @@
 
 <ion-footer>
   <ion-toolbar>
-    <button class="continueButton" ion-button full (click)="sendTradeOffer()" [disabled]="buttonIsDisabled">Send Trade Offer</button>
+    <button class="continueButton" ion-button full (click)="sendTradeOffer()" [disabled]="buttonIsDisabled">Send Trade
+      Offer
+    </button>
   </ion-toolbar>
 </ion-footer>

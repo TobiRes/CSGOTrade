@@ -46,7 +46,7 @@ ion-header {
 
 .searchbar {
   padding-top: 0;
-  .searchbar-input{
+  .searchbar-input {
     box-shadow: none !important;
   }
 }
@@ -62,6 +62,7 @@ ion-header {
 .scroll-content {
   background-color: white !important;
 }
+
 .filtercontent {
   .label {
     color: white;
@@ -70,7 +71,7 @@ ion-header {
 
 //ALERTS
 .alert-button {
-  .button-inner{
+  .button-inner {
     color: #FF7200;
   }
 }

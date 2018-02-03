@@ -25,6 +25,6 @@
     <p>{{redditPost?.timeSinceCreation}}</p>
   </div>
   <div *ngIf="postComments">
-    <comment-tree-view  [author]="currentPost.author" [redditComments]="postComments"></comment-tree-view>
+    <comment-tree-view [author]="currentPost.author" [redditComments]="postComments"></comment-tree-view>
   </div>
 </ion-content>

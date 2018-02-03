@@ -1,6 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
 import {IonicPage, NavParams, ViewController} from 'ionic-angular';
-import {CSGOItem, Exterior} from "../../models/csgoItem.model";
+import {CSGOItem} from "../../models/csgoItem.model";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
