@@ -21,7 +21,7 @@
       <p *ngIf="csgoItem.statTrakCount" id="stKills">StatTrak&trade; Kills: {{csgoItem.statTrakCount}}</p>
       <p id="collection">{{csgoItem.collection}}</p>
     </div>
-    <div class="metjmButton">
+    <div class="metjmButton" *ngIf="metjmIsPossible()">
       <button ion-button (click)="showMetjm()">
         <ion-icon name="camera-outline"></ion-icon>
         <p>Metjm</p></button>
