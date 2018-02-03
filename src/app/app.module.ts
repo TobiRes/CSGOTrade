@@ -16,7 +16,6 @@ import {SteamService} from "../services/steam.service";
 import {CSGOItemService} from "../services/csgoItem.service";
 import {IonicStorageModule} from "@ionic/storage";
 import {SteamLoginService} from "../services/steam-login.service";
-import {SteamLoginPageModule} from "../pages/steam-login/steam-login.module";
 import {TradeofferService} from "../services/tradeoffer.service";
 import {TradeMyItemsPageModule} from "../pages/trade-my-items/trade-my-items.module";
 import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-items.module";
@@ -42,7 +41,6 @@ import {SearchRedditPageModule} from "../pages/search-reddit/search-reddit.modul
     DirectivesModule,
     HomePageModule,
     InventoryPageModule,
-    SteamLoginPageModule,
     TradeMyItemsPageModule,
     TradeTheirItemsPageModule,
     TradeReviewPageModule,
