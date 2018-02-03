@@ -218,8 +218,9 @@ export class CSGOItemService {
     let steamProfileID = steamProfileURL.match(/\w\d+\w/g)
     for (let i = 0; i < csgoItems.length; i++) {
       if (csgoItems[i].inspectLink != "unknown") {
-        let initialLinkSubstring = csgoItems[i].inspectLink.substring(0, 62);
-        csgoItems[i].inspectLink = initialLinkSubstring + "%20S" + steamProfileID + "A" + csgoItems[i].assetId.toString() + "D11559658745094158318"
+        let lastData: string = csgoItems[i].inspectLink.substr(csgoItems[i].inspectLink.lastIndexOf("assetid") + 8, csgoItems[i].inspectLink.length);
+        let initialLinkSubstring = csgoItems[i].inspectLink.substring(0, 63);
+        csgoItems[i].inspectLink = initialLinkSubstring + "%20S" + steamProfileID + "A" + csgoItems[i].assetId.toString() + lastData;
       }
     }
     return csgoItems;

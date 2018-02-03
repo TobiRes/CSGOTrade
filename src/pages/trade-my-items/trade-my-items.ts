@@ -118,7 +118,6 @@ export class TradeMyItemsPage {
     return selected;
   }
 
-
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
   }
@@ -175,8 +174,11 @@ export class TradeMyItemsPage {
           text: 'Enter',
           handler: data => {
             if (data.steamProfileURL) {
-              this.mySteamProfile = data.steamProfileURL;
-              this.loadMyCsgoInventory();
+              this.steamService.validateSteamURL(data.steamProfileURL)
+                .then((steamProfileURL: string) => {
+                  this.mySteamProfile = steamProfileURL;
+                  this.loadMyCsgoInventory();
+                })
             } else {
               console.log("Something went wrong.");
               return false;
