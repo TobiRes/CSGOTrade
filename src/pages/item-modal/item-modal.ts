@@ -18,9 +18,9 @@ export class ItemModalPage implements OnDestroy {
   private destroyed$ = new Subject<void>();
 
 
-  constructor(public viewCtrl: ViewController, public navParams: NavParams, private inAppBrowser: InAppBrowser) {
+  constructor(private viewCtrl: ViewController, public navParams: NavParams, private inAppBrowser: InAppBrowser) {
     this.csgoItem = this.navParams.get("csgoItem");
-    this.currentPage = this.navParams.get("currentPage")
+    this.currentPage = this.navParams.get("currentPage");
     console.log(this.csgoItem)
   }
 
@@ -40,30 +40,16 @@ export class ItemModalPage implements OnDestroy {
     }
   }
 
+  addItem() {
+    this.viewCtrl.dismiss({csgoItem: this.csgoItem});
+  }
+
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
 
-  getExteriorString() {
-    switch (this.csgoItem.shortExterior) {
-      case Exterior.fn:
-        return "Factory New";
-      case Exterior.mw:
-        return "Minimal Wear";
-      case Exterior.ft:
-        return "Field-Tested";
-      case Exterior.ww:
-        return "Well-Worn";
-      case Exterior.bs:
-        return "Battle-Scarred"
-      default:
-        return "";
-    }
-  }
-
   private buildScreenshotScript() {
     return "(function() { csgo.addItemManually('" + this.csgoItem.inspectLink + "')})()";
   }
-
 }

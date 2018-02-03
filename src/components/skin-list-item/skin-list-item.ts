@@ -35,7 +35,10 @@ export class SkinListItemComponent {
       }
       const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: this.csgoItem, currentPage: this.currentPage}, csgoItemModalOptions);
       itemModal.present();
-      itemModal.onWillDismiss((data) => {
+      itemModal.onWillDismiss((item) => {
+        if(item.csgoItem){
+          this.selectItem()
+        }
       });
   }
 }
