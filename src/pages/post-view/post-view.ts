@@ -18,11 +18,9 @@ export class PostViewPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private redditService: RedditService) {
     this.currentPost = this.navParams.get("postData");
-    console.log(this.currentPost)
     this.redditService.getComments(this.currentPost)
       .then((comments: RedditComment[]) => {
         this.postComments = comments;
-        console.log(this.postComments)
       })
       .catch(error => console.error(error));
     this.getTitle()

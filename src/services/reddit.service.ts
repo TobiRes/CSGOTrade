@@ -45,7 +45,6 @@ export class RedditService {
       try {
         this.http.get(redditPost.redditURL + ".json").subscribe(
           (redditCommentData: any) => {
-            console.log(redditCommentData[1].data.children)
             let allPostComments: RedditComment[] = this.getCommentData(redditCommentData[1].data.children);
             resolve(allPostComments);
           })
