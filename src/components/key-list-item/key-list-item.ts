@@ -14,6 +14,9 @@ export class KeyListItemComponent {
   @Input()
   alreadySelectedKeys: number;
 
+  @Input()
+  currentPage: string;
+
   @Output()
   selected = new EventEmitter();
 
@@ -22,21 +25,23 @@ export class KeyListItemComponent {
   }
 
   selectItem() {
-    if(this.alreadySelectedKeys >= 0){
-      const csgoItemModalOptions: ModalOptions = {
-        cssClass: "csgoItemModal",
-        showBackdrop: true
-      }
-      const itemModal: Modal = this.modal.create("KeyModalPage", {
-        csgoKeys: this.csgoKeys,
-        alreadySelectedKeys: this.alreadySelectedKeys
-      }, csgoItemModalOptions);
-      itemModal.present();
-      itemModal.onDidDismiss(keysAndKeyType => {
-        if(keysAndKeyType){
-          this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});
+    if(this.currentPage != "inventory"){
+      if(this.alreadySelectedKeys >= 0){
+        const csgoItemModalOptions: ModalOptions = {
+          cssClass: "csgoItemModal",
+          showBackdrop: true
         }
-      });
+        const itemModal: Modal = this.modal.create("KeyModalPage", {
+          csgoKeys: this.csgoKeys,
+          alreadySelectedKeys: this.alreadySelectedKeys
+        }, csgoItemModalOptions);
+        itemModal.present();
+        itemModal.onDidDismiss(keysAndKeyType => {
+          if(keysAndKeyType){
+            this.selected.emit({selectedKeys: keysAndKeyType.selectedKeys, currentKeyType: keysAndKeyType.keyType});
+          }
+        });
+      }
     }
   }
 }

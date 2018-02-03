@@ -15,23 +15,27 @@ export class SkinListItemComponent {
   @Output()
   selected = new EventEmitter();
 
+  @Input()
+  currentPage: string;
+
 
   constructor(private modal: ModalController) {
 
   }
 
   selectItem() {
-    this.selected.emit(this.csgoItem);
+    if(this.currentPage != "inventory")
+      this.selected.emit(this.csgoItem);
   }
 
   onLongPress() {
-    const csgoItemModalOptions: ModalOptions = {
-      cssClass: "csgoItemModal",
-      showBackdrop: true
-    }
-    const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: this.csgoItem}, csgoItemModalOptions);
-    itemModal.present();
-    itemModal.onWillDismiss((data) => {
-    });
+      const csgoItemModalOptions: ModalOptions = {
+        cssClass: "csgoItemModal",
+        showBackdrop: true
+      }
+      const itemModal: Modal = this.modal.create("ItemModalPage", {csgoItem: this.csgoItem, currentPage: this.currentPage}, csgoItemModalOptions);
+      itemModal.present();
+      itemModal.onWillDismiss((data) => {
+      });
   }
 }

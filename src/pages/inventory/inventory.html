@@ -87,10 +87,10 @@
 
   <div class="container" padding>
     <div class="csgoItem" *ngFor="let keys of myKeys" [ngClass]="isSelected(item) ? 'selectedItem' : ''">
-      <key-list-item [csgoKeys]="keys"></key-list-item>
+      <key-list-item [currentPage]="currentPage" [csgoKeys]="keys"></key-list-item>
     </div>
     <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
-      <skin-list-item [csgoItem]="item"></skin-list-item>
+      <skin-list-item [currentPage]="currentPage" [csgoItem]="item"></skin-list-item>
     </div>
   </div>
 </ion-content>

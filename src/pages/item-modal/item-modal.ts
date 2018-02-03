@@ -14,11 +14,13 @@ import {Subject} from "rxjs/Subject";
 export class ItemModalPage implements OnDestroy {
 
   csgoItem: CSGOItem;
+  currentPage: string;
   private destroyed$ = new Subject<void>();
 
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, private inAppBrowser: InAppBrowser) {
     this.csgoItem = this.navParams.get("csgoItem");
+    this.currentPage = this.navParams.get("currentPage")
     console.log(this.csgoItem)
   }
 
