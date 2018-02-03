@@ -1,7 +1,7 @@
 <ion-list class="commentList">
   <div *ngFor="let comment of redditComments" class="comment">
     <div class="commentTitle">
-      <p [ngStyle]="author == comment.author ? {'color' : 'blue'} :  ''">
+      <p [ngStyle]="getAuthorStyling(comment)">
         {{comment.author}}
         <span id="commentScore">&nbsp;&nbsp;
           <ion-icon outline name="arrow-round-up"></ion-icon>

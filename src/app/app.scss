@@ -70,8 +70,8 @@ ion-header {
 }
 
 //ALERTS
-.alert-button {
-  .button-inner {
+ion-alert {
+  .alert-head, .button-inner {
     color: #FF7200;
   }
 }
@@ -190,7 +190,7 @@ ion-backdrop {
 }
 
 .question {
-  border-left: 5px solid sandybrown;
+  border-left: 5px solid deepskyblue;
 }
 
 .lph {

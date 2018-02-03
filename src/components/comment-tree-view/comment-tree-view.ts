@@ -16,4 +16,14 @@ export class CommentTreeViewComponent {
 
   constructor() {
   }
+
+  getAuthorStyling(comment) {
+    if(comment.author.indexOf("AutoModerator") != 0){
+      if(this.author == comment.author){
+          return {'color' : 'blue'};
+      }
+    } else {
+      return {'color' : 'green'};
+    }
+  }
 }

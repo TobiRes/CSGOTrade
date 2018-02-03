@@ -6,6 +6,7 @@ import {ThreadinfoService} from "../../services/threadinfo.service";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {Storage} from "@ionic/storage";
 import {SearchedSavedState} from "../../models/searchSavedState.model";
+import {PostViewPage} from "../post-view/post-view";
 
 @IonicPage()
 @Component({
@@ -58,6 +59,10 @@ export class SearchRedditPage {
         this.resetViewAndData();
         console.error(error)
       });
+  }
+
+  openPost(postData: RedditPost) {
+    this.navCtrl.push(PostViewPage, {postData});
   }
 
   refreshPosts(refresher: any) {
