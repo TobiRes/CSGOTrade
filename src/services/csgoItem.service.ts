@@ -119,7 +119,8 @@ export class CSGOItemService {
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
       if (itemsToSort[i].grade == Grade.covert
         || itemsToSort[i].grade == Grade.contraband
-        || itemsToSort[i].grade == Grade.extraoridinary) {
+        || (itemsToSort[i].grade == Grade.extraoridinary
+          && itemsToSort[i].fullName.indexOf("Glove") != -1)) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
@@ -136,16 +137,31 @@ export class CSGOItemService {
 
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
       if (itemsToSort[i].grade != Grade.base
-        || itemsToSort[i].grade != Grade.industrial
-        || itemsToSort[i].grade != Grade.consumer) {
+        && itemsToSort[i].grade != Grade.industrial
+        && itemsToSort[i].grade != Grade.consumer
+        && itemsToSort[i].grade != Grade.extraoridinary) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
     }
 
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
-      sortedItems.push(itemsToSort[i]);
-      itemsToSort.splice(i, 1);
+      //Extraordinary in this case are only coins
+      if(itemsToSort[i].grade != Grade.extraoridinary
+        && itemsToSort[i].fullName.indexOf("Graffiti") == -1){
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
+      }
+    }
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
+      if(itemsToSort[i].grade != Grade.extraoridinary) {
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
+      }
+    }
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
     }
 
     return sortedItems;
