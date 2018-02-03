@@ -39,7 +39,7 @@ export class SkinListItemComponent {
     }, csgoItemModalOptions);
     itemModal.present();
     itemModal.onWillDismiss((item) => {
-      if (item.csgoItem) {
+      if (item) {
         this.selectItem()
       }
     });

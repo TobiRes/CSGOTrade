@@ -316,11 +316,7 @@ export class CSGOItemService {
   }
 
   private getSkinGrade(csgoItem): Grade {
-    if (csgoItem.tags[4] == null) {
-      return Grade.unknown;
-    }
     let skinRarity = this.getSkinRarity(csgoItem.tags);
-
     switch (skinRarity) {
       case "Rarity_Common_Weapon":
         return Grade.consumer;
