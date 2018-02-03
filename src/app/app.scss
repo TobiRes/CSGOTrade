@@ -15,6 +15,12 @@
 // automatically applied to the <body> element in the app.
 
 //GENERAL
+
+ion-spinner {
+  display: block;
+  margin: auto;
+}
+
 ion-content, .scroll-content {
   background-color: white !important;
 }

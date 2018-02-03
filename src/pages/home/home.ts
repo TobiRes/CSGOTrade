@@ -20,6 +20,7 @@ export class HomePage {
   postTypesToFilter: string[] = [];
   scrollLoadThreshold: string = "10%";
   currentPage: string = "Hot";
+  isLoading: boolean = true;
 
   private backupPosts: RedditPost[] = [];
   private lastThreadName: string;
@@ -55,6 +56,7 @@ export class HomePage {
         else {
           this.setData(savedState);
         }
+        this.isLoading = false;
       })
       .catch(error => {
         this.resetViewAndData();
@@ -67,6 +69,7 @@ export class HomePage {
       .then(redditPostData => {
         this.backupPosts = [];
         this.getTradeInfo(redditPostData)
+        this.isLoading = false;
       })
       .catch(error => console.error(error));
   }

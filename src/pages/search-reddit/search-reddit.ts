@@ -20,6 +20,7 @@ export class SearchRedditPage {
   scrollLoadThreshold: string = "10%";
   sortBy: string = "Relevance";
   searchbarInput: string = "";
+  isLoading: boolean = true;
 
   private savedSearchTerm: string[] = []
   private backupPosts: RedditPost[] = [];
@@ -54,6 +55,7 @@ export class SearchRedditPage {
         else {
           this.setData(searchSavedState);
         }
+        this.isLoading = false;
       })
       .catch(error => {
         this.resetViewAndData();
@@ -96,7 +98,9 @@ export class SearchRedditPage {
           this.getTradeInfo(redditPostsData)
         } else {
           //TODO: ALERT NO FOUND!
+
         }
+        this.isLoading = false;
       });
   }
 

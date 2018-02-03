@@ -16,7 +16,7 @@
       <p>B/O: {{currentPost.wants ? currentPost.wants : "N/A"}}</p>
     </ion-item>
   </ion-card>
-  <div *ngIf="!postComments.length">
+  <div *ngIf="!postComments.length && !isLoading">
     <p id="nothingHere">No comments.</p>
   </div>
   <div class="postInfo">
@@ -27,4 +27,5 @@
   <div *ngIf="postComments">
     <comment-tree-view [author]="currentPost.author" [redditComments]="postComments"></comment-tree-view>
   </div>
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
 </ion-content>

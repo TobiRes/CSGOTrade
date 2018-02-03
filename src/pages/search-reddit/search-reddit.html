@@ -65,6 +65,7 @@
                        (sendOffer)="sendTradeOffer($event)"></trade-list-item>
     </div>
   </ion-list>
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
   <ion-infinite-scroll [threshold]="scrollLoadThreshold" (ionInfinite)="$event.waitFor(loadAdditionalThreads($event))">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

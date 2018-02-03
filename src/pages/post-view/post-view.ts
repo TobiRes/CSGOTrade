@@ -15,11 +15,13 @@ export class PostViewPage {
   postComments: RedditComment[] = [];
   postTypeTrade: PostType = PostType.trade;
   title: string;
+  isLoading: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private redditService: RedditService) {
     this.currentPost = this.navParams.get("postData");
     this.redditService.getComments(this.currentPost)
       .then((comments: RedditComment[]) => {
+        this.isLoading = false;
         this.postComments = comments;
       })
       .catch(error => console.error(error));
