@@ -9,7 +9,9 @@
         </span>
       </p>
     </div>
-    <post-content [postContent]="comment.body"></post-content>
-    <comment-tree-view [redditComments]="comment.replies"></comment-tree-view>
+    <div class="commentBody">
+      <post-content [postContent]="comment.body"></post-content>
+    </div>
+    <comment-tree-view [author]="author" [redditComments]="comment.replies"></comment-tree-view>
   </div>
 </ion-list>

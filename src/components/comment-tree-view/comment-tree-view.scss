@@ -1,15 +1,17 @@
 comment-tree-view {
   .commentList {
     margin-bottom: 0;
+    margin-left: -1px;
     .comment {
       padding-left: 15px;
       border-top: 0.5px solid gray;
-      border-left: 0.5px dotted rgba(255, 114, 0, 0.3);
+      border-left: 0.5px dotted gray;
       .commentTitle {
-        padding: 7px 0 5px 0;
+        padding-top: 7px;
+        font-size: 0.8em;
         ion-icon {
           font-weight: lighter;
-          font-size: 12px;
+          font-size: 1em;
         }
         p {
           margin: 0;
@@ -21,13 +23,17 @@ comment-tree-view {
           color: gray;
         }
       }
+    }
 
-      .commentBody {
+    .commentBody{
+      padding-bottom: 7px;
+      padding-top: 5px;
+      post-content {
+        font-size: 0.9em !important;
         p {
           margin: 0;
         }
       }
     }
-
   }
 }
