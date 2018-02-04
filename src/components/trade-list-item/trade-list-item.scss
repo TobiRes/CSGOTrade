@@ -7,7 +7,6 @@ trade-list-item {
 
   ion-item .item-inner {
     border-bottom: 0 !important;
-    position: relative;
 
     .openPageButton {
       position: absolute;
@@ -17,33 +16,12 @@ trade-list-item {
       width: 100%;
       background-color: transparent;
     }
-    .numberOfComments {
-      position: absolute;
-      right: 5px;
-      bottom: 15px;
-      p {
-        font-size: 0.6em;
-      }
-      ion-icon {
-        font-size: 1em;
-        margin: 1px;
-      }
-    }
   }
 
   ion-label {
     margin: 0 0 0 10px !important;
+    padding: 6px 0 6px 0;
     white-space: normal;
-    max-width: 80%;
-
-    .has {
-      font-size: 1em;
-      padding: 4px 0 5px 0;
-      color: #1E3847;
-    }
-    .wants {
-      padding: 0px 0 6px 0;
-      color: dimgray;
-    }
+    max-width: 100%;
   }
 }

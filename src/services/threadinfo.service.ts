@@ -7,13 +7,54 @@ export class ThreadinfoService {
   constructor() {
   }
 
-  getPostType(threadTitle: string) {
+  setRedditPostInfo(existingRedditPosts: RedditPost[], redditPostData: any) {
+    if(redditPostData.children.length){
+      redditPostData.children.forEach(redditPost => {
+        let actualPostData = redditPost.data;
+        let tradeThread: RedditPost = {
+          title: actualPostData.title,
+          author: actualPostData.author,
+          redditURL: actualPostData.url,
+          numberOfComments: actualPostData.num_comments,
+          likedIt: actualPostData.score,
+          timeSinceCreation: this.timeSince(actualPostData.created_utc),
+          content: actualPostData.selftext,
+          type: this.getPostType(actualPostData.title),
+          tradelink: this.getTradeUrl(actualPostData.selftext),
+          steamProfileURL: this.getSteamProfileURL(actualPostData.author_flair_text),
+        };
+        if (tradeThread.type == PostType.trade) {
+          let buysAndSells = this.getAdditionalTradeInformation(actualPostData);
+          tradeThread.partnerId = this.getTradeParterId(tradeThread.steamProfileURL);
+          tradeThread.wants = buysAndSells.wants;
+          tradeThread.has = buysAndSells.has;
+          if (tradeThread.steamProfileURL == "unknown") {
+            tradeThread.type = PostType.unknown;
+          }
+        }
+        existingRedditPosts.push(tradeThread);
+      });
+    }
+    return existingRedditPosts;
+  }
+
+  checkIfAnyObjectPropertyIsUndefined(objectToCheck) {
+    let savedStateIsNotComplete: boolean = false;
+    for (let property in objectToCheck) {
+      if (objectToCheck[property] === "undefined") {
+        savedStateIsNotComplete = true;
+      }
+    }
+    return savedStateIsNotComplete;
+  }
+
+  private getPostType(threadTitle: string) {
     let postType: PostType;
 
-    if (!threadTitle.match(/\[[A-Za-z]*\]/g)) {
+    if (!threadTitle.match(/\[[A-Za-z]*]/g)) {
       return PostType.important;
     }
-    let titlePrefix = threadTitle.match(/\[[A-Za-z]*\]/g)[0].toLowerCase();
+    let titlePrefix = threadTitle.match(/\[[A-Za-z]*]/g)[0].toLowerCase();
     switch (titlePrefix) {
       case "[h]":
         postType = PostType.trade;
@@ -27,7 +68,6 @@ export class ThreadinfoService {
       case "[pc]":
       case "[pricecheck]":
         postType = PostType.pricecheck;
-        ;
         break;
       case "[question]":
       case "[q]":
@@ -48,12 +88,11 @@ export class ThreadinfoService {
     return postType;
   }
 
-  getTradeParterId(partnerProfileURL: string) {
-    let partnerProfileId = partnerProfileURL.replace("https://steamcommunity.com/profiles/", "");
-    return partnerProfileId;
+  private getTradeParterId(partnerProfileURL: string) {
+    return partnerProfileURL.replace("https://steamcommunity.com/profiles/", "");
   }
 
-  getTradeUrl(threadContent: string) {
+  private getTradeUrl(threadContent: string) {
     let tradeOfferBaseURL = "https://steamcommunity.com/tradeoffer/new/?";
     if (!(threadContent.match(/partner=[0-9]*/g) && threadContent.match(/(token=[-0-9a-zA-Z_]*)/g))) {
       return "";
@@ -63,7 +102,7 @@ export class ThreadinfoService {
     return tradeOfferBaseURL + tradePartner + "&" + tradeToken;
   }
 
-  getAdditionalTradeInformation(redditPost: any) {
+  private getAdditionalTradeInformation(redditPost: any) {
     let postTitle: string = redditPost.title;
     let wantsIndex: number = postTitle.toUpperCase().indexOf("[W]");
     return {
@@ -72,66 +111,35 @@ export class ThreadinfoService {
     }
   }
 
-  timeSince(createdAt: number) {
+  private timeSince(createdAt: number) {
     let currentDate: Date = new Date();
     let seconds = Math.floor((currentDate.getTime() / 1000 - createdAt));
 
     let interval = Math.floor(seconds / 31536000);
 
-    if (interval > 1) {
-      return interval + " years";
+    if (interval >= 1) {
+      return interval + "y";
     }
     interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return interval + " months";
+    if (interval >= 1) {
+      return interval + "m";
     }
     interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return interval + " days";
+    if (interval >= 1) {
+      return interval + "d";
     }
     interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return interval + " hours";
+    if (interval >= 1) {
+      return interval + "h";
     }
     interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return interval + " minutes";
+    if (interval >= 1) {
+      return interval + "m";
     }
-    return Math.floor(seconds) + " seconds";
+    return Math.floor(seconds) + " s";
   }
 
-  setRedditPostInfo(existingRedditPosts: RedditPost[], redditPostData: any) {
-    redditPostData.children.forEach(redditPost => {
-      let actualPostData = redditPost.data
-      let tradeThread: RedditPost = {
-        title: actualPostData.title,
-        author: actualPostData.author,
-        redditURL: actualPostData.url,
-        numberOfComments: actualPostData.num_comments,
-        ups: actualPostData.ups,
-        downs: actualPostData.downs,
-        likedIt: this.getPercentageOfPeopleWhoLikedThePost(actualPostData.ups, actualPostData.downs),
-        timeSinceCreation: this.timeSince(actualPostData.created_utc),
-        content: actualPostData.selftext,
-        type: this.getPostType(actualPostData.title),
-        tradelink: this.getTradeUrl(actualPostData.selftext),
-        steamProfileURL: this.getSteamProfileURL(actualPostData.author_flair_text),
-      };
-      if (tradeThread.type == PostType.trade) {
-        let buysAndSells = this.getAdditionalTradeInformation(actualPostData);
-        tradeThread.partnerId = this.getTradeParterId(tradeThread.steamProfileURL)
-        tradeThread.wants = buysAndSells.wants;
-        tradeThread.has = buysAndSells.has;
-        if (tradeThread.steamProfileURL == "unknown") {
-          tradeThread.type = PostType.unknown;
-        }
-      }
-      existingRedditPosts.push(tradeThread);
-    });
-    return existingRedditPosts;
-  }
-
-  getSteamProfileURL(authorFlairText: string) {
+  private getSteamProfileURL(authorFlairText: string) {
     if (authorFlairText) {
       let startOfProfileURL = authorFlairText.indexOf("https://steamcommunity.com");
       if (startOfProfileURL < 0)
@@ -139,28 +147,6 @@ export class ThreadinfoService {
       return authorFlairText.substr(startOfProfileURL, authorFlairText.length);
     } else {
       return "unknown";
-    }
-  }
-
-  checkIfAnyObjectPropertyIsUndefined(objectToCheck) {
-    let savedStateIsNotComplete: boolean = false;
-    for (var property in objectToCheck) {
-      if (objectToCheck[property] === "undefined") {
-        savedStateIsNotComplete = true;
-      }
-    }
-    return savedStateIsNotComplete;
-  }
-
-
-  getPercentageOfPeopleWhoLikedThePost(upvotes: number, downvotes: number) {
-    if (upvotes != 0 && downvotes != 0)
-      return upvotes / downvotes * 100;
-    else {
-      if (downvotes == 0) {
-        return 100;
-      }
-      return 0;
     }
   }
 }

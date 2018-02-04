@@ -127,26 +127,34 @@ ion-item-options {
 }
 
 //COMMENTS AND TIME SINCE CREATION ON POSTS
-.timeSinceCreation {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  p {
-    font-size: 0.6em;
+.postItem {
+  .arrowUp {
+    font-size: 1.2em !important;
   }
-}
 
-.numberOfComments {
-  position: absolute;
-  right: 5px;
-  bottom: 15px;
-  p {
-    font-size: 0.6em;
+  .titleContent {
+    p {
+      font-size: 0.85em;
+      color: #1E3847 !important;
+    }
   }
-  ion-icon {
-    font-weight: bold;
-    font-size: 1.3em;
-    margin: 3px;
+
+  .tradeMetaInfo{
+    .author, .timeSinceCreation, .numberOfComments, .score {
+      display: inline-block;
+    }
+    .author{
+      p{
+        color: #1E3847;
+      }
+    }
+    p {
+      font-size: 0.6em;
+    }
+    ion-icon {
+      font-size: 1.1em;
+      margin: 1px;
+    }
   }
 }
 

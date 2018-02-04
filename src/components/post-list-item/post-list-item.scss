@@ -1,12 +1,11 @@
 post-list-item {
 
-  ion-item-sliding {
+  ion-item {
     box-shadow: 0 2px 3px #999;
   }
 
   ion-item .item-inner {
     border-bottom: 0 !important;
-    position: relative;
 
     .openPageButton {
       position: absolute;
@@ -16,38 +15,12 @@ post-list-item {
       width: 100%;
       background-color: transparent;
     }
-
-    .timeSinceCreation {
-      position: absolute;
-      right: 5px;
-      bottom: 5px;
-      p {
-        font-size: 0.6em;
-      }
-    }
-    .numberOfComments {
-      position: absolute;
-      right: 5px;
-      bottom: 15px;
-      p {
-        font-size: 0.6em;
-      }
-      ion-icon {
-        font-size: 1em;
-        margin: 1px;
-      }
-    }
   }
 
   ion-label {
     margin: 0 0 0 10px !important;
     padding: 6px 0 6px 0;
     white-space: normal;
-    max-width: 80%;
-
-    .titleContent {
-      font-size: 1em;
-      color: #1E3847 !important;
-    }
+    max-width: 100%;
   }
 }

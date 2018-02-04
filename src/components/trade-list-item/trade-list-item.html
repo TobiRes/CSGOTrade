@@ -2,21 +2,32 @@
   <ion-item>
     <button ion-item class="openPageButton" (click)="openPost()" detail-none>
     </button>
-    <p class="has">
-      {{tradePost.has}}
-    </p>
-    <p class="wants">
-      B/O: {{tradePost.wants}}
-    </p>
-    <div>
-      <div class="timeSinceCreation">
-        <p>{{tradePost.timeSinceCreation}} ago</p>
+    <div class="postItem">
+      <div class="titleContent">
+        <p>{{tradePost.title}}</p>
       </div>
-      <div class="numberOfComments">
-        <p>
-          <ion-icon outline name="ios-text-outline"></ion-icon>
-          {{tradePost.numberOfComments}}
-        </p>
+      <div class="tradeMetaInfo">
+        <div class="author">
+          <p>{{tradePost.author}}&nbsp;&nbsp;-</p>
+        </div>
+        <div class="timeSinceCreation">
+          <p>
+            <ion-icon name="ios-time-outline"></ion-icon>
+            {{tradePost.timeSinceCreation}}
+          </p>
+        </div>
+        <div class="numberOfComments">
+          <p>
+            <ion-icon name="ios-text-outline"></ion-icon>
+            {{tradePost.numberOfComments}}
+          </p>
+        </div>
+        <div class="score">
+          <p>
+            <ion-icon class="arrowUp" name="ios-arrow-round-up-outline"></ion-icon>
+            {{tradePost.likedIt}}
+          </p>
+        </div>
       </div>
     </div>
   </ion-item>
