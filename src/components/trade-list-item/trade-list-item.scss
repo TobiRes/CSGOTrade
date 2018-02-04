@@ -17,6 +17,18 @@ trade-list-item {
       width: 100%;
       background-color: transparent;
     }
+    .numberOfComments {
+      position: absolute;
+      right: 5px;
+      bottom: 15px;
+      p {
+        font-size: 0.6em;
+      }
+      ion-icon {
+        font-size: 1em;
+        margin: 1px;
+      }
+    }
   }
 
   ion-label {

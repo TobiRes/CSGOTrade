@@ -17,7 +17,7 @@ export class PostViewPage {
   title: string;
   isLoading: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private redditService: RedditService) {
+  constructor(public navParams: NavParams, private redditService: RedditService) {
     this.currentPost = this.navParams.get("postData");
     this.redditService.getComments(this.currentPost)
       .then((comments: RedditComment[]) => {
