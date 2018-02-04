@@ -12,20 +12,50 @@
     <ion-card-content class="postContent">
       <post-content [postContent]="currentPost.content"></post-content>
     </ion-card-content>
-    <ion-item *ngIf="currentPost.type == postTypeTrade" class="additionalInfo">
-      <p>B/O: {{currentPost.wants ? currentPost.wants : "N/A"}}</p>
+    <ion-item class="additionalInfo">
+      <div class="tradeMetaInfo">
+        <div class="author">
+          <p>{{currentPost.author}}&nbsp;&nbsp;-</p>
+        </div>
+        <div class="timeSinceCreation">
+          <p>
+            <ion-icon name="ios-time-outline"></ion-icon>
+            {{currentPost.timeSinceCreation}}
+          </p>
+        </div>
+        <div class="numberOfComments">
+          <p>
+            <ion-icon name="ios-text-outline"></ion-icon>
+            {{currentPost.numberOfComments}}
+          </p>
+        </div>
+        <div class="score">
+          <p>
+            <ion-icon class="arrowUp" name="ios-arrow-round-up-outline"></ion-icon>
+            {{currentPost.score}}
+          </p>
+        </div>
+        <div class="likedIt">
+          <p>
+            <ion-icon class="arrowUp" name="ios-thumbs-up-outline"></ion-icon>
+            {{currentPost.likedIt}}&#37;
+          </p>
+        </div>
+      </div>
     </ion-item>
   </ion-card>
   <div *ngIf="!postComments.length && !isLoading">
     <p id="nothingHere">No comments.</p>
-  </div>
-  <div class="postInfo">
-    <p>{{redditPost?.author}}</p>
-    <p>{{redditPost?.likedIt}}</p>
-    <p>{{redditPost?.timeSinceCreation}}</p>
   </div>
   <div *ngIf="postComments">
     <comment-tree-view [author]="currentPost.author" [redditComments]="postComments"></comment-tree-view>
   </div>
   <ion-spinner *ngIf="isLoading"></ion-spinner>
 </ion-content>
+<ion-footer *ngIf="currentPost.type == tradePost">
+  <ion-toolbar>
+    <button class="sendTradeOffer" ion-button full (click)="sendTradeOffer()">
+      Send Trade Offer
+    </button>
+  </ion-toolbar>
+</ion-footer>

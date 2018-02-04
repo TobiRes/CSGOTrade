@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {PostType, RedditComment, RedditPost} from "../../models/redditpost.model";
 import {RedditService} from "../../services/reddit.service";
+import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 
 
 @IonicPage()
@@ -13,22 +14,27 @@ export class PostViewPage {
 
   currentPost: RedditPost;
   postComments: RedditComment[] = [];
-  postTypeTrade: PostType = PostType.trade;
   title: string;
+  tradePost: PostType = PostType.trade;
   isLoading: boolean = true;
 
-  constructor(public navParams: NavParams, private redditService: RedditService) {
+  constructor(private navCtrl: NavController, public navParams: NavParams, private redditService: RedditService) {
     this.currentPost = this.navParams.get("postData");
+    console.log(this.currentPost.type == this.tradePost)
     this.redditService.getComments(this.currentPost)
       .then((postUpdate: any) => {
         this.isLoading = false;
         this.postComments = postUpdate.allPostComments;
         this.currentPost.likedIt = postUpdate.upvoteRatio;
+        console.log(this.currentPost)
       })
       .catch(error => console.error(error));
     this.getTitle()
   }
 
+  sendTradeOffer(){
+      this.navCtrl.push(TradeTheirItemsPage, {postData: this.currentPost});
+  }
 
   private getTitle() {
     switch (this.currentPost.type) {

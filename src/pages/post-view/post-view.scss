@@ -16,9 +16,30 @@ page-post-view {
       background-color: white;
     }
     .postContent {
+      padding-bottom: 0;
     }
     .additionalInfo {
-      border-top: 1px solid black !important;
+      border-bottom: 1px solid black !important;
+
+      .tradeMetaInfo{
+        .author, .timeSinceCreation, .numberOfComments, .score, .likedIt {
+          margin-left: 3px;
+          display: inline-block;
+        }
+        .author{
+          p{
+            color: #1E3847;
+          }
+        }
+        p {
+          font-size: 0.7em;
+        }
+        ion-icon {
+          font-size: 1.1em;
+          margin: 1px;
+        }
+      }
+
       p {
         white-space: normal;
       }
@@ -27,8 +48,22 @@ page-post-view {
       }
     }
     .postHeader {
+      font-weight: bold;
       color: rgba(0, 0, 0, 0.8);
       white-space: normal;
+    }
+  }
+
+  ion-footer {
+    ion-toolbar {
+      padding: 0 !important;
+    }
+    button {
+      margin: 0 !important;
+    }
+    .sendTradeOffer {
+      box-shadow: none !important;
+      background-color: #FF7200 !important;
     }
   }
 }
