@@ -15,6 +15,7 @@ export interface RedditPost {
   ups?: number;
   downs?: number;
   likedIt?: number;
+  score?: number;
 }
 
 export interface RedditComment {
@@ -23,7 +24,6 @@ export interface RedditComment {
   score?: number;
   ups?: number;
   downs?: number;
-  likedIt?: number;
   timeSinceCreation?: string;
   steamProfile?: string;
   replies?: RedditComment[];

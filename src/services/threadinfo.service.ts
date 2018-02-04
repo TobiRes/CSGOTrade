@@ -16,7 +16,7 @@ export class ThreadinfoService {
           author: actualPostData.author,
           redditURL: actualPostData.url,
           numberOfComments: actualPostData.num_comments,
-          likedIt: actualPostData.score,
+          score: actualPostData.score,
           timeSinceCreation: this.timeSince(actualPostData.created_utc),
           content: actualPostData.selftext,
           type: this.getPostType(actualPostData.title),

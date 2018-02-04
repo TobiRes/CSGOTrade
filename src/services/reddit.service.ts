@@ -46,7 +46,11 @@ export class RedditService {
         this.http.get(redditPost.redditURL + ".json").subscribe(
           (redditCommentData: any) => {
             let allPostComments: RedditComment[] = this.getCommentData(redditCommentData[1].data.children);
-            resolve(allPostComments);
+            let postUpdate = {
+              allPostComments: allPostComments,
+              upvoteRatio: redditCommentData[0].data.children[0].data.upvote_ratio * 100
+            }
+            resolve(postUpdate);
           })
       } catch (error) {
         reject(error);
@@ -110,7 +114,6 @@ export class RedditService {
       score: comment.score,
       ups: comment.ups,
       downs: comment.downs,
-      likedIt: this.threadInfoService.getPercentageOfPeopleWhoLikedThePost(comment.ups, comment.downs),
       replies: comment.replies ? this.getCommentData(comment.replies.data.children) : []
     };
   }

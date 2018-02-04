@@ -20,9 +20,10 @@ export class PostViewPage {
   constructor(public navParams: NavParams, private redditService: RedditService) {
     this.currentPost = this.navParams.get("postData");
     this.redditService.getComments(this.currentPost)
-      .then((comments: RedditComment[]) => {
+      .then((postUpdate: any) => {
         this.isLoading = false;
-        this.postComments = comments;
+        this.postComments = postUpdate.allPostComments;
+        this.currentPost.likedIt = postUpdate.upvoteRatio;
       })
       .catch(error => console.error(error));
     this.getTitle()
