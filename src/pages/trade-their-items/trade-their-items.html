@@ -75,7 +75,7 @@
     <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b>
     <p>
   </ion-item>
-  <div padding>
+  <div padding class="allItems">
     <h2>Select Their Items</h2>
     <div class="container">
       <div class="csgoItem" *ngFor="let keys of tradeAbleKeys" [ngClass]="isKeySelected(keys) ? 'selectedItem' : ''">
