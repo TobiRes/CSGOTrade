@@ -30,8 +30,8 @@ export class PostViewPage {
     this.getTitle()
   }
 
-  sendTradeOffer(){
-      this.navCtrl.push(TradeTheirItemsPage, {postData: this.currentPost});
+  sendTradeOffer() {
+    this.navCtrl.push(TradeTheirItemsPage, {postData: this.currentPost});
   }
 
   private getTitle() {

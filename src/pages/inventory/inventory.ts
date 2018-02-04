@@ -71,7 +71,7 @@ export class InventoryPage {
     if (this.steamProfileURL) {
       this.csgoItems = []
       this.steamService.validateSteamURL(this.steamProfileURL)
-        .then( (profileURL: string) => {
+        .then((profileURL: string) => {
           this.steamProfileURL = profileURL;
           this.storage.set("steamProfileURL", this.steamProfileURL);
           this.steamService.getCSGOInventory(this.steamProfileURL)

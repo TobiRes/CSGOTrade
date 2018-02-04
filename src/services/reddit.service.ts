@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {ThreadinfoService} from "./threadinfo.service";
 import {RedditComment, RedditPost} from "../models/redditpost.model";
 
 @Injectable()

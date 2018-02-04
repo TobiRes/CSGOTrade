@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {catchError} from "rxjs/operators";
 
 @Injectable()
 export class SteamService {
@@ -33,7 +32,7 @@ export class SteamService {
     return new Promise((resolve, reject) => {
       steamInventoryURL = this.checkForWholeURL(steamInventoryURL);
       steamInventoryURL = this.checkForHTTP(steamInventoryURL);
-      if(steamInventoryURL.indexOf(".com/id/") > 0){
+      if (steamInventoryURL.indexOf(".com/id/") > 0) {
         this.getSteamProfileURLWithAnID(steamInventoryURL)
           .then((steamInventoryURL: string) => {
             resolve(steamInventoryURL);
@@ -45,7 +44,7 @@ export class SteamService {
     })
   }
 
- checkForWholeURL(steamInventoryURL: string) {
+  checkForWholeURL(steamInventoryURL: string) {
     if (steamInventoryURL.length <= 17) {
       if (steamInventoryURL.indexOf("/") > -1) {
         steamInventoryURL = steamInventoryURL.replace("/", "")
@@ -62,18 +61,18 @@ export class SteamService {
     return steamInventoryURL;
   }
 
-  private getSteamProfileURLWithAnID(steamInventoryURL){
+  private getSteamProfileURLWithAnID(steamInventoryURL) {
     return new Promise((resolve, reject) => {
       this.http.get(steamInventoryURL + "/?xml=1", {responseType: 'text'})
         .subscribe(data => {
-          data = data.substring(65, 117)
-          let indexOfIdStart = data.indexOf("steamID64") + 10;
-          let indexOfIdEnd = data.lastIndexOf("steamID64") - 2;
-          data = data.substring(indexOfIdStart, indexOfIdEnd);
-          resolve("https://steamcommunity.com/profiles/" + data);
-        },
+            data = data.substring(65, 117)
+            let indexOfIdStart = data.indexOf("steamID64") + 10;
+            let indexOfIdEnd = data.lastIndexOf("steamID64") - 2;
+            data = data.substring(indexOfIdStart, indexOfIdEnd);
+            resolve("https://steamcommunity.com/profiles/" + data);
+          },
           onerror => {
-          reject(onerror);
+            reject(onerror);
           });
     })
   }

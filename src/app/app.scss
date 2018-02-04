@@ -69,7 +69,6 @@ ion-header {
   background-color: white !important;
 }
 
-
 //FILTER
 .pageToolbar {
   height: auto;
@@ -188,12 +187,12 @@ ion-item-options {
     }
   }
 
-  .tradeMetaInfo{
+  .tradeMetaInfo {
     .author, .timeSinceCreation, .numberOfComments, .score {
       display: inline-block;
     }
-    .author{
-      p{
+    .author {
+      p {
         color: #1E3847;
       }
     }

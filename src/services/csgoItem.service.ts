@@ -234,7 +234,7 @@ export class CSGOItemService {
     let itemPrefix: string = itemFullName.toLowerCase();
     if (itemPrefix.indexOf("|") > 0)
       itemPrefix = itemPrefix.substring(0, itemFullName.indexOf("|")).trim();
-    if (itemPrefix.indexOf("stattrak") >= 0 || itemPrefix.indexOf("souvenir") >= 0 ) {
+    if (itemPrefix.indexOf("stattrak") >= 0 || itemPrefix.indexOf("souvenir") >= 0) {
       itemPrefix = itemPrefix.substring(9, itemPrefix.length).trim();
     }
     let itemType: ItemType;

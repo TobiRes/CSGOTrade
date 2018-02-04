@@ -21,13 +21,13 @@ page-post-view {
     .additionalInfo {
       border-bottom: 1px solid black !important;
 
-      .tradeMetaInfo{
+      .tradeMetaInfo {
         .author, .timeSinceCreation, .numberOfComments, .score, .likedIt {
           margin-left: 3px;
           display: inline-block;
         }
-        .author{
-          p{
+        .author {
+          p {
             color: #1E3847;
           }
         }

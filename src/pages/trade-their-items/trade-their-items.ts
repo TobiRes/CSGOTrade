@@ -97,22 +97,6 @@ export class TradeTheirItemsPage {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
   }
 
-  private loadTheirInventory() {
-    this.isLoading = true;
-    this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
-      .then((csgoInventory: any) => {
-        this.csgoItems = this.itemService.buildItemsAndFillWitData(csgoInventory, this.redditPost.steamProfileURL);
-        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
-        this.getKeysAndItemsSeperatly();
-        this.isLoading = false;
-      })
-      .catch(error => {
-        console.log(error)
-        this.isLoading = false;
-        this.alertLoadInventoryError(error);
-      });
-  }
-
   applyFilter() {
     this.tradeableItems = this.backupTradeableItems;
     if (this.selectedSkinTypes.length) {
@@ -129,6 +113,22 @@ export class TradeTheirItemsPage {
       let exteriors: string[] = this.itemService.mapExterior(this.selectedExteriors);
       this.filterItems("shortExterior", exteriors);
     }
+  }
+
+  private loadTheirInventory() {
+    this.isLoading = true;
+    this.steamService.getCSGOInventory(this.redditPost.steamProfileURL)
+      .then((csgoInventory: any) => {
+        this.csgoItems = this.itemService.buildItemsAndFillWitData(csgoInventory, this.redditPost.steamProfileURL);
+        this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+        this.getKeysAndItemsSeperatly();
+        this.isLoading = false;
+      })
+      .catch(error => {
+        console.log(error)
+        this.isLoading = false;
+        this.alertLoadInventoryError(error);
+      });
   }
 
   private filterItems(propertyToCompare: any, selectedFilter: any[]) {

@@ -8,7 +8,7 @@ export class ThreadinfoService {
   }
 
   setRedditPostInfo(existingRedditPosts: RedditPost[], redditPostData: any) {
-    if(redditPostData.children.length){
+    if (redditPostData.children.length) {
       redditPostData.children.forEach(redditPost => {
         let actualPostData = redditPost.data;
         let tradeThread: RedditPost = {

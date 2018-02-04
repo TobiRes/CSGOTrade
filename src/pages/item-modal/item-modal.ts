@@ -50,7 +50,7 @@ export class ItemModalPage implements OnDestroy {
   }
 
   metjmIsPossible() {
-    if(this.csgoItem.type != ItemType.key
+    if (this.csgoItem.type != ItemType.key
       && this.csgoItem.type != ItemType.collectible
       && this.csgoItem.type != ItemType.gift
       && this.csgoItem.type != ItemType.graffiti
@@ -58,7 +58,7 @@ export class ItemModalPage implements OnDestroy {
       && this.csgoItem.type != ItemType.gloves
       && this.csgoItem.type != ItemType.container
       && this.csgoItem.type != ItemType.musicKit
-      && this.csgoItem.type != ItemType.tag){
+      && this.csgoItem.type != ItemType.tag) {
       return true;
     }
     return false;
