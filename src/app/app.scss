@@ -69,6 +69,55 @@ ion-header {
   background-color: white !important;
 }
 
+
+//FILTER
+.pageToolbar {
+  height: auto;
+  min-height: auto;
+  border: 0 !important;
+
+  .filter {
+    width: 100%;
+    z-index: 2;
+
+    .filtercontent {
+      ion-item {
+        background-color: transparent;
+        color: white;
+        height: auto;
+        width: auto;
+        float: right;
+        min-height: auto;
+
+        .item-inner {
+          border-bottom: 0;
+        }
+
+        .select {
+          padding: 0 5px 0 0;
+          .select-placeholder {
+            min-width: auto;
+          }
+          .select-text {
+            min-width: auto;
+            width: 0;
+            visibility: hidden;
+          }
+          .select-icon-inner {
+            color: white;
+          }
+          .item-inner, .button-inner, .input-wrapper, button {
+            height: auto;
+          }
+        }
+        ion-label {
+          margin: 0 !important;
+        }
+      }
+    }
+  }
+}
+
 .filtercontent {
   .label {
     color: white;

@@ -20,6 +20,11 @@ export class TradeMyItemsPage {
   redditPost: RedditPost;
   tradeableItems: CSGOItem[] = [];
   tradeableKeys: CSGOKey[] = [];
+  backupTradeableItems: CSGOItem[] = [];
+  selectedSkinTypes: string[] = [];
+  selectedCategories: string[] = [];
+  selectedGrades: string[] = [];
+  selectedExteriors: string[] = [];
   isLoading: boolean = true;
 
   private myItemsToTrade: CSGOItem[] = [];
@@ -51,6 +56,7 @@ export class TradeMyItemsPage {
         } else {
           this.isLoading = false;
           this.tradeableItems = this.itemService.getTradeableItems(this.csgoItems);
+          this.getKeysAndItemsSeperatly();
         }
       })
       .catch(error => console.error(error));
@@ -122,6 +128,38 @@ export class TradeMyItemsPage {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
   }
 
+  applyFilter() {
+    this.tradeableItems = this.backupTradeableItems;
+    if (this.selectedSkinTypes.length) {
+      this.filterItems("type", this.selectedSkinTypes);
+    }
+    if (this.selectedCategories.length) {
+      let categories: string[] = this.itemService.mapSkinCategory(this.selectedCategories);
+      this.filterItems("skinCategory", categories);
+    }
+    if (this.selectedGrades.length) {
+      this.filterItems("grade", this.selectedGrades);
+    }
+    if (this.selectedExteriors.length) {
+      let exteriors: string[] = this.itemService.mapExterior(this.selectedExteriors);
+      this.filterItems("shortExterior", exteriors);
+    }
+  }
+
+  private filterItems(propertyToCompare: any, selectedFilter: any[]) {
+    let completeFilteredItemList: CSGOItem[] = [];
+    selectedFilter.forEach((selectedFilter: any) => {
+      completeFilteredItemList = completeFilteredItemList.concat(
+        this.tradeableItems.filter(singleItem => {
+          if (singleItem[propertyToCompare] == selectedFilter)
+            return true;
+          return false;
+        })
+      );
+    });
+    this.tradeableItems = completeFilteredItemList;
+  }
+
   private loadMyCsgoInventory() {
     this.isLoading = true;
     this.steamService.getCSGOInventory(this.mySteamProfile)
@@ -143,6 +181,7 @@ export class TradeMyItemsPage {
     let splitItems = this.itemService.splitIntoItemsAndKeys(this.tradeableItems);
     this.tradeableItems = splitItems.csgoItems;
     this.tradeableKeys = splitItems.keys;
+    this.backupTradeableItems = this.tradeableItems;
   }
 
   private alertLoadInventoryError(error: any) {

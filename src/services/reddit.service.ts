@@ -11,7 +11,7 @@ export class RedditService {
   private globalOffensiveTradeBaseURL: string = "https://www.reddit.com/r/globaloffensivetrade/";
   private globalOffensiveSearchBaseURL: string = "https://www.reddit.com/r/GlobalOffensiveTrade/search.json?q="
 
-  constructor(private http: HttpClient, private threadInfoService: ThreadinfoService) {
+  constructor(private http: HttpClient) {
   }
 
   getActiveUserCount() {

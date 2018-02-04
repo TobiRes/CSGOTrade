@@ -19,6 +19,11 @@ export class TradeTheirItemsPage {
   redditPost: RedditPost;
   tradeableItems: CSGOItem[] = [];
   tradeAbleKeys: CSGOKey[] = [];
+  backupTradeableItems: CSGOItem[] = [];
+  selectedSkinTypes: string[] = [];
+  selectedCategories: string[] = [];
+  selectedGrades: string[] = [];
+  selectedExteriors: string[] = [];
   isLoading: boolean = true;
 
   private csgoItems: CSGOItem[] = [];
@@ -108,6 +113,38 @@ export class TradeTheirItemsPage {
       });
   }
 
+  applyFilter() {
+    this.tradeableItems = this.backupTradeableItems;
+    if (this.selectedSkinTypes.length) {
+      this.filterItems("type", this.selectedSkinTypes);
+    }
+    if (this.selectedCategories.length) {
+      let categories: string[] = this.itemService.mapSkinCategory(this.selectedCategories);
+      this.filterItems("skinCategory", categories);
+    }
+    if (this.selectedGrades.length) {
+      this.filterItems("grade", this.selectedGrades);
+    }
+    if (this.selectedExteriors.length) {
+      let exteriors: string[] = this.itemService.mapExterior(this.selectedExteriors);
+      this.filterItems("shortExterior", exteriors);
+    }
+  }
+
+  private filterItems(propertyToCompare: any, selectedFilter: any[]) {
+    let completeFilteredItemList: CSGOItem[] = [];
+    selectedFilter.forEach((selectedFilter: any) => {
+      completeFilteredItemList = completeFilteredItemList.concat(
+        this.tradeableItems.filter(singleItem => {
+          if (singleItem[propertyToCompare] == selectedFilter)
+            return true;
+          return false;
+        })
+      );
+    });
+    this.tradeableItems = completeFilteredItemList;
+  }
+
   private alertLoadInventoryError(error: any) {
     this.alertCtrl.create({
       title: "Error loading their inventory!",
@@ -120,5 +157,6 @@ export class TradeTheirItemsPage {
     let splitItems = this.itemService.splitIntoItemsAndKeys(this.tradeableItems);
     this.tradeableItems = splitItems.csgoItems;
     this.tradeAbleKeys = splitItems.keys;
+    this.backupTradeableItems = this.tradeableItems;
   }
 }
