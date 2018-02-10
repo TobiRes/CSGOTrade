@@ -35,5 +35,21 @@ comment-tree-view {
         }
       }
     }
+
+    .moreCommentsButton {
+        button {
+          background-color: transparent;
+          box-shadow: none;
+          margin: 2px 2px 5px 2px;
+          width: 95%;
+          border: 0.5px solid #FF7200;
+          height: 1.5em;
+          span {
+            text-transform: none;
+            font-size: 0.8em !important;
+            color: #FF7200;
+          }
+        }
+    }
   }
 }

@@ -13,6 +13,10 @@ export class CommentTreeViewComponent {
   @Input()
   author: string;
 
+  @Input()
+  commentLevel: number;
+
+  moreCommentsEnabled: boolean;
 
   constructor() {
   }
@@ -24,5 +28,10 @@ export class CommentTreeViewComponent {
     if (comment.author.indexOf("AutoModerator") != -1) {
       return {'color': 'green'};
     }
+  }
+
+  enableMoreComments() {
+    this.commentLevel = -1;
+    this.moreCommentsEnabled = !this.moreCommentsEnabled;
   }
 }

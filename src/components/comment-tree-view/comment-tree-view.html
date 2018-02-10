@@ -12,6 +12,13 @@
     <div class="commentBody">
       <post-content [postContent]="comment.body"></post-content>
     </div>
-      <comment-tree-view [author]="author" [redditComments]="comment.replies"></comment-tree-view>
+    <div *ngIf="commentLevel > 1 && !moreCommentsEnabled && comment.replies.length" class="moreCommentsButton">
+      <button ion-button full (click)="enableMoreComments()">
+        Load more comments.
+      </button>
+    </div>
+    <div *ngIf="(moreCommentsEnabled || commentLevel < 2) && comment.replies.length" class="moreCommentsButton">
+      <comment-tree-view [author]="author" [redditComments]="comment.replies" [commentLevel]="commentLevel + 1"></comment-tree-view>
+    </div>
   </div>
 </ion-list>
