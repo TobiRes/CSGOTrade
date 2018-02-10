@@ -103,7 +103,7 @@ export class RedditService {
     commentData.forEach(comment => {
       let commentTree: RedditComment = this.getWholeCommentTree(comment.data);
       if(commentTree.author)
-        postComments.push(this.getWholeCommentTree(comment.data))
+        postComments.push(commentTree)
     })
     return postComments;
   }
