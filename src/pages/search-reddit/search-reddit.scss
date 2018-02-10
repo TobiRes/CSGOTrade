@@ -44,7 +44,11 @@ page-search-reddit {
     }
   }
 
-  .postList {
+  #nothingHere {
+    margin-top: 30px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 18px;
   }
 
   .title {

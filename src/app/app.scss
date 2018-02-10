@@ -132,6 +132,22 @@ ion-alert {
     color: black;
   }
 }
+.alert-md [aria-checked=true] .alert-radio-label {
+  color: #FF7200;
+}
+.alert-md [aria-checked=true] .alert-radio-icon {
+  border-color: #FF7200;
+}
+.alert-md .alert-radio-inner {
+  background-color: #FF7200;
+}
+.alert-md [aria-checked=true] .alert-checkbox-icon {
+  background-color: #FF7200;
+  border-color: #FF7200;
+}
+.alert-md .alert-input:focus {
+  border-bottom-color: #FF7200;
+}
 
 //TRADING
 .selectedItem {

@@ -58,6 +58,9 @@
   <ion-refresher (ionRefresh)="refreshPosts($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <div *ngIf="!redditPosts.length && !isLoading">
+    <p id="nothingHere">Nothing here.</p>
+  </div>
   <ion-list class="postList">
     <div *ngFor="let post of redditPosts" class="items">
       <post-list-item *ngIf="!isTrade(post.type)" [tradePost]="post" (selected)="openPost($event)"></post-list-item>
