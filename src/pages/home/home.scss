@@ -58,7 +58,11 @@ page-home {
   }
 
   .items {
-    border: 0.5px solid gray;
+    border-top: 1px solid gray;
+  }
+
+  ion-list > .items:last-child {
+    border-bottom: 1px solid gray;
   }
 
   .item-inner {
