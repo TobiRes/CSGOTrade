@@ -3,7 +3,6 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 import {SteamService} from "../../services/steam.service";
 import {CSGOItem} from "../../models/csgoItem.model";
 import {RedditPost} from "../../models/redditpost.model";
-import {Storage} from "@ionic/storage";
 import {CSGOItemService} from "../../services/csgoItem.service";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
 import {TradeMyItemsPage} from "../trade-my-items/trade-my-items";
@@ -29,7 +28,9 @@ export class TradeTheirItemsPage {
   private csgoItems: CSGOItem[] = [];
   private theirItemsToTrade: CSGOItem[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private steamService: SteamService,
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private steamService: SteamService,
               private itemService: CSGOItemService,
               private alertCtrl: AlertController,
               private dynStyleService: DynamicStyleService) {

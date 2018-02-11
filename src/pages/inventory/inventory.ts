@@ -24,7 +24,6 @@ export class InventoryPage {
   isLoading: boolean = true;
   currentPage: string = "inventory";
 
-  private csgoInventoryData: any;
   private backupCsgoItems: CSGOItem[];
 
 

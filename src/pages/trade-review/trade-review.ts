@@ -69,11 +69,9 @@ export class TradeReviewPage {
     let tradeOfferContent = JSON.stringify(this.tradeOfferService.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade));
     let tradeScript = this.tradeOfferService.buildTradeScript(tradeOfferContent);
     const options: InAppBrowserOptions = {
-      location: "no",
-      zoom: "no",
       shouldPauseOnSuspend: "yes"
-    }
-    const browser = this.inAppBrowser.create(redditPost.tradelink, "_self", options);
+    };
+    const browser = this.inAppBrowser.create(redditPost.tradelink, "_blank", options);
     try {
       browser.on("loadstop")
         .pipe(takeUntil(this.destroyed$))

@@ -26,12 +26,10 @@ export class ItemModalPage implements OnDestroy {
 
   showMetjm() {
     const options: InAppBrowserOptions = {
-      location: "no",
-      zoom: "no",
       shouldPauseOnSuspend: "yes"
-    }
+    };
     let tradeScript = this.buildScreenshotScript();
-    const browser = this.inAppBrowser.create("https://metjm.net/csgo/", "_self", options);
+    const browser = this.inAppBrowser.create("https://metjm.net/csgo/", "_blank", options);
 
     try {
       browser.on("loadstop")
