@@ -21,11 +21,18 @@ export class TradeLinkPage {
 
 
   sendTradeOffer() {
-    let postData: RedditPost = {
-      steamProfileURL: this.steamProfileURL,
-      tradelink: this.steamTradelink
-    }
-    this.navCtrl.push(TradeTheirItemsPage, {postData});
+    this.validateInput()
+      .then( () => this.steamService.getNameOfSteamProfile(this.steamProfileURL))
+      .then((profileName: string) => {
+        let postData: RedditPost = {
+          author: profileName,
+          steamProfileURL: this.steamProfileURL,
+          tradelink: this.steamTradelink
+        }
+        this.navCtrl.push(TradeTheirItemsPage, {postData});
+      }).catch( err => {
+        console.error(err);
+    })
   }
 
   private validateInput(): Promise<any>{
@@ -37,6 +44,8 @@ export class TradeLinkPage {
         })
         .catch( err => {
           console.error(err);
+          this.alertWrongSteamProfile();
+          this.steamProfileURL = "";
           reject();
         });
     }));
@@ -45,13 +54,21 @@ export class TradeLinkPage {
   private validateTradelink(): boolean {
     let tradelink = this.steamService.validateTradelink(this.steamTradelink);
     if(tradelink == "false"){
-      this.steamTradelink = "";
       this.alertWrongTradelink();
+      this.steamTradelink = "";
       return false;
     } else {
       this.steamTradelink = tradelink;
       return true;
     }
+  }
+
+  private alertWrongSteamProfile() {
+    this.alertCtrl.create({
+      title: "Wrong Steamprofile",
+      subTitle: "Please enter a correct Steamprofile!",
+      buttons: ['Dismiss']
+    }).present();
   }
 
   private alertWrongTradelink() {

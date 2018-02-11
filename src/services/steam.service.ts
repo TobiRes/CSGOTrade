@@ -72,6 +72,23 @@ export class SteamService {
     return steamInventoryURL;
   }
 
+  getNameOfSteamProfile(steamInventoryURL: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.http.get(steamInventoryURL + "/?xml=1", {responseType: 'text'})
+        .subscribe(data => {
+          data = data.substring(65, 250)
+          console.log(data);
+          let indexOfIdStart = data.indexOf("steamID><![") + 17;
+          let indexOfIdEnd = data.indexOf("]]></steamID");
+          data = data.substring(indexOfIdStart, indexOfIdEnd);
+          resolve(data);
+          },
+          onerror => {
+            reject(onerror);
+          });
+    })
+  }
+
   private getSteamProfileURLWithAnID(steamInventoryURL) {
     return new Promise((resolve, reject) => {
       this.http.get(steamInventoryURL + "/?xml=1", {responseType: 'text'})
