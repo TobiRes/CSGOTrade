@@ -28,7 +28,7 @@ export class SteamService {
     });
   }
 
-  validateSteamURL(steamInventoryURL: string) {
+  validateSteamURL(steamInventoryURL: string): Promise<string> {
     return new Promise((resolve, reject) => {
       steamInventoryURL = this.checkForWholeURL(steamInventoryURL);
       steamInventoryURL = this.checkForHTTP(steamInventoryURL);
@@ -42,6 +42,17 @@ export class SteamService {
         resolve(steamInventoryURL);
       }
     })
+  }
+
+  validateTradelink(steamTradeLink: string): string {
+    if(steamTradeLink.indexOf("steamcommunity.com/tradeoffer/new/?partner=") > -1 && steamTradeLink.indexOf("&token=") > -1){
+      if(steamTradeLink.indexOf("http") < 0){
+        steamTradeLink = "https://" + steamTradeLink;
+      }
+      return steamTradeLink
+    } else {
+      return "false";
+    }
   }
 
   checkForWholeURL(steamInventoryURL: string) {
