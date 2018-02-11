@@ -1,6 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Trade with {{redditPost.author}}</ion-title>
+    <ion-title *ngIf="redditPost.author">Trade with {{redditPost.author}}</ion-title>
+    <ion-title *ngIf="!redditPost.author">Tradeoffer</ion-title>
   </ion-navbar>
   <ion-toolbar class="pageToolbar">
     <div class="filter">
@@ -71,9 +72,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-item class="tradeSummary">
+  <ion-item class="tradeSummary" *ngIf="redditPost.wants && redditPost.has">
     <p>Wants <b>{{redditPost.wants}}</b> for their <b>{{redditPost.has}}</b>
-    <p>
+    </p>
   </ion-item>
   <div padding class="allItems">
     <h2>Select Your Items</h2>

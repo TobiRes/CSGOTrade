@@ -1,11 +1,11 @@
 export interface RedditPost {
-  redditURL: string;
-  author: string;
-  type: PostType;
-  title: string;
-  content: string;
-  timeSinceCreation: string;
-  numberOfComments: string;
+  redditURL?: string;
+  author?: string;
+  type?: PostType;
+  title?: string;
+  content?: string;
+  timeSinceCreation?: string;
+  numberOfComments?: string;
   tradelink?: string;
   steamProfileURL?: string;
   partnerId?: string;

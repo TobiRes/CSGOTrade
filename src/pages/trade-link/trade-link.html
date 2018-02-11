@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Send Tradeoffer</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item class="steamLinkInput">
+    <ion-input placeholder="Enter their Steamprofile" [(ngModel)]="steamProfileURL"></ion-input>
+  </ion-item>
+  <ion-item class="steamLinkInput">
+    <ion-input placeholder="Enter their Tradelink" [(ngModel)]="steamTradelink"></ion-input>
+  </ion-item>
+  <div class="description">
+    <p>
+      Enter your Tradepartners Steamprofile and Tradelink to send a Tradeoffer directly.
+    </p>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <button class="sendTradeOfferButton" ion-button full (click)="sendTradeOffer()" [disabled]="!steamProfileURL && !steamTradelink">Send a Tradeoffer</button>
+  </ion-toolbar>
+</ion-footer>

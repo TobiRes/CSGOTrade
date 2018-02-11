@@ -27,6 +27,7 @@ import {DirectivesModule} from "../directives/directives.module";
 import {ItemModalPageModule} from "../pages/item-modal/item-modal.module";
 import {PostViewPageModule} from "../pages/post-view/post-view.module";
 import {SearchRedditPageModule} from "../pages/search-reddit/search-reddit.module";
+import {TradeLinkPageModule} from "../pages/trade-link/trade-link.module";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {SearchRedditPageModule} from "../pages/search-reddit/search-reddit.modul
     AboutPageModule,
     ItemModalPageModule,
     PostViewPageModule,
-    SearchRedditPageModule
+    SearchRedditPageModule,
+    TradeLinkPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

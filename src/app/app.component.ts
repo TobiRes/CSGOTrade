@@ -8,6 +8,7 @@ import {InventoryPage} from "../pages/inventory/inventory";
 import {AboutPage} from "../pages/about/about";
 import {RedditService} from "../services/reddit.service";
 import {SearchRedditPage} from "../pages/search-reddit/search-reddit";
+import {TradeLinkPage} from "../pages/trade-link/trade-link";
 
 @Component({
   templateUrl: 'app.html'
@@ -26,6 +27,7 @@ export class MyApp {
     this.pages = [
       {title: 'Home', component: HomePage},
       {title: "Search", component: SearchRedditPage},
+      {title: "Tradeoffer", component: TradeLinkPage},
       {title: 'Inventory', component: InventoryPage},
       {title: "About", component: AboutPage}
     ];

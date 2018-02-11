@@ -15,7 +15,6 @@
 // automatically applied to the <body> element in the app.
 
 //GENERAL
-
 ion-spinner {
   display: block;
   margin: auto;
@@ -167,7 +166,7 @@ ion-alert {
   }
 }
 
-.continueButton {
+.continueButton, .sendTradeOfferButton {
   box-shadow: none !important;
   background-color: #FF7200 !important;
 }

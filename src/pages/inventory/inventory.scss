@@ -12,6 +12,8 @@ page-inventory {
   .steamLinkInput {
     margin-top: 16px;
     position: relative;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
     .item-inner {
       border: 0 !important;
     }
