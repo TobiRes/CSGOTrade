@@ -1,6 +1,6 @@
 page-trade-link {
-  .steamLinkInput {
-    margin-top: 30px;
+
+  .steamLinkInput1, .steamLinkInput2 {
     position: relative;
     border: 1px solid gray;
     .item-inner {
@@ -14,6 +14,14 @@ page-trade-link {
     }
   }
 
+  .steamLinkInput1 {
+    margin-top: 10px;
+  }
+
+  .steamLinkInput2 {
+    margin-top: 25px;
+  }
+
   .description {
     margin-top: 30px;
     padding: 10px;
@@ -23,27 +31,14 @@ page-trade-link {
     color: dimgray;
   }
 
-  .item-md.item-input.input-has-focus .item-inner {
-    border-bottom-color: transparent !important;
-    box-shadow: none !important;
+  .recentTrades {
+    margin-top: 10px;
+    padding: 0;
+    .label {
+      padding-left: 10px;
+    }
+    .select-text {
+      color: #FF7200;
+    }
   }
-
-  .list-md .item-input.input-has-focus:last-child .item-inner {
-    box-shadow: none;
-  }
-
-  .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
-    border-bottom-color: transparent !important;
-    box-shadow: none !important;
-  }
-
-  .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
-    box-shadow: none;
-  }
-
-  .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
-    border-bottom-color: transparent !important;
-    box-shadow: none !important;
-  }
-
 }

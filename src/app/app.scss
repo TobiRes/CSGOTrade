@@ -20,6 +20,10 @@ ion-spinner {
   margin: auto;
 }
 
+.loading-md .spinner-crescent circle {
+  stroke: #FF7200 !important;
+}
+
 ion-content, .scroll-content {
   background-color: white !important;
 }
@@ -131,6 +135,16 @@ ion-alert {
     color: black;
   }
 }
+
+
+.action-sheet-group-cancel {
+  .action-sheet-cancel {
+    span {
+      color: #FF7200 !important;
+    }
+  }
+}
+
 .alert-md [aria-checked=true] .alert-radio-label {
   color: #FF7200;
 }
@@ -147,6 +161,30 @@ ion-alert {
 .alert-md .alert-input:focus {
   border-bottom-color: #FF7200;
 }
+
+.item-md.item-input.input-has-focus .item-inner {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.list-md .item-input.input-has-focus:last-child .item-inner {
+  box-shadow: none;
+}
+
+.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
+  box-shadow: none;
+}
+
+.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+
 
 //TRADING
 .selectedItem {

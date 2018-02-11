@@ -11,13 +11,13 @@
 
 
 <ion-content padding>
-  <ion-item class="steamLinkInput">
+  <ion-item class="steamLinkInput1">
     <ion-input placeholder="Enter their Steamprofile" [(ngModel)]="steamProfileURL"></ion-input>
   </ion-item>
-  <ion-item class="steamLinkInput">
+  <ion-item class="steamLinkInput2">
     <ion-input placeholder="Enter their Tradelink" [(ngModel)]="steamTradelink"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item *ngIf="recentTrades.length" class="recentTrades">
     <ion-label>Recent Trades</ion-label>
     <ion-select [(ngModel)]="recentTrade" interface="action-sheet" (ionChange)="selectRecentTrade()">
       <ion-option *ngFor="let trade of recentTrades" value="{{trade}}">{{trade.author}}</ion-option>

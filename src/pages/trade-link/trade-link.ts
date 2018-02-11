@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController} from 'ionic-angular';
 import {RedditPost} from "../../models/redditpost.model";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {SteamService} from "../../services/steam.service";
@@ -20,6 +20,7 @@ export class TradeLinkPage {
   constructor(public navCtrl: NavController,
               private steamService: SteamService,
               private alertCtrl: AlertController,
+              private loadCtrl: LoadingController,
               private storage: Storage) {
   }
 
@@ -35,7 +36,9 @@ export class TradeLinkPage {
   }
 
   sendTradeOffer() {
-    this.validateInput()
+    let loading = this.loadCtrl.create();
+    loading.present()
+      .then( () => this.validateInput())
       .then( () => this.steamService.getNameOfSteamProfile(this.steamProfileURL))
       .then((profileName: string) => {
         let postData: RedditPost = {
@@ -44,8 +47,11 @@ export class TradeLinkPage {
           tradelink: this.steamTradelink
         }
         this.addTradeInfoToRecentTrades(postData);
+        loading.dismissAll();
         this.navCtrl.push(TradeTheirItemsPage, {postData});
       }).catch( err => {
+        loading.dismissAll();
+        this.alertSomethingWentWrong();
         console.error(err);
     })
   }
@@ -54,9 +60,6 @@ export class TradeLinkPage {
     this.steamProfileURL = this.steamProfileURL.trim();
     this.steamTradelink = this.steamTradelink.trim();
     return new Promise<boolean>(((resolve, reject) =>  {
-      if(this.recentTrade){
-        resolve();
-      } else {
         this.steamService.validateSteamURL(this.steamProfileURL)
           .then((profileUrl: string) => {
             this.steamProfileURL = profileUrl;
@@ -68,7 +71,6 @@ export class TradeLinkPage {
             this.steamProfileURL = "";
             reject();
           });
-      }
     }));
   }
 
@@ -102,11 +104,11 @@ export class TradeLinkPage {
 
   private addTradeInfoToRecentTrades(postData: RedditPost) {
     for(let i = this.recentTrades.length - 1; i >= 0; i--){
-      if(this.recentTrades[i] == postData){
+      if(this.recentTrades[i].tradelink == postData.tradelink){
         this.recentTrades.splice(i, 1);
       }
     }
-    if(this.recentTrades.length > 10){
+    if(this.recentTrades.length > 7){
       this.recentTrades.splice(this.recentTrades.length - 1, 1);
     }
     this.recentTrades.push(postData);
@@ -115,7 +117,7 @@ export class TradeLinkPage {
 
   selectRecentTrade() {
     for(let i = this.recentTrades.length - 1; i >= 0; i--){
-      if(this.recentTrades[i] == this.recentTrade){
+      if(this.recentTrades[i].tradelink == this.recentTrade.tradelink){
         this.steamProfileURL = this.recentTrade.steamProfileURL;
         this.steamTradelink = this.recentTrade.tradelink;
       }
@@ -124,5 +126,13 @@ export class TradeLinkPage {
 
   tradeOfferIsDisabled() {
     return this.steamProfileURL.length < 3 || this.steamTradelink.length < 5;
+  }
+
+  private alertSomethingWentWrong() {
+    this.alertCtrl.create({
+      title: "Something went wrong!",
+      subTitle: "Please check your input.",
+      buttons: ['Dismiss']
+    }).present();
   }
 }
