@@ -15,7 +15,6 @@ import {InventoryPageModule} from "../pages/inventory/inventory.module";
 import {SteamService} from "../services/steam.service";
 import {CSGOItemService} from "../services/csgoItem.service";
 import {IonicStorageModule} from "@ionic/storage";
-import {SteamLoginService} from "../services/steam-login.service";
 import {TradeofferService} from "../services/tradeoffer.service";
 import {TradeMyItemsPageModule} from "../pages/trade-my-items/trade-my-items.module";
 import {TradeTheirItemsPageModule} from "../pages/trade-their-items/trade-their-items.module";
@@ -64,7 +63,6 @@ import {TradeLinkPageModule} from "../pages/trade-link/trade-link.module";
     ThreadinfoService,
     SteamService,
     CSGOItemService,
-    SteamLoginService,
     TradeofferService,
     InAppBrowser,
     DynamicStyleService

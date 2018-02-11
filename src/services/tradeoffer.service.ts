@@ -1,45 +1,15 @@
-import {Injectable, OnDestroy} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {CSGOItem} from "../models/csgoItem.model";
-import {RedditPost} from "../models/redditpost.model";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
-import {Subject} from "rxjs/Subject";
-import {takeUntil} from "rxjs/operators";
 
 @Injectable()
-export class TradeofferService implements OnDestroy {
+export class TradeofferService {
 
-  private destroyed$ = new Subject<void>();
 
-  constructor(private inAppBrowser: InAppBrowser) {
-  }
-
-  sendTradeOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], redditPost: RedditPost) {
-    let tradeOfferContent = JSON.stringify(this.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade));
-    const browser = this.inAppBrowser.create(redditPost.tradelink);
-    let tradeScript = this.buildTradeScript(tradeOfferContent);
-    console.log(tradeScript);
-    try {
-      browser.on("loadstop")
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe(() => {
-          console.log(tradeScript);
-          browser.executeScript({code: tradeScript});
-        })
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
-
-  private buildTradeScript(tradeOfferContent: string) {
+  buildTradeScript(tradeOfferContent: string) {
     return "(function() { g_rgCurrentTradeStatus =" + tradeOfferContent + "; RefreshTradeStatus( g_rgCurrentTradeStatus );})()";
   }
 
-  private buildTradeOfferContent(myItems: CSGOItem[], theirItems: CSGOItem[]) {
+  buildTradeOfferContent(myItems: CSGOItem[], theirItems: CSGOItem[]) {
     return {
       "newversion": true,
       "version": 3,

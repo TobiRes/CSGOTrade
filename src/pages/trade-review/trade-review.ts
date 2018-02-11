@@ -6,6 +6,9 @@ import {TradeofferService} from "../../services/tradeoffer.service";
 import {DynamicStyleService} from "../../services/dynamic-style.service";
 import {CSGOKey} from "../../models/csgoKey.model";
 import {CSGOItemService} from "../../services/csgoItem.service";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs/Subject";
+import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 
 @IonicPage()
 @Component({
@@ -26,12 +29,14 @@ export class TradeReviewPage {
 
   private backupTheirItems: CSGOItem[] = [];
   private backupMyItems: CSGOItem[] = [];
+  private destroyed$ = new Subject<void>();
 
   constructor(public navParams: NavParams,
               private tradeOfferService: TradeofferService,
               private dynStyleService: DynamicStyleService,
               private alertCtrl: AlertController,
-              private itemService: CSGOItemService) {
+              private itemService: CSGOItemService,
+              private inAppBrowser: InAppBrowser) {
     this.redditPost = this.navParams.get("redditPost");
     this.myItemsToTrade = this.navParams.get("myItemsToTrade");
     this.theirItemsToTrade = this.navParams.get("theirItemsToTrade");
@@ -47,12 +52,37 @@ export class TradeReviewPage {
     if (!this.theirItemsToTrade.length && !this.theirKeys.length) {
       this.alertUserHasNotSetAnyItemsForTradePartner();
     } else {
-      this.tradeOfferService.sendTradeOffer(this.backupMyItems, this.backupTheirItems, this.redditPost);
+      this.sendOffer(this.backupMyItems, this.backupTheirItems, this.redditPost);
     }
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
     return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
+  }
+
+  private sendOffer(myItemsToTrade: CSGOItem[], theirItemsToTrade: CSGOItem[], redditPost: RedditPost) {
+    let tradeOfferContent = JSON.stringify(this.tradeOfferService.buildTradeOfferContent(myItemsToTrade, theirItemsToTrade));
+    let tradeScript = this.tradeOfferService.buildTradeScript(tradeOfferContent);
+    const options: InAppBrowserOptions = {
+      location: "no",
+      zoom: "no",
+      shouldPauseOnSuspend: "yes"
+    }
+    const browser = this.inAppBrowser.create(redditPost.tradelink, "_self", options);
+    try {
+      browser.on("loadstop")
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe(() => {
+          browser.executeScript({code: tradeScript});
+        })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   private getKeysAndItemsSeperatly() {
@@ -79,7 +109,7 @@ export class TradeReviewPage {
         {
           text: 'Continue',
           handler: () => {
-            this.tradeOfferService.sendTradeOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
+            this.sendOffer(this.myItemsToTrade, this.theirItemsToTrade, this.redditPost);
           }
         }
       ]

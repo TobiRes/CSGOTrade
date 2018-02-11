@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {CSGOItem, ItemType} from "../../models/csgoItem.model";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
 
@@ -25,9 +25,13 @@ export class ItemModalPage implements OnDestroy {
   }
 
   showMetjm() {
-    const browser = this.inAppBrowser.create("https://metjm.net/csgo/");
+    const options: InAppBrowserOptions = {
+      location: "no",
+      zoom: "no",
+      shouldPauseOnSuspend: "yes"
+    }
     let tradeScript = this.buildScreenshotScript();
-    console.log(tradeScript);
+    const browser = this.inAppBrowser.create("https://metjm.net/csgo/", "_self", options);
 
     try {
       browser.on("loadstop")
