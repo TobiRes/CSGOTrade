@@ -3,6 +3,7 @@ import {AlertController, IonicPage, NavController} from 'ionic-angular';
 import {RedditPost} from "../../models/redditpost.model";
 import {TradeTheirItemsPage} from "../trade-their-items/trade-their-items";
 import {SteamService} from "../../services/steam.service";
+import {Storage} from "@ionic/storage";
 
 @IonicPage()
 @Component({
@@ -11,14 +12,27 @@ import {SteamService} from "../../services/steam.service";
 })
 export class TradeLinkPage {
 
-  steamTradelink: string;
-  steamProfileURL: string;
+  steamTradelink: string = "";
+  steamProfileURL: string = "";
+  recentTrades: RedditPost[] = [];
+  recentTrade: RedditPost;
 
   constructor(public navCtrl: NavController,
               private steamService: SteamService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private storage: Storage) {
   }
 
+  ionViewWillEnter(){
+    this.storage.get("recentTrades")
+      .then((recentTrades: RedditPost[]) => {
+        if(recentTrades){
+          this.recentTrades = recentTrades;
+          this.steamProfileURL = this.recentTrades[0].steamProfileURL;
+          this.steamTradelink = this.recentTrades[0].tradelink;
+        }
+      })
+  }
 
   sendTradeOffer() {
     this.validateInput()
@@ -29,6 +43,7 @@ export class TradeLinkPage {
           steamProfileURL: this.steamProfileURL,
           tradelink: this.steamTradelink
         }
+        this.addTradeInfoToRecentTrades(postData);
         this.navCtrl.push(TradeTheirItemsPage, {postData});
       }).catch( err => {
         console.error(err);
@@ -36,18 +51,24 @@ export class TradeLinkPage {
   }
 
   private validateInput(): Promise<any>{
+    this.steamProfileURL = this.steamProfileURL.trim();
+    this.steamTradelink = this.steamTradelink.trim();
     return new Promise<boolean>(((resolve, reject) =>  {
-      this.steamService.validateSteamURL(this.steamProfileURL)
-        .then((profileUrl: string) => {
-          this.steamProfileURL = profileUrl;
-          this.validateTradelink() ? resolve() : reject();
-        })
-        .catch( err => {
-          console.error(err);
-          this.alertWrongSteamProfile();
-          this.steamProfileURL = "";
-          reject();
-        });
+      if(this.recentTrade){
+        resolve();
+      } else {
+        this.steamService.validateSteamURL(this.steamProfileURL)
+          .then((profileUrl: string) => {
+            this.steamProfileURL = profileUrl;
+            this.validateTradelink() ? resolve() : reject();
+          })
+          .catch( err => {
+            console.error(err);
+            this.alertWrongSteamProfile();
+            this.steamProfileURL = "";
+            reject();
+          });
+      }
     }));
   }
 
@@ -77,5 +98,31 @@ export class TradeLinkPage {
       subTitle: "Please enter a correct Tradelink!",
       buttons: ['Dismiss']
     }).present();
+  }
+
+  private addTradeInfoToRecentTrades(postData: RedditPost) {
+    for(let i = this.recentTrades.length - 1; i >= 0; i--){
+      if(this.recentTrades[i] == postData){
+        this.recentTrades.splice(i, 1);
+      }
+    }
+    if(this.recentTrades.length > 10){
+      this.recentTrades.splice(this.recentTrades.length - 1, 1);
+    }
+    this.recentTrades.push(postData);
+    this.storage.set("recentTrades", this.recentTrades);
+  }
+
+  selectRecentTrade() {
+    for(let i = this.recentTrades.length - 1; i >= 0; i--){
+      if(this.recentTrades[i] == this.recentTrade){
+        this.steamProfileURL = this.recentTrade.steamProfileURL;
+        this.steamTradelink = this.recentTrade.tradelink;
+      }
+    }
+  }
+
+  tradeOfferIsDisabled() {
+    return this.steamProfileURL.length < 3 || this.steamTradelink.length < 5;
   }
 }
