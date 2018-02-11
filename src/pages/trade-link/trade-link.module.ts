@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { TradeLinkPage } from './trade-link';
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {TradeLinkPage} from './trade-link';
 
 @NgModule({
   declarations: [
@@ -10,4 +10,5 @@ import { TradeLinkPage } from './trade-link';
     IonicPageModule.forChild(TradeLinkPage),
   ],
 })
-export class TradeLinkPageModule {}
+export class TradeLinkPageModule {
+}
