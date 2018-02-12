@@ -137,6 +137,9 @@ export class HomePage {
   }
 
   private loadedMoreThanOneHourAgo(loadedAt: Date): boolean {
+    if(!loadedAt){
+      return true;
+    }
     let hours = Math.abs(new Date().getTime() - loadedAt.getTime()) / 3600000;
     return hours < 2;
   }

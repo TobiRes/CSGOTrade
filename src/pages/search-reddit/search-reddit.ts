@@ -21,6 +21,7 @@ export class SearchRedditPage {
   sortBy: string = "Relevance";
   searchbarInput: string = "";
   isLoading: boolean = true;
+  postTypesToFilter: string[] = [];
 
   private savedSearchTerm: string[] = []
   private backupPosts: RedditPost[] = [];
@@ -136,6 +137,19 @@ export class SearchRedditPage {
     this.search();
   }
 
+  filterPostTypes() {
+    this.redditPosts = this.backupPosts;
+    if (this.postTypesToFilter.length) {
+      this.redditPosts = this.redditPosts.filter(post => {
+        if (this.checkIfPostIsFiltered(post.type)) {
+          return true;
+        }
+        return false;
+      });
+      this.defineThresholdForLoadingMorePosts();
+    }
+  }
+
   private setData(savedState: SearchedSavedState) {
     this.backupPosts = savedState.allPosts;
     this.redditPosts = savedState.visiblePosts;
@@ -225,7 +239,7 @@ export class SearchRedditPage {
   }
 
   private getTradeInfo(redditPostData: any) {
-    this.backupPosts = this.threadInfoService.setRedditPostInfo(this.backupPosts, redditPostData)
+    this.backupPosts = this.threadInfoService.setRedditPostInfo(this.backupPosts, redditPostData);
     this.setMetaData(redditPostData);
   }
 
@@ -234,6 +248,9 @@ export class SearchRedditPage {
     this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData.after;
     this.threadCount = this.threadCount + 25;
+    if(this.postTypesToFilter.length){
+      this.filterPostTypes();
+    }
   }
 
   private defineThresholdForLoadingMorePosts() {
@@ -263,6 +280,50 @@ export class SearchRedditPage {
           break;
       }
     }
+  }
+
+  private checkIfPostIsFiltered(postType: PostType): boolean {
+    let filtered: boolean = false;
+    this.postTypesToFilter.forEach(type => {
+      switch (type) {
+        case "Trade":
+          if (postType == PostType.trade)
+            filtered = true;
+          break;
+        case "Store":
+          if (postType == PostType.store)
+            filtered = true;
+          break;
+        case "Pricecheck":
+          if (postType == PostType.pricecheck)
+            filtered = true;
+          break;
+        case "Question":
+          if (postType == PostType.question)
+            filtered = true;
+          break;
+        case "< 15 Keys":
+          if (postType == PostType.lph)
+            filtered = true;
+          break;
+        case "PSA":
+          if (postType == PostType.psa)
+            filtered = true;
+          break;
+        case "Free":
+          if (postType == PostType.free)
+            filtered = true;
+          break;
+        case "Sticky":
+          if (postType == PostType.important)
+            filtered = true;
+          break;
+        default:
+          filtered = false;
+          console.error("Error filtering posts");
+      }
+    });
+    return filtered;
   }
 
 }
