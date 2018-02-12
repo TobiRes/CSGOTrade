@@ -86,7 +86,7 @@
   <ion-spinner *ngIf="isLoading"></ion-spinner>
 
   <div class="container" padding>
-    <div class="csgoItem" *ngFor="let keys of myKeys" [ngClass]="isSelected(item) ? 'selectedItem' : ''">
+    <div class="csgoItem" *ngFor="let keys of myKeys">
       <key-list-item [currentPage]="currentPage" [csgoKeys]="keys"></key-list-item>
     </div>
     <div class="csgoItem" *ngFor="let item of csgoItems" [ngStyle]="setBorderColorIfNotNormalCategory(item)">
