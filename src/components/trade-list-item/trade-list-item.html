@@ -28,6 +28,11 @@
             {{tradePost.score}}
           </p>
         </div>
+        <div class="closed" *ngIf="tradePost.closed">
+          <p>
+            &nbsp;-&nbsp; closed
+          </p>
+        </div>
       </div>
     </div>
   </ion-item>

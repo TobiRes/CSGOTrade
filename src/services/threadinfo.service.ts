@@ -22,6 +22,7 @@ export class ThreadinfoService {
           type: this.getPostType(actualPostData.title),
           tradelink: this.getTradeUrl(actualPostData.selftext),
           steamProfileURL: this.getSteamProfileURL(actualPostData.author_flair_text),
+          closed: actualPostData.over_18
         };
         if (tradeThread.type == PostType.trade) {
           let buysAndSells = this.getAdditionalTradeInformation(actualPostData);

@@ -55,8 +55,7 @@ export class HomePage {
       .then((savedState: HomeSavedState) => {
         if (!savedState || this.threadinfoService.checkIfAnyObjectPropertyIsUndefined(savedState) || this.loadedMoreThanOneHourAgo(savedState.loadedAt)) {
           this.resetViewAndData();
-        }
-        else {
+        } else {
           this.setData(savedState);
         }
         this.isLoading = false;

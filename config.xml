@@ -2,7 +2,7 @@
 <widget id="cs.go.trade" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>GOTrade</name>
     <description>GOTrade</description>
-    <author email="gotrade@outlook.de">GOTrade</author>
+    <author email="app.gotrade@gmail.com">GOTrade</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

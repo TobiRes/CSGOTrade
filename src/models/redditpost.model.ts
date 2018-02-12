@@ -16,6 +16,7 @@ export interface RedditPost {
   downs?: number;
   likedIt?: number;
   score?: number;
+  closed?: boolean;
 }
 
 export interface RedditComment {

@@ -237,7 +237,7 @@ ion-item-options {
   }
 
   .tradeMetaInfo {
-    .author, .timeSinceCreation, .numberOfComments, .score {
+    .author, .timeSinceCreation, .numberOfComments, .score, .closed {
       display: inline-block;
     }
     .author {
@@ -251,6 +251,11 @@ ion-item-options {
     ion-icon {
       font-size: 1.1em;
       margin: 1px;
+    }
+    .closed {
+      p {
+        color: red;
+      }
     }
   }
 }
