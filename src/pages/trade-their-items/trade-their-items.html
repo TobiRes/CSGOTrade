@@ -94,7 +94,11 @@
 
 <ion-footer>
   <ion-toolbar>
-    <button *ngIf="redditPost.tradelink" class="continueButton" ion-button full (click)="continueSelectingMyItems()">Continue</button>
-    <button *ngIf="!redditPost.tradelink" class="continueButton" ion-button full [disabled]="true" >{{redditPost.author}} forgot his tradelink...</button>
+    <button *ngIf="redditPost.tradelink" class="continueButton" ion-button full (click)="continueSelectingMyItems()">
+      Continue
+    </button>
+    <button *ngIf="!redditPost.tradelink" class="continueButton" ion-button full [disabled]="true">{{redditPost.author}}
+      forgot his tradelink...
+    </button>
   </ion-toolbar>
 </ion-footer>

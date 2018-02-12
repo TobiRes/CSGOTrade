@@ -8,8 +8,4 @@ import {IonicPage} from 'ionic-angular';
   templateUrl: 'about.html',
 })
 export class AboutPage {
-
-  constructor() {
-  }
-
 }

@@ -66,7 +66,7 @@ export class InventoryPage {
   }
 
   getCSGOInventory() {
-     this.isLoading = true;
+    this.isLoading = true;
     if (this.steamProfileURL) {
       this.csgoItems = []
       this.steamService.validateSteamURL(this.steamProfileURL)

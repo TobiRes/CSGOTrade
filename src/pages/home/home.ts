@@ -46,7 +46,7 @@ export class HomePage {
       loadThreshold: this.scrollLoadThreshold,
       loadedAt: this.loadedAtTime
 
-  }
+    }
     this.storage.set("savedState", savedState);
   }
 
@@ -64,11 +64,6 @@ export class HomePage {
         this.resetViewAndData();
         console.error(error)
       });
-  }
-
-  private loadedMoreThanOneHourAgo(loadedAt: Date): boolean {
-    let hours = Math.abs(new Date().getTime() - loadedAt.getTime()) / 3600000;
-    return hours < 2;
   }
 
   getRedditThreads() {
@@ -139,6 +134,11 @@ export class HomePage {
 
   sendTradeOffer(postData: RedditPost) {
     this.navCtrl.push(TradeTheirItemsPage, {postData});
+  }
+
+  private loadedMoreThanOneHourAgo(loadedAt: Date): boolean {
+    let hours = Math.abs(new Date().getTime() - loadedAt.getTime()) / 3600000;
+    return hours < 2;
   }
 
   private setData(savedState: HomeSavedState) {
@@ -251,5 +251,4 @@ export class HomePage {
     });
     return filtered;
   }
-
 }

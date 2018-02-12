@@ -18,7 +18,8 @@
       </button>
     </div>
     <div *ngIf="(moreCommentsEnabled || commentLevel < 2) && comment.replies.length" class="moreCommentsButton">
-      <comment-tree-view [author]="author" [redditComments]="comment.replies" [commentLevel]="commentLevel + 1"></comment-tree-view>
+      <comment-tree-view [author]="author" [redditComments]="comment.replies"
+                         [commentLevel]="commentLevel + 1"></comment-tree-view>
     </div>
   </div>
 </ion-list>

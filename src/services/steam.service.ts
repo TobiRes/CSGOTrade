@@ -42,8 +42,8 @@ export class SteamService {
   }
 
   validateTradelink(steamTradeLink: string): string {
-    if(steamTradeLink.indexOf("steamcommunity.com/tradeoffer/new/?partner=") > -1 && steamTradeLink.indexOf("&token=") > -1){
-      if(steamTradeLink.indexOf("http") < 0){
+    if (steamTradeLink.indexOf("steamcommunity.com/tradeoffer/new/?partner=") > -1 && steamTradeLink.indexOf("&token=") > -1) {
+      if (steamTradeLink.indexOf("http") < 0) {
         steamTradeLink = "https://" + steamTradeLink;
       }
       return steamTradeLink
@@ -73,12 +73,12 @@ export class SteamService {
     return new Promise((resolve, reject) => {
       this.http.get(steamInventoryURL + "/?xml=1", {responseType: 'text'})
         .subscribe(data => {
-          data = data.substring(65, 250)
-          console.log(data);
-          let indexOfIdStart = data.indexOf("steamID><![") + 17;
-          let indexOfIdEnd = data.indexOf("]]></steamID");
-          data = data.substring(indexOfIdStart, indexOfIdEnd);
-          resolve(data);
+            data = data.substring(65, 250)
+            console.log(data);
+            let indexOfIdStart = data.indexOf("steamID><![") + 17;
+            let indexOfIdEnd = data.indexOf("]]></steamID");
+            data = data.substring(indexOfIdStart, indexOfIdEnd);
+            resolve(data);
           },
           onerror => {
             reject(onerror);
