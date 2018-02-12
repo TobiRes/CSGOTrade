@@ -157,6 +157,7 @@ export class TradeMyItemsPage {
       );
     });
     this.tradeableItems = completeFilteredItemList;
+    this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
   }
 
   private loadMyCsgoInventory() {

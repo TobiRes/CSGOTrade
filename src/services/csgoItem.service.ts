@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {CSGOItem, Exterior, Grade, ItemType, SkinCategory} from "../models/csgoItem.model";
 import {CSGOKey} from "../models/csgoKey.model";
 
-
 @Injectable()
 export class CSGOItemService {
 
@@ -36,7 +35,7 @@ export class CSGOItemService {
       classId: csgoInventoryItem.classid,
       instanceId: csgoInventoryItem.instanceid,
       tradable: this.getTradeableStatus(csgoInventoryItem.tradable)
-    }
+    };
     csgoItem = this.getSkinExterior(csgoItem);
     csgoItem = this.fillAdditionalInformation(csgoInventoryItem, csgoItem);
     return csgoItem;
@@ -126,37 +125,18 @@ export class CSGOItemService {
     return {keys: allKeys, csgoItems: copyOfCsgoItems};
   }
 
-  private addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]) {
-    let csgoItems: CSGOItem[] = csgoInventoryData;
-    let copyOfRawData: any[] = [];
-    let missingCsItems: CSGOItem[] = [];
-    Object.keys(inventoryIds).map(key => {
-      copyOfRawData.push(inventoryIds[key]);
-    })
-    for (let i = csgoItems.length - 1; i >= 0; i--) {
-      //New Array of all items that match the instance and class id of the csgo item
-      let matchingItems: any[] = copyOfRawData.filter(dataItem => {
-        return dataItem.classid == csgoItems[i].classId && dataItem.instanceid == csgoItems[i].instanceId
-      })
-      //Create new CSGOItems with the missing items and push them on the missing items
-      matchingItems.forEach(itemData => {
-        let newCsgoItem: CSGOItem = Object.assign({}, csgoItems[i]);
-        newCsgoItem.assetId = itemData.id;
-        missingCsItems.push(newCsgoItem);
-      });
-      //Remove the matched item, since it´s now existing in the missing items array
-      csgoItems.splice(i, 1);
-    }
-
-    let allItems = csgoItems.concat(missingCsItems);
-    return allItems;
-  }
-
-  private sortByKeyAndGrade(csgoItems: CSGOItem[]) {
+  sortByKeyAndGrade(csgoItems: CSGOItem[]) {
     let itemsToSort: CSGOItem[] = csgoItems.slice();
     let sortedItems: CSGOItem[] = [];
     for (let i = itemsToSort.length - 1; i >= 0; i--) {
       if (itemsToSort[i].type == ItemType.key) {
+        sortedItems.push(itemsToSort[i]);
+        itemsToSort.splice(i, 1);
+      }
+    }
+
+    for (let i = itemsToSort.length - 1; i >= 0; i--) {
+      if (itemsToSort[i].type == ItemType.knife) {
         sortedItems.push(itemsToSort[i]);
         itemsToSort.splice(i, 1);
       }
@@ -213,9 +193,34 @@ export class CSGOItemService {
     return sortedItems;
   }
 
+  private addAssetIdsAndAddAllMissingDuplicates(csgoInventoryData: CSGOItem[], inventoryIds: any[]) {
+    let csgoItems: CSGOItem[] = csgoInventoryData;
+    let copyOfRawData: any[] = [];
+    let missingCsItems: CSGOItem[] = [];
+    Object.keys(inventoryIds).map(key => {
+      copyOfRawData.push(inventoryIds[key]);
+    });
+    for (let i = csgoItems.length - 1; i >= 0; i--) {
+      //New Array of all items that match the instance and class id of the csgo item
+      let matchingItems: any[] = copyOfRawData.filter(dataItem => {
+        return dataItem.classid == csgoItems[i].classId && dataItem.instanceid == csgoItems[i].instanceId
+      });
+      //Create new CSGOItems with the missing items and push them on the missing items
+      matchingItems.forEach(itemData => {
+        let newCsgoItem: CSGOItem = Object.assign({}, csgoItems[i]);
+        newCsgoItem.assetId = itemData.id;
+        missingCsItems.push(newCsgoItem);
+      });
+      //Remove the matched item, since it´s now existing in the missing items array
+      csgoItems.splice(i, 1);
+    }
+
+    return csgoItems.concat(missingCsItems);
+  }
+
   private getInspectLink(steamProfileURL: string, csgoItems: CSGOItem[]) {
     //http://steamcommunity.com/profiles/76561202255233023
-    let steamProfileID = steamProfileURL.match(/\w\d+\w/g)
+    let steamProfileID = steamProfileURL.match(/\w\d+\w/g);
     for (let i = 0; i < csgoItems.length; i++) {
       if (csgoItems[i].inspectLink != "unknown") {
         let lastData: string = csgoItems[i].inspectLink.substr(csgoItems[i].inspectLink.lastIndexOf("assetid") + 8, csgoItems[i].inspectLink.length);
@@ -434,10 +439,7 @@ export class CSGOItemService {
   }
 
   private getTradeableStatus(tradable: number) {
-    if (tradable == 1)
-      return true;
-    else
-      return false;
+    return tradable == 1 ? true : false;
   }
 
   private fillAdditionalInformation(csgoInventoryItem: any, csgoItem: CSGOItem) {
@@ -469,7 +471,7 @@ export class CSGOItemService {
   }
 
   private getStickerUrlsFromHTMLString(htmlString: string) {
-    let stickerUrls = htmlString.match(/src="([^"]+)"/g)
+    let stickerUrls = htmlString.match(/src="([^"]+)"/g);
     for (let i = 0; i < stickerUrls.length; i++) {
       stickerUrls[i] = stickerUrls[i].replace("src=", "");
       stickerUrls[i] = stickerUrls[i].replace('"', "");
@@ -484,7 +486,7 @@ export class CSGOItemService {
       if (csgoDescription.value.indexOf("StatTrak") == 0) {
         statTrackCount = csgoDescription.value.replace(/^\D+/g, '');
       }
-    })
+    });
     return statTrackCount;
   }
 
@@ -500,7 +502,7 @@ export class CSGOItemService {
       if (tag.internal_name.indexOf("set") == 0) {
         collection = tag.name;
       }
-    })
+    });
     return collection;
   }
 

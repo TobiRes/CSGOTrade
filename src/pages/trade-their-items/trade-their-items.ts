@@ -144,6 +144,7 @@ export class TradeTheirItemsPage {
       );
     });
     this.tradeableItems = completeFilteredItemList;
+    this.tradeableItems = this.itemService.sortByKeyAndGrade(this.tradeableItems);
   }
 
   private alertLoadInventoryError(error: any) {

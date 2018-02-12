@@ -66,35 +66,28 @@ export class InventoryPage {
   }
 
   getCSGOInventory() {
-    this.isLoading = true;
+     this.isLoading = true;
     if (this.steamProfileURL) {
       this.csgoItems = []
       this.steamService.validateSteamURL(this.steamProfileURL)
         .then((profileURL: string) => {
           this.steamProfileURL = profileURL;
           this.storage.set("steamProfileURL", this.steamProfileURL);
-          this.steamService.getCSGOInventory(this.steamProfileURL)
-            .then((csgoInventory: any) => {
-              this.csgoItems = this.itemService.buildItemsAndFillWitData(csgoInventory, this.steamProfileURL);
-              this.getKeysAndItemsSeperatly();
-              this.isLoading = false;
-              this.storage.set("csgoItems", this.csgoItems)
-                .then(() => {
-                  this.backupCsgoItems = this.csgoItems;
-                })
-                .catch(error => {
-                  console.error(error)
-                });
-            })
-            .catch(error => {
-              this.isLoading = false;
-              console.error(error)
-            });
+          return this.steamService.getCSGOInventory(this.steamProfileURL);
+        })
+        .then((csgoInventory: any) => {
+          this.csgoItems = this.itemService.buildItemsAndFillWitData(csgoInventory, this.steamProfileURL);
+          this.getKeysAndItemsSeperatly();
+          this.isLoading = false;
+          return this.storage.set("csgoItems", this.csgoItems)
+        })
+        .then(() => {
+          this.backupCsgoItems = this.csgoItems;
         })
         .catch(error => {
           this.isLoading = false;
           console.error(error)
-        })
+        });
     }
   }
 
@@ -120,5 +113,6 @@ export class InventoryPage {
       );
     });
     this.csgoItems = completeFilteredItemList;
+    this.csgoItems = this.itemService.sortByKeyAndGrade(this.csgoItems);
   }
 }
