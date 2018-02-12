@@ -8,4 +8,5 @@ export interface HomeSavedState {
   lastThreadName: string;
   threadCount: number;
   loadThreshold: string;
+  loadedAt: Date;
 }

@@ -25,6 +25,7 @@ export class HomePage {
   private backupPosts: RedditPost[] = [];
   private lastThreadName: string;
   private threadCount: number = 0;
+  private loadedAtTime: Date;
 
   constructor(public navCtrl: NavController,
               private redditService: RedditService,
@@ -42,15 +43,17 @@ export class HomePage {
       postTypesToFilter: this.postTypesToFilter,
       lastThreadName: this.lastThreadName,
       threadCount: this.threadCount,
-      loadThreshold: this.scrollLoadThreshold
-    }
+      loadThreshold: this.scrollLoadThreshold,
+      loadedAt: this.loadedAtTime
+
+  }
     this.storage.set("savedState", savedState);
   }
 
   initializeView() {
     this.storage.get("savedState")
       .then((savedState: HomeSavedState) => {
-        if (!savedState || this.threadinfoService.checkIfAnyObjectPropertyIsUndefined(savedState)) {
+        if (!savedState || this.threadinfoService.checkIfAnyObjectPropertyIsUndefined(savedState) || this.loadedMoreThanOneHourAgo(savedState.loadedAt)) {
           this.resetViewAndData();
         }
         else {
@@ -64,12 +67,18 @@ export class HomePage {
       });
   }
 
+  private loadedMoreThanOneHourAgo(loadedAt: Date): boolean {
+    let hours = Math.abs(new Date().getTime() - loadedAt.getTime()) / 3600000;
+    return hours < 2;
+  }
+
   getRedditThreads() {
     this.redditService.getRedditThreads(this.currentPage)
       .then(redditPostData => {
         this.backupPosts = [];
         this.getTradeInfo(redditPostData)
         this.isLoading = false;
+        this.loadedAtTime = new Date();
       })
       .catch(error => console.error(error));
   }
@@ -80,6 +89,7 @@ export class HomePage {
         .then(redditPostData => {
           this.backupPosts = [];
           this.getTradeInfo(redditPostData);
+          this.loadedAtTime = new Date();
           refresher.complete();
         })
         .catch(error => {
@@ -150,7 +160,7 @@ export class HomePage {
     this.lastThreadName = "";
     this.scrollLoadThreshold = "10%";
     this.threadCount = 0;
-    this.lastThreadName = ""
+    this.lastThreadName = "";
     this.getRedditThreads();
   }
 
