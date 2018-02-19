@@ -122,10 +122,8 @@ export class HomePage {
     }
   }
 
-  isTrade(postType: PostType): boolean {
-    if (postType == PostType.trade)
-      return true;
-    return false;
+  isTradeOrStore(postType: PostType): boolean {
+    return (postType == PostType.trade || postType == PostType.store);
   }
 
   openPost(postData: RedditPost) {

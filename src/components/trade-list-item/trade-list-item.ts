@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {RedditPost} from "../../models/redditpost.model";
+import {PostType, RedditPost} from "../../models/redditpost.model";
 
 @Component({
   selector: 'trade-list-item',
@@ -28,4 +28,7 @@ export class TradeListItemComponent {
     this.sendOffer.emit(this.tradePost)
   }
 
+  styleByPostType() {
+    return (this.tradePost.type == PostType.store) ? "store" : "trade";
+  }
 }

@@ -42,8 +42,8 @@
   </ion-refresher>
   <ion-list class="postList">
     <div *ngFor="let post of redditPosts" class="items">
-      <post-list-item *ngIf="!isTrade(post.type)" [tradePost]="post" (selected)="openPost($event)"></post-list-item>
-      <trade-list-item *ngIf="isTrade(post.type)" [tradePost]="post" (selected)="openPost($event)"
+      <post-list-item *ngIf="!isTradeOrStore(post.type)" [tradePost]="post" (selected)="openPost($event)"></post-list-item>
+      <trade-list-item *ngIf="isTradeOrStore(post.type)" [tradePost]="post" (selected)="openPost($event)"
                        (sendOffer)="sendTradeOffer($event)"></trade-list-item>
     </div>
   </ion-list>
