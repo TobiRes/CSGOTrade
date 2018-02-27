@@ -122,8 +122,8 @@ export class HomePage {
     }
   }
 
-  isTradeOrStore(postType: PostType): boolean {
-    return (postType == PostType.trade || postType == PostType.store);
+  isTradeFreeOrStore(postType: PostType): boolean {
+    return (postType == PostType.trade || postType == PostType.store || postType == PostType.free || postType == PostType.lph);
   }
 
   openPost(postData: RedditPost) {
@@ -138,8 +138,9 @@ export class HomePage {
     if(!loadedAt){
       return true;
     }
-    let hours = Math.abs(new Date().getTime() - loadedAt.getTime()) / 3600000;
-    return hours < 2;
+    let loadedAtDate = new Date(loadedAt);
+    let hours = Math.abs(new Date().getTime() - loadedAtDate.getTime()) / 3600000;
+    return hours > 1;
   }
 
   private setData(savedState: HomeSavedState) {

@@ -123,10 +123,8 @@ export class SearchRedditPage {
     });
   }
 
-  isTrade(postType: PostType): boolean {
-    if (postType == PostType.trade)
-      return true;
-    return false;
+  isTradeFreeOrStore(postType: PostType): boolean {
+    return (postType == PostType.trade || postType == PostType.store || postType == PostType.free || postType == PostType.lph);
   }
 
   sendTradeOffer(postData: RedditPost) {
