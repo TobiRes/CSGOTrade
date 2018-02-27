@@ -173,8 +173,20 @@ export class TradeMyItemsPage {
       .catch(error => {
         console.error(error)
         this.isLoading = false;
-        this.alertLoadInventoryError(error);
+        if(this.wrongInvURL(error)){
+          this.mySteamProfile = "";
+          this.alertWrongURL();
+        } else {
+          this.alertLoadInventoryError(error);
+        }
       });
+  }
+
+  private wrongInvURL(error){
+    if(error)
+      return error.status == 200 && error.name == "HttpErrorResponse" && error.ok == false && error.message.indexOf("Http failure during parsing for") > -1;
+    else
+      return true;
   }
 
   private getKeysAndItemsSeperatly() {
@@ -198,7 +210,7 @@ export class TradeMyItemsPage {
       inputs: [
         {
           name: "steamProfileURL",
-          placeholder: 'Enter URL...'
+          placeholder: 'Enter Profile...'
         }
       ],
       buttons: [
@@ -206,6 +218,45 @@ export class TradeMyItemsPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
+            this.isLoading = false;
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Enter',
+          handler: data => {
+            if (data.steamProfileURL) {
+              this.steamService.validateSteamURL(data.steamProfileURL)
+                .then((steamProfileURL: string) => {
+                  this.mySteamProfile = steamProfileURL;
+                  this.loadMyCsgoInventory();
+                })
+            } else {
+              console.log("Something went wrong.");
+              return false;
+            }
+          }
+        }
+      ]
+    }).present();
+  }
+
+  private alertWrongURL() {
+    this.alertCtrl.create({
+      title: 'Profile could not be found',
+      subTitle: 'Please enter a valid profile, containing your custom URL or SteamID.',
+      inputs: [
+        {
+          name: "steamProfileURL",
+          placeholder: 'Enter Profile...'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.isLoading = false;
             console.log('Cancel clicked');
           }
         },

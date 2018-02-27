@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage} from 'ionic-angular';
+import {AlertController, IonicPage} from 'ionic-angular';
 import {SteamService} from "../../services/steam.service";
 import {CSGOItemService} from "../../services/csgoItem.service";
 import {CSGOItem} from "../../models/csgoItem.model";
@@ -30,7 +30,8 @@ export class InventoryPage {
   constructor(private steamService: SteamService,
               private itemService: CSGOItemService,
               private storage: Storage,
-              private dynStyleService: DynamicStyleService) {
+              private dynStyleService: DynamicStyleService,
+              private alertCtrl: AlertController) {
 
     this.isLoading = true;
     Promise.all([this.storage.get("csgoItems"), this.storage.get("steamProfileURL")])
@@ -85,10 +86,68 @@ export class InventoryPage {
           this.backupCsgoItems = this.csgoItems;
         })
         .catch(error => {
-          this.isLoading = false;
           console.error(error)
+          this.isLoading = false;
+          if(this.wrongInvURL(error)){
+            this.steamProfileURL = "";
+            this.alertWrongURL();
+          } else {
+            this.alertLoadInventoryError(error);
+          }
         });
     }
+  }
+
+  private wrongInvURL(error){
+    if(error)
+      return error.status == 200 && error.name == "HttpErrorResponse" && error.ok == false && error.message.indexOf("Http failure during parsing for") > -1;
+    else
+      return true;
+  }
+
+  private alertLoadInventoryError(error: any) {
+    this.alertCtrl.create({
+      title: "Error!",
+      subTitle: "This might be caused by loading too many inventories in a short time, please try again later.",
+      buttons: ['Dismiss']
+    }).present();
+  }
+
+  private alertWrongURL() {
+    this.alertCtrl.create({
+      title: 'Profile could not be found',
+      subTitle: 'Please enter a valid profile, containing your custom URL or SteamID.',
+      inputs: [
+        {
+          name: "steamProfileURL",
+          placeholder: 'Enter Profile...'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Enter',
+          handler: data => {
+            if (data.steamProfileURL) {
+              this.steamService.validateSteamURL(data.steamProfileURL)
+                .then((steamProfileURL: string) => {
+                  this.steamProfileURL = steamProfileURL;
+                  this.getCSGOInventory();
+                })
+            } else {
+              console.log("Something went wrong.");
+              return false;
+            }
+          }
+        }
+      ]
+    }).present();
   }
 
   setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
