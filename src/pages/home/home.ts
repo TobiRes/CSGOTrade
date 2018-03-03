@@ -135,7 +135,7 @@ export class HomePage {
   }
 
   private loadedMoreThanOneHourAgo(loadedAt: Date): boolean {
-    if(!loadedAt){
+    if (!loadedAt) {
       return true;
     }
     let loadedAtDate = new Date(loadedAt);

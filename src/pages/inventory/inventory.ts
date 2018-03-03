@@ -88,7 +88,7 @@ export class InventoryPage {
         .catch(error => {
           console.error(error)
           this.isLoading = false;
-          if(this.wrongInvURL(error)){
+          if (this.wrongInvURL(error)) {
             this.steamProfileURL = "";
             this.alertWrongURL();
           } else {
@@ -98,8 +98,12 @@ export class InventoryPage {
     }
   }
 
-  private wrongInvURL(error){
-    if(error)
+  setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
+    return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
+  }
+
+  private wrongInvURL(error) {
+    if (error)
       return error.status == 200 && error.name == "HttpErrorResponse" && error.ok == false && error.message.indexOf("Http failure during parsing for") > -1;
     else
       return true;
@@ -108,7 +112,7 @@ export class InventoryPage {
   private alertLoadInventoryError(error: any) {
     this.alertCtrl.create({
       title: "Error!",
-      subTitle: "This might be caused by loading too many inventories in a short time, please try again later.",
+      subTitle: "Loaded too many inventories in a short time - steam doesn't like that. Please try again later.",
       buttons: ['Dismiss']
     }).present();
   }
@@ -116,7 +120,7 @@ export class InventoryPage {
   private alertWrongURL() {
     this.alertCtrl.create({
       title: 'Profile could not be found',
-      subTitle: 'Please enter a valid profile, containing your custom URL or SteamID.',
+      subTitle: 'Please enter a valid profile, containing either your custom URL or you SteamID. You can always update or change it from the inventory tab.',
       inputs: [
         {
           name: "steamProfileURL",
@@ -148,10 +152,6 @@ export class InventoryPage {
         }
       ]
     }).present();
-  }
-
-  setBorderColorIfNotNormalCategory(csgoItem: CSGOItem) {
-    return this.dynStyleService.setBorderColorIfNotNormalCategory(csgoItem);
   }
 
   private getKeysAndItemsSeperatly() {

@@ -29,13 +29,13 @@ export class TradeListItemComponent {
   }
 
   styleByPostType() {
-    if(this.tradePost.type == PostType.trade)
+    if (this.tradePost.type == PostType.trade)
       return "trade";
-    else if(this.tradePost.type == PostType.store)
+    else if (this.tradePost.type == PostType.store)
       return "store";
-    else if(this.tradePost.type == PostType.free)
+    else if (this.tradePost.type == PostType.free)
       return "free";
-    else if(this.tradePost.type == PostType.lph)
+    else if (this.tradePost.type == PostType.lph)
       return "lph";
   }
 }

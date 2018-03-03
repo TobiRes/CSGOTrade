@@ -150,7 +150,7 @@ export class TradeTheirItemsPage {
   private alertLoadInventoryError(error: any) {
     this.alertCtrl.create({
       title: "Error loading their inventory!",
-      subTitle: "This might be caused by loading too many inventories in a short time, please try again later.",
+      subTitle: "Loaded too many inventories in a short time - steam doesn't like that. Please try again later.",
       buttons: ['Dismiss']
     }).present();
   }

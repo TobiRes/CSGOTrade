@@ -246,7 +246,7 @@ export class SearchRedditPage {
     this.defineThresholdForLoadingMorePosts();
     this.lastThreadName = redditPostData.after;
     this.threadCount = this.threadCount + 25;
-    if(this.postTypesToFilter.length){
+    if (this.postTypesToFilter.length) {
       this.filterPostTypes();
     }
   }

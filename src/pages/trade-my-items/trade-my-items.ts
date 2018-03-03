@@ -173,7 +173,7 @@ export class TradeMyItemsPage {
       .catch(error => {
         console.error(error)
         this.isLoading = false;
-        if(this.wrongInvURL(error)){
+        if (this.wrongInvURL(error)) {
           this.mySteamProfile = "";
           this.alertWrongURL();
         } else {
@@ -182,8 +182,8 @@ export class TradeMyItemsPage {
       });
   }
 
-  private wrongInvURL(error){
-    if(error)
+  private wrongInvURL(error) {
+    if (error)
       return error.status == 200 && error.name == "HttpErrorResponse" && error.ok == false && error.message.indexOf("Http failure during parsing for") > -1;
     else
       return true;
@@ -199,14 +199,15 @@ export class TradeMyItemsPage {
   private alertLoadInventoryError(error: any) {
     this.alertCtrl.create({
       title: "Error!",
-      subTitle: "This might be caused by loading too many inventories in a short time, please try again later.",
+      subTitle: "Loaded too many inventories in a short time - steam doesn't like that. Please try again later.",
       buttons: ['Dismiss']
     }).present();
   }
 
   private alertEnterSteamProfile() {
     this.alertCtrl.create({
-      title: 'Please enter your Steamprofile URL',
+      title: 'Please enter your Steamprofile!',
+      subTitle: 'Enter your profile by either your custom URL or SteamID. You can always update or change it from the inventory tab.',
       inputs: [
         {
           name: "steamProfileURL",
@@ -244,7 +245,7 @@ export class TradeMyItemsPage {
   private alertWrongURL() {
     this.alertCtrl.create({
       title: 'Profile could not be found',
-      subTitle: 'Please enter a valid profile, containing your custom URL or SteamID.',
+      subTitle: 'Please enter a valid profile, containing either your custom URL or you SteamID. You can always update or change it from the inventory tab.',
       inputs: [
         {
           name: "steamProfileURL",
